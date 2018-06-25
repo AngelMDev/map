@@ -1,3 +1,6 @@
+var uniqueId = function() {
+  return Math.random().toString(36).substr(2, 16);
+};
   // SVG SETUP
 // ===========
 var svg = document.getElementById('svg');
@@ -72,14 +75,15 @@ function GetFullOffset(element){
     return offset;
 }
 
-function Node(name){
+function Node(name,id){
   // DOM Element creation
   this.domElement = document.createElement('div');
   this.domElement.classList.add('node');
   this.domElement.classList.add('post'); 
   this.domElement.classList.add('draggable');
   this.domElement.classList.add('ui-widget-content');
-  
+  this.domElement.id=id;
+  this.id=id
   // Create output visual
   var outDom = document.createElement('span');
   outDom.classList.add('output');
@@ -107,9 +111,11 @@ function Node(name){
   this.attachedPaths = [];
 }
 
-function NodeInput(name){
+function NodeInput(name,id,parentNode){
   this.name = name;
   this.node = null;
+  this.parentNode = parentNode;
+  this.parentId=id;
   
   // The dom element, here is where we could add
   // different input types
@@ -165,7 +171,7 @@ Node.prototype.getOutputPoint = function(){
 };
 
 Node.prototype.addInput = function(name){
-  var input = new NodeInput("");
+  var input = new NodeInput("",this);
   this.inputs.push(input);
   this.domElement.appendChild(input.domElement);
   
@@ -290,7 +296,8 @@ Node.prototype.initUI = function(){
 function createNode(){
   var title=$('#title').val();
   var area = $('#text-area').val();
-  var mynode = new Node(title);
+  id = uniqueId();
+  var mynode = new Node(title,id);
   mynode.moveTo({x: 180, y: 70});
   mynode.addInput(area);
   mynode.addContent(area);
