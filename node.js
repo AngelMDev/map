@@ -7,18 +7,19 @@ function Node(name,id){
   this.domElement.classList.add('ui-widget-content');
   this.domElement.id=id;
   this.id=id
-
   // Create output visual
   this.output = new NodeOutput(this);
   this.domElement.appendChild(this.output.domElement);
-
+  // Relationships
   this.parentNode=null;
-  this.childNodes=[]
+  this.childNodes={supporting:[], opposing:[]}
   // Node Stuffs
   this.value = '';
   this.inputs = [];
   this.connected = false;
-  
+  // Create inputs
+  this.supportInput = this.addInput(true);
+  this.opposeInput = this.addInput(false);
   // SVG Connectors
   this.attachedPaths = [];
 
@@ -41,8 +42,8 @@ Node.prototype.getOutputPoint = function(){
   };
 };
 
-Node.prototype.addInput = function(name){
-  var input = new NodeInput("",this);
+Node.prototype.addInput = function(supports){
+  var input = new NodeInput(supports,this);
   this.inputs.push(input);
   this.domElement.appendChild(input.domElement);
   return input;
@@ -56,12 +57,21 @@ Node.prototype.addContent=function(content){
 
 Node.prototype.detachInput = function(input){
   if(this.parentNode){
-    _.pull(this.parentNode.childNodes,this)
-    this.domElement.classList.remove('connected');
-    if(this.parentNode.childNodes.length===0){
-      this.parentNode.inputs[0].domElement.classList.add('empty');
-      this.parentNode.inputs[0].domElement.classList.remove('filled');
+    childNodes=this.parentNode.childNodes;
+    if(input.supports){
+      _.pull(childNodes.supporting,this)
+      if(childNodes.supporting.length===0){
+        this.parentNode.inputs[0].domElement.classList.add('empty');
+        this.parentNode.inputs[0].domElement.classList.remove('filled');
+      }
+    }else{
+      _.pull(childNodes.opposing,this)
+      if(childNodes.opposing.length===0){
+        this.parentNode.inputs[1].domElement.classList.add('empty');
+        this.parentNode.inputs[1].domElement.classList.remove('filled');
+      }
     }
+    this.domElement.classList.remove('connected');
     this.parentNode=null;
   }
 };
@@ -92,8 +102,11 @@ Node.prototype.updatePosition = function(){
       this.inputs[j].path.setAttributeNS(null, 'd', pStr);
     }
   }
-  for(var k=0;k<this.childNodes.length;k++){
-    this.childNodes[k].updatePosition();
+  for(var k=0;k<this.childNodes.supporting.length;k++){
+    this.childNodes.supporting[k].updatePosition();
+  }
+  for(var k=0;k<this.childNodes.opposing.length;k++){
+    this.childNodes.opposing[k].updatePosition();
   }
   if(this.parentNode)
     this.parentNode.updatePositionWithoutChildren();
@@ -153,7 +166,11 @@ Node.prototype.connectTo = function(input){
   input.path.setAttributeNS(null, 'd',pathStr);
   this.output.path=input.path;
   input.createPath();
-  input.parentNode.childNodes.push(this);
+  if(input.supports){
+    input.parentNode.childNodes.supporting.push(this);
+  }else{
+    input.parentNode.childNodes.opposing.push(this);
+  }
 };
 
 Node.prototype.moveTo = function(point){

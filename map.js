@@ -21,7 +21,6 @@ var mouse = {
     pathStr += a.x + diff.x / 3 * 2 + ',' + a.y + ' ';
     pathStr += a.x + diff.x / 3 + ',' + b.y + ' ';
     pathStr += b.x + ',' + b.y;
-    
     return pathStr;
   }
 };
@@ -87,7 +86,6 @@ function createNode(){
   id = uniqueId();
   var mynode = new Node(title,id);
   mynode.moveTo({x: 180, y: 70});
-  mynode.addInput(area);
   mynode.addContent(area);
   mynode.initUI();
 }

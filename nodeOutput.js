@@ -17,7 +17,7 @@ function NodeOutput(parentNode){
     }else if(!mouse.currentInput){
       if(that.parentNode){
         //Remove connection
-        that.parentNode.detachInput();
+        that.parentNode.detachInput(that.parentNode.attachedPaths[0].input);
         that.path.removeAttribute('d');
         that.path=null
       }
