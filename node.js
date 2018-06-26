@@ -24,10 +24,10 @@ function Node(name,id){
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
-    console.log("Id:",that.id);
-    console.log("Parent:",that.attachedPaths[0] ? that.attachedPaths[0].input.parentNode : null);
-    console.log("Children:",that.childNodes);
-    console.log("===");
+    // console.log("Id:",that.id);
+    // console.log("Parent:",that.attachedPaths[0] ? that.attachedPaths[0].input.parentNode : null);
+    // console.log("Children:",that.childNodes);
+    // console.log("===");
   }
 }
 Node.prototype.whosYourDaddy = function(){
@@ -40,8 +40,8 @@ Node.prototype.whosYourDaddy = function(){
 
 Node.prototype.root = function(){
   if (!this.whosYourDaddy()) {
-    var root = this.inputs[0].parentNode;
-    return root;
+    var rootEle = this.inputs[0].parentNode;
+    defineRoot(rootEle);
   } else {
     var parent = this.whosYourDaddy();
     parent.root();

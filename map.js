@@ -50,7 +50,6 @@ window.onclick = function(e){
   if(mouse.currentInput){
     mouse.currentInput.path.removeAttribute('d');
     if(mouse.currentInput.node){
-      console.log("click")
       mouse.currentInput.node.detachInput(mouse.currentInput);
     }
     mouse.currentInput = null;
@@ -82,7 +81,7 @@ function GetFullOffset(element){
 
 //===================MY CODE===================
 var nodeReference = [];
-
+var root = [];
 function createNode(){
   var title=$('#title').val();
   var area = $('#text-area').val();
@@ -101,11 +100,31 @@ function deleteDiv(ele) {
 }
 
 function saveMap() {
-  // nodeReference.map(function(node){
-  //   console.log(node.root());
-  //   node.root();
-  // })
-  var lastNode = nodeReference[nodeReference.length-1];
+  root = [];
+  nodeReference.map(function(node){
+    node.root();
+  })
+  // var lastNode = nodeReference[nodeReference.length-1];
+  // lastNode.root();
 
-  console.log(lastNode.root());
+}
+
+function defineRoot(node) {
+  if (!root.includes(node)) {
+    root.push(node);
+  }
+}
+
+function getContentNode(){
+  var content = root[0].domElement.children[2].innerHTML;
+  console.log(content);
+}
+
+function createJSON(){
+  var data = {
+    "id": "root",
+    "ideas": {}
+  }
+
+
 }
