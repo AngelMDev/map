@@ -55,7 +55,7 @@
   color: #d4d4d4;
   font-family: sans-serif;
 }
-.node:before{
+/* .node:before{
   content:"";
   height: 10px;
   display: block;
@@ -64,7 +64,7 @@
   background-color:#6e6e6e;
   padding:0.1em .3em 0em;
   margin:-.1em -.3em 0.2em;
-}
+} */
 .node{
   background-color: #4e4e4e;
   border-radius: .75em;
@@ -79,7 +79,7 @@
   background-color:#2e2e2e;
   width:0.5em;
   height:0.5em;
-  border-radius:0.5em;  
+  border-radius:0.5em;
 }
 .node.connected > .output,
 .connection.filled:after{

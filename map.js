@@ -15,13 +15,13 @@ var mouse = {
       x: b.x - a.x,
       y: b.y - a.y
     };
-  
+
     var pathStr = 'M' + a.x + ',' + a.y + ' ';
     pathStr += 'C';
     pathStr += a.x + diff.x / 3 * 2 + ',' + a.y + ' ';
     pathStr += a.x + diff.x / 3 + ',' + b.y + ' ';
     pathStr += b.x + ',' + b.y;
-    
+
     return pathStr;
   }
 };
@@ -64,7 +64,7 @@ function GetFullOffset(element){
     top: element.offsetTop,
     left: element.offsetLeft,
   };
-  
+
   if(element.offsetParent){
     var po = GetFullOffset(element.offsetParent);
     offset.top += po.top;
@@ -80,6 +80,8 @@ function GetFullOffset(element){
 
 
 //===================MY CODE===================
+var nodeReference = [];
+
 function createNode(){
   var title=$('#title').val();
   var area = $('#text-area').val();
@@ -89,6 +91,7 @@ function createNode(){
   mynode.addInput(area);
   mynode.addContent(area);
   mynode.initUI();
+  nodeReference.push(mynode)
 }
 
 
@@ -96,3 +99,12 @@ function deleteDiv(ele) {
   $(ele.parentElement).remove();
 }
 
+function saveMap() {
+  // nodeReference.map(function(node){
+  //   console.log(node.root());
+  //   node.root();
+  // })
+  var lastNode = nodeReference[nodeReference.length-1];
+
+  console.log(lastNode.root());
+}

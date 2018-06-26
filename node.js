@@ -2,7 +2,7 @@ function Node(name,id){
   // DOM Element creation
   this.domElement = document.createElement('div');
   this.domElement.classList.add('node');
-  this.domElement.classList.add('post'); 
+  this.domElement.classList.add('post');
   this.domElement.classList.add('draggable');
   this.domElement.classList.add('ui-widget-content');
   this.domElement.id=id;
@@ -12,7 +12,6 @@ function Node(name,id){
   outDom.classList.add('output');
   outDom.innerHTML = '&nbsp;';
   this.domElement.appendChild(outDom);
-  
   // Output Click handler
   var that = this;
   outDom.onclick = function(e){
@@ -24,14 +23,31 @@ function Node(name,id){
     }
     e.stopPropagation();
   };
-  
+
   // Node Stuffs
   this.value = '';
   this.inputs = [];
   this.connected = false;
-  
+
   // SVG Connectors
   this.attachedPaths = [];
+}
+Node.prototype.whosYourDaddy = function(){
+  if (this.attachedPaths != 0){
+    return this.attachedPaths[0].input.parentNode;
+  } else {
+    return false;
+  }
+}
+
+Node.prototype.root = function(){
+  if (!this.whosYourDaddy()) {
+    var root = this.inputs[0].parentNode;
+    return root;
+  } else {
+    var parent = this.whosYourDaddy();
+    parent.root();
+  }
 }
 
 Node.prototype.getOutputPoint = function(){
@@ -47,7 +63,6 @@ Node.prototype.addInput = function(name){
   var input = new NodeInput("",this);
   this.inputs.push(input);
   this.domElement.appendChild(input.domElement);
-  
   return input;
 };
 
@@ -63,13 +78,13 @@ Node.prototype.detachInput = function(input){
     if(this.attachedPaths[i].input == input)
       index = i;
   };
-  
+
   if(index >= 0){
     this.attachedPaths[index].path.removeAttribute('d');
     this.attachedPaths[index].input.node = null;
     this.attachedPaths.splice(index, 1);
   }
-  
+
   if(this.attachedPaths.length <= 0){
     this.domElement.classList.remove('connected');
   }
@@ -91,12 +106,12 @@ Node.prototype.updatePosition = function(){
     var pathStr = this.createPath(iPoint, outPoint);
     aPaths[i].path.setAttributeNS(null, 'd', pathStr);
   }
-  
+
   for(var j = 0; j < this.inputs.length; j++){
     if(this.inputs[j].node != null){
       var iP = this.inputs[j].getAttachPoint();
       var oP = this.inputs[j].node.getOutputPoint();
-      
+
       var pStr = this.createPath(iP, oP);
       this.inputs[j].path.setAttributeNS(null, 'd', pStr);
     }
@@ -108,13 +123,13 @@ Node.prototype.createPath = function(a, b){
     x: b.x - a.x,
     y: b.y - a.y
   };
-  
+
   var pathStr = 'M' + a.x + ',' + a.y + ' ';
   pathStr += 'C';
   pathStr += a.x + diff.x / 3 * 2 + ',' + a.y + ' ';
   pathStr += a.x + diff.x / 3 + ',' + b.y + ' ';
   pathStr += b.x + ',' + b.y;
-  
+
   return pathStr;
 };
 
@@ -122,20 +137,20 @@ Node.prototype.connectTo = function(input){
   input.node = this;
   this.connected = true;
   this.domElement.classList.add('connected');
-  
+
   input.domElement.classList.remove('empty');
   input.domElement.classList.add('filled');
-  
+
   this.attachedPaths.push({
     input: input,
     path: input.path
   });
-  
+
   var iPoint = input.getAttachPoint();
   var oPoint = this.getOutputPoint();
-  
+
   var pathStr = this.createPath(iPoint, oPoint);
-  
+
   input.path.setAttributeNS(null, 'd',pathStr);
 };
 
@@ -147,7 +162,7 @@ Node.prototype.moveTo = function(point){
 
 Node.prototype.initUI = function(){
   var that = this;
-  
+
   // Make draggable
   $(this.domElement).draggable({
     containment: 'window',
@@ -158,7 +173,7 @@ Node.prototype.initUI = function(){
   });
   // Fix positioning
   this.domElement.style.position = 'absolute';
-  
+
   document.body.append(this.domElement);
   // Update Visual
   this.updatePosition();
