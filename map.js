@@ -50,6 +50,7 @@ window.onclick = function(e){
   if(mouse.currentInput){
     mouse.currentInput.path.removeAttribute('d');
     if(mouse.currentInput.node){
+      console.log("click")
       mouse.currentInput.node.detachInput(mouse.currentInput);
     }
     mouse.currentInput = null;
