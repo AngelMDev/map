@@ -21,7 +21,6 @@ var mouse = {
     pathStr += a.x + diff.x / 3 * 2 + ',' + a.y + ' ';
     pathStr += a.x + diff.x / 3 + ',' + b.y + ' ';
     pathStr += b.x + ',' + b.y;
-
     return pathStr;
   }
 };
@@ -48,9 +47,10 @@ window.ontouchmove = function(e){
 
 window.onclick = function(e){
   if(mouse.currentInput){
+    console.log("click")
     mouse.currentInput.path.removeAttribute('d');
     if(mouse.currentInput.node){
-      mouse.currentInput.node.detachInput(mouse.currentInput);
+      // mouse.currentInput.node.detachInput(mouse.currentInput);
     }
     mouse.currentInput = null;
   }
@@ -88,7 +88,6 @@ function createNode(){
   id = uniqueId();
   var mynode = new Node(title,id);
   mynode.moveTo({x: 180, y: 70});
-  mynode.addInput(area);
   mynode.addContent(area);
   mynode.initUI();
   nodeReference.push(mynode)
