@@ -7,24 +7,12 @@ function Node(name,id){
   this.domElement.classList.add('ui-widget-content');
   this.domElement.id=id;
   this.id=id
+
   // Create output visual
-  var outDom = document.createElement('span');
-  outDom.classList.add('output');
-  outDom.innerHTML = '&nbsp;';
-  this.domElement.appendChild(outDom);
-  
-  // Output Click handler
-  var that = this;
-  outDom.onclick = function(e){
-    if(mouse.currentInput &&
-       !that.ownsInput(mouse.currentInput)){
-      var tmp = mouse.currentInput;
-      mouse.currentInput = null;
-      that.connectTo(tmp);
-    }
-    e.stopPropagation();
-  };
-  
+  this.output = new NodeOutput(this);
+  this.domElement.appendChild(this.output.domElement);
+
+  this.childNodes=[]
   // Node Stuffs
   this.value = '';
   this.inputs = [];
@@ -32,6 +20,15 @@ function Node(name,id){
   
   // SVG Connectors
   this.attachedPaths = [];
+
+    //DEBUGGING PURPOSES
+  var that=this
+  this.domElement.onclick = function (e){
+    console.log("Id:",that.id);
+    console.log("Parent:",that.attachedPaths[0] ? that.attachedPaths[0].input.parentNode : null);
+    console.log("Children:",that.childNodes);
+    console.log("===");
+  }
 }
 
 Node.prototype.getOutputPoint = function(){
@@ -47,7 +44,6 @@ Node.prototype.addInput = function(name){
   var input = new NodeInput("",this);
   this.inputs.push(input);
   this.domElement.appendChild(input.domElement);
-  
   return input;
 };
 
@@ -63,13 +59,11 @@ Node.prototype.detachInput = function(input){
     if(this.attachedPaths[i].input == input)
       index = i;
   };
-  
   if(index >= 0){
     this.attachedPaths[index].path.removeAttribute('d');
     this.attachedPaths[index].input.node = null;
     this.attachedPaths.splice(index, 1);
   }
-  
   if(this.attachedPaths.length <= 0){
     this.domElement.classList.remove('connected');
   }
@@ -122,10 +116,8 @@ Node.prototype.connectTo = function(input){
   input.node = this;
   this.connected = true;
   this.domElement.classList.add('connected');
-  
   input.domElement.classList.remove('empty');
   input.domElement.classList.add('filled');
-  
   this.attachedPaths.push({
     input: input,
     path: input.path
@@ -137,6 +129,9 @@ Node.prototype.connectTo = function(input){
   var pathStr = this.createPath(iPoint, oPoint);
   
   input.path.setAttributeNS(null, 'd',pathStr);
+  this.output.path=input.path;
+  input.createPath();
+  input.parentNode.childNodes.push(this);
 };
 
 Node.prototype.moveTo = function(point){
