@@ -12,6 +12,7 @@ function Node(name,id){
   this.output = new NodeOutput(this);
   this.domElement.appendChild(this.output.domElement);
 
+  this.parentNode=null;
   this.childNodes=[]
   // Node Stuffs
   this.value = '';
@@ -25,7 +26,7 @@ function Node(name,id){
   var that=this
   this.domElement.onclick = function (e){
     console.log("Id:",that.id);
-    console.log("Parent:",that.attachedPaths[0] ? that.attachedPaths[0].input.parentNode : null);
+    console.log("Parent:",that.parentNode);
     console.log("Children:",that.childNodes);
     console.log("===");
   }
@@ -54,18 +55,14 @@ Node.prototype.addContent=function(content){
 }
 
 Node.prototype.detachInput = function(input){
-  var index = -1;
-  for(var i = 0; i < this.attachedPaths.length; i++){
-    if(this.attachedPaths[i].input == input)
-      index = i;
-  };
-  if(index >= 0){
-    this.attachedPaths[index].path.removeAttribute('d');
-    this.attachedPaths[index].input.node = null;
-    this.attachedPaths.splice(index, 1);
-  }
-  if(this.attachedPaths.length <= 0){
+  if(this.parentNode){
+    _.pull(this.parentNode.childNodes,this)
     this.domElement.classList.remove('connected');
+    if(this.parentNode.childNodes.length===0){
+      this.parentNode.inputs[0].domElement.classList.add('empty');
+      this.parentNode.inputs[0].domElement.classList.remove('filled');
+    }
+    this.parentNode=null;
   }
 };
 
@@ -95,7 +92,32 @@ Node.prototype.updatePosition = function(){
       this.inputs[j].path.setAttributeNS(null, 'd', pStr);
     }
   }
+  for(var k=0;k<this.childNodes.length;k++){
+    this.childNodes[k].updatePosition();
+  }
+  if(this.parentNode)
+    this.parentNode.updatePositionWithoutChildren();
 };
+
+Node.prototype.updatePositionWithoutChildren = function(){
+  var outPoint = this.getOutputPoint();
+  var aPaths = this.attachedPaths;
+  for(var i = 0; i < aPaths.length; i++){
+    var iPoint = aPaths[i].input.getAttachPoint();
+    var pathStr = this.createPath(iPoint, outPoint);
+    aPaths[i].path.setAttributeNS(null, 'd', pathStr);
+  }
+  
+  for(var j = 0; j < this.inputs.length; j++){
+    if(this.inputs[j].node != null){
+      var iP = this.inputs[j].getAttachPoint();
+      var oP = this.inputs[j].node.getOutputPoint();
+      
+      var pStr = this.createPath(iP, oP);
+      this.inputs[j].path.setAttributeNS(null, 'd', pStr);
+    }
+  }
+}
 
 Node.prototype.createPath = function(a, b){
   var diff = {
@@ -113,21 +135,21 @@ Node.prototype.createPath = function(a, b){
 };
 
 Node.prototype.connectTo = function(input){
+  if(this.parentNode==input.parentNode)
+    return;
   input.node = this;
   this.connected = true;
   this.domElement.classList.add('connected');
   input.domElement.classList.remove('empty');
   input.domElement.classList.add('filled');
+  this.parentNode=input.parentNode;
   this.attachedPaths.push({
     input: input,
     path: input.path
   });
-  
   var iPoint = input.getAttachPoint();
   var oPoint = this.getOutputPoint();
-  
   var pathStr = this.createPath(iPoint, oPoint);
-  
   input.path.setAttributeNS(null, 'd',pathStr);
   this.output.path=input.path;
   input.createPath();

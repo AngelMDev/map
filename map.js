@@ -48,10 +48,10 @@ window.ontouchmove = function(e){
 
 window.onclick = function(e){
   if(mouse.currentInput){
+    console.log("click")
     mouse.currentInput.path.removeAttribute('d');
     if(mouse.currentInput.node){
-      console.log("click")
-      mouse.currentInput.node.detachInput(mouse.currentInput);
+      // mouse.currentInput.node.detachInput(mouse.currentInput);
     }
     mouse.currentInput = null;
   }

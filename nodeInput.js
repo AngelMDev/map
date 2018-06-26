@@ -15,8 +15,9 @@ function NodeInput(name,parentNode){
   var that = this;
   this.domElement.onclick = function(e){
     if(mouse.currentInput){
-      if(mouse.currentInput.path.hasAttribute('d'))
+      if(mouse.currentInput.path.hasAttribute('d')){
         mouse.currentInput.path.removeAttribute('d');
+      }
       if(mouse.currentInput.node){
         mouse.currentInput.node.detachInput(mouse.currentInput);
         mouse.currentInput.node = null;
