@@ -2,8 +2,6 @@ function NodeInput(name,parentNode){
   this.name = name;
   this.node = null;
   this.parentNode = parentNode;
-
-  
   // The dom element, here is where we could add
   // different input types
   this.domElement = document.createElement('div');
@@ -11,12 +9,7 @@ function NodeInput(name,parentNode){
   this.domElement.classList.add('connection');
   this.domElement.classList.add('empty');
     
-  // SVG Connector
-  this.path = document.createElementNS(svg.ns, 'path');
-  this.path.setAttributeNS(null, 'stroke', '#00ff00');
-  this.path.setAttributeNS(null, 'stroke-width', '2');
-  this.path.setAttributeNS(null, 'fill', 'none');
-  svg.appendChild(this.path);
+  this.createPath();
   
   // DOM Event handlers
   var that = this;
@@ -31,18 +24,29 @@ function NodeInput(name,parentNode){
     }
     mouse.currentInput = that;
     if(that.node){
-      that.node.detachInput(that);
-      that.domElement.classList.remove('filled');
-      that.domElement.classList.add('empty');
+      // that.node.detachInput(that);
+      // that.domElement.classList.remove('filled');
+      // that.domElement.classList.add('empty');
     }
     e.stopPropagation();
   };
 }
 
+NodeInput.prototype.createPath = function(){
+  // SVG Connector
+  this.path = document.createElementNS(svg.ns, 'path');
+  this.path.setAttributeNS(null, 'stroke', '#00ff00');
+  this.path.setAttributeNS(null, 'stroke-width', '2');
+  this.path.setAttributeNS(null, 'fill', 'none');
+  svg.appendChild(this.path);
+}
+
 NodeInput.prototype.getAttachPoint = function(){
   var offset = GetFullOffset(this.domElement);
+  parentId=this.domElement.parentElement.id;
+  rect=this.domElement.getBoundingClientRect();
   return {
-    x: offset.left + this.domElement.offsetWidth - 2,
-    y: offset.top + this.domElement.parentElement.offsetHeight - 20
+    x: rect.x + $(this.domElement.parentElement).width()+2,
+    y: rect.y + 10 
   };
 };
