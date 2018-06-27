@@ -47,6 +47,11 @@ Node.prototype.root = function(){
   } else {
     var parent = this.whosYourDaddy();
     parent.root();
+    console.log("Id:",that.id);
+    console.log("Parent:",that.parentNode);
+    console.log("Children:",that.childNodes);
+    console.log("Attached:",that.attachedPaths);
+    console.log("===");
   }
 }
 
@@ -90,6 +95,7 @@ Node.prototype.detachInput = function(input){
     }
     this.domElement.classList.remove('connected');
     this.parentNode=null;
+    input.node=null;
   }
 };
 
@@ -114,7 +120,6 @@ Node.prototype.updatePosition = function(){
     if(this.inputs[j].node != null){
       var iP = this.inputs[j].getAttachPoint();
       var oP = this.inputs[j].node.getOutputPoint();
-
       var pStr = this.createPath(iP, oP);
       this.inputs[j].path.setAttributeNS(null, 'd', pStr);
     }
