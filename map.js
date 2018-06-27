@@ -79,18 +79,29 @@ function GetFullOffset(element){
 
 
 //===================MY CODE===================
-function createNode(){
+function createNode(text=null,coords={x: 180, y: 70}){
   var title=$('#title').val();
-  var area = $('#text-area').val();
+  if(text===null)
+    var text = $('#text-area').val();
   id = uniqueId();
   var mynode = new Node(title,id);
-  mynode.moveTo({x: 180, y: 70});
-  mynode.addContent(area);
+  mynode.moveTo(coords);
+  mynode.addContent(text);
   mynode.initUI();
+  return mynode;
 }
 
 
 function deleteDiv(ele) {
   $(ele.parentElement).remove();
 }
+
+root=createNode("Root");
+ch1=createNode("Child_1",{x: 200, y: 150});
+ch2=createNode("Child_2",{x: 220, y: 230});
+ch1.connectTo(root.supportInput);
+root.updatePosition();
+ch1.updatePosition();
+ch2.updatePosition();
+
 
