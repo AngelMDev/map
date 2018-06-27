@@ -61,7 +61,7 @@ function GetFullOffset(element){
     top: element.offsetTop,
     left: element.offsetLeft,
   };
-  
+
   if(element.offsetParent){
     var po = GetFullOffset(element.offsetParent);
     offset.top += po.top;
@@ -77,6 +77,9 @@ function GetFullOffset(element){
 
 
 //===================MY CODE===================
+
+var nodeReference = [];
+var root = [];
 function createNode(text=null,coords={x: 180, y: 70}){
   var title=$('#title').val();
   if(text===null)
@@ -86,12 +89,127 @@ function createNode(text=null,coords={x: 180, y: 70}){
   mynode.moveTo(coords);
   mynode.addContent(text);
   mynode.initUI();
+
+  nodeReference.push(mynode)
   return mynode;
+
 }
 
 
 function deleteDiv(ele) {
   $(ele.parentElement).remove();
+}
+
+function saveMap() {
+  root = [];
+  nodeReference.map(function(node){
+    node.root();
+  })
+  rootJson(root[0]);
+  return dataJson;
+}
+
+function defineRoot(node) {
+  if (!root.includes(node)) {
+    root.push(node);
+  }
+}
+
+var text = function(node){
+  var textContent = "";
+  textContent = node.domElement.children[3].innerHTML;
+  return textContent;
+}
+
+var support = function(node){
+  var supp = [];
+  node.childNodes.supporting.map(function(ele){
+    supp.push(ele);
+  })
+  return supp;
+}
+
+var oppose = function(node){
+  var opp = [];
+  node.childNodes.opposing.map(function(ele){
+    opp.push(ele);
+  })
+  return opp;
+}
+
+
+var dataJson = {
+  formatVersion : 0,
+  id : 'root',
+  ideas : {
+    1 : {}
+  }
+}
+var rootJson = function( root ) {
+  var json = dataJson['ideas'][1];
+  if ( root ) {
+    json.title = text( root );
+    json.id = '1';
+    json.ideas = {};
+    json.position = getNodePosition(root);
+  }
+  var newJson = json['ideas'];
+
+  var numGroups = 1;
+  var pros = support( root );
+  var cons = oppose( root );
+  evalGroups( pros, cons, newJson, numGroups);
+
+}
+
+var evalGroups = function( pros, cons, json, count ){
+  if ( pros.length > 0 ) {
+      createGroup( pros, json, count, 'supporting')
+      count += 1;
+  }
+  if ( cons.length > 0 ) {
+      createGroup( cons, json, count, 'opposing')
+      count += 1;
+  }
+}
+
+var createGroup = function( arr, json, count, type ) {
+    json[count] = {
+      title : 'group',
+      id : uniqueId(),
+      attr : {
+        group : type
+      },
+      ideas: {}
+    }
+    var newJson = json[count]['ideas']
+    groupContent( arr, newJson )
+}
+
+var groupContent = function( arr, json ) {
+  arr.map(function(node, idx) {
+    json[idx+1] = {};
+    json[idx+1].title = text(node);
+    json[idx+1].id = uniqueId();
+    json[idx+1].position = getNodePosition(node);
+
+    var subGroups = 1;
+    var subpros = support( node );
+    var subcons = oppose( node );
+    if ( subpros.length > 0 || subcons.length > 0 ){
+      json[idx+1].ideas = {};
+      var newJson = json[idx+1].ideas
+    }
+    evalGroups( subpros, subcons, newJson, subGroups);
+  })
+}
+
+var getNodePosition = function( node ) {
+  var nodePos = {
+   top : node.domElement.style.top,
+   left : node.domElement.style.left
+ }
+ return nodePos;
 }
 
 root=createNode("Root");

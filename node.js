@@ -2,7 +2,7 @@ function Node(name,id){
   // DOM Element creation
   this.domElement = document.createElement('div');
   this.domElement.classList.add('node');
-  this.domElement.classList.add('post'); 
+  this.domElement.classList.add('post');
   this.domElement.classList.add('draggable');
   this.domElement.classList.add('ui-widget-content');
   this.domElement.id=id;
@@ -26,6 +26,27 @@ function Node(name,id){
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
+    // console.log("Id:",that.id);
+    // console.log("Parent:",that.attachedPaths[0] ? that.attachedPaths[0].input.parentNode : null);
+    // console.log("Children:",that.childNodes);
+    // console.log("===");
+  }
+}
+Node.prototype.whosYourDaddy = function(){
+  if (this.attachedPaths != 0){
+    return this.attachedPaths[0].input.parentNode;
+  } else {
+    return false;
+  }
+}
+
+Node.prototype.root = function(){
+  if (!this.whosYourDaddy()) {
+    var rootEle = this.inputs[0].parentNode;
+    defineRoot(rootEle);
+  } else {
+    var parent = this.whosYourDaddy();
+    parent.root();
     console.log("Id:",that.id);
     console.log("Parent:",that.parentNode);
     console.log("Children:",that.childNodes);
@@ -96,11 +117,11 @@ Node.prototype.updatePosition = function(){
     var pathStr = this.createPath(iPoint, outPoint);
     aPaths[i].path.setAttributeNS(null, 'd', pathStr);
   }
-  
+
   for(var j = 0; j < this.inputs.length; j++){
     if(this.inputs[j].node != null){
       var iP = this.inputs[j].getAttachPoint();
-      var oP = this.inputs[j].node.getOutputPoint(); 
+      var oP = this.inputs[j].node.getOutputPoint();
       var pStr = this.createPath(iP, oP);
       this.inputs[j].path.setAttributeNS(null, 'd', pStr);
     }
@@ -123,12 +144,12 @@ Node.prototype.updatePositionWithoutChildren = function(){
     var pathStr = this.createPath(iPoint, outPoint);
     aPaths[i].path.setAttributeNS(null, 'd', pathStr);
   }
-  
+
   for(var j = 0; j < this.inputs.length; j++){
     if(this.inputs[j].node != null){
       var iP = this.inputs[j].getAttachPoint();
       var oP = this.inputs[j].node.getOutputPoint();
-      
+
       var pStr = this.createPath(iP, oP);
       this.inputs[j].path.setAttributeNS(null, 'd', pStr);
     }
@@ -177,12 +198,13 @@ Node.prototype.connectTo = function(input){
 Node.prototype.moveTo = function(point){
   this.domElement.style.top = point.y + 'px';
   this.domElement.style.left = point.x + 'px';
+
   this.updatePosition();
 };
 
 Node.prototype.initUI = function(){
   var that = this;
-  
+
   // Make draggable
   $(this.domElement).draggable({
     containment: 'window',
@@ -193,7 +215,7 @@ Node.prototype.initUI = function(){
   });
   // Fix positioning
   this.domElement.style.position = 'absolute';
-  
+
   document.body.append(this.domElement);
   // Update Visual
   this.updatePosition();
