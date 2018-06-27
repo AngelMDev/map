@@ -193,6 +193,7 @@ Node.prototype.connectTo = function(input){
 Node.prototype.moveTo = function(point){
   this.domElement.style.top = point.y + 'px';
   this.domElement.style.left = point.x + 'px';
+
   this.updatePosition();
 };
 
