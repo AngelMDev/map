@@ -14,9 +14,9 @@ function NodeInput(supports,parentNode){
   }else{
     this.domElement.classList.add('oppose');
   }
-    
+
   this.createPath();
-  
+
   // DOM Event handlers
   var that = this;
   this.domElement.onclick = function(e){
@@ -55,6 +55,6 @@ NodeInput.prototype.getAttachPoint = function(){
   rect=this.domElement.getBoundingClientRect();
   return {
     x: rect.x + $(this.domElement.parentElement).width()+2,
-    y: rect.y + 10 
+    y: rect.y + 10
   };
 };
