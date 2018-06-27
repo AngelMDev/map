@@ -1,3 +1,4 @@
+
 var uniqueId = function() {
   return Math.random().toString(36).substr(2, 16);
 };
@@ -11,18 +12,15 @@ svg.ns = svg.namespaceURI;
 var mouse = {
   currentInput: null,
   createPath: function(a, b){
-    var diff = {
-      x: b.x - a.x,
-      y: b.y - a.y
-    };
-  
-    var pathStr = 'M' + a.x + ',' + a.y + ' ';
-    pathStr += 'C';
-    pathStr += a.x + diff.x / 3 * 2 + ',' + a.y + ' ';
-    pathStr += a.x + diff.x / 3 + ',' + b.y + ' ';
-    pathStr += b.x + ',' + b.y;
-    return pathStr;
-  }
+    aControlPointX=a.x-5;
+    aControlPointY=a.y+120;
+    bControlPointX=b.x+5;
+    bControlPointY=b.y-120;
+    return path = SvgPathGenerator()
+                    .moveTo(a.x,a.y)
+                    .curveTo(aControlPointX,aControlPointY,bControlPointX,bControlPointY,b.x,b.y)
+                    .end();
+   }
 };
 //Nontouch devices
 window.onmousemove = function(e){
@@ -103,5 +101,6 @@ ch1.connectTo(root.supportInput);
 root.updatePosition();
 ch1.updatePosition();
 ch2.updatePosition();
+
 
 
