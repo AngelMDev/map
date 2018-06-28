@@ -80,19 +80,17 @@ function GetFullOffset(element){
 
 var nodeReference = [];
 var root = [];
-function createNode(text=null,coords={x: 180, y: 70}){
+function createNode(id=uniqueId(),text=null,coords={x: 180, y: 70}){
   var title=$('#title').val();
   if(text===null)
     var text = $('#text-area').val();
-  id = uniqueId();
+  // id = uniqueId();
   var mynode = new Node(title,id);
   mynode.moveTo(coords);
   mynode.addContent(text);
   mynode.initUI();
-
   nodeReference.push(mynode)
   return mynode;
-
 }
 
 
@@ -212,13 +210,40 @@ var getNodePosition = function( node ) {
  return nodePos;
 }
 
-root=createNode("Root");
-ch1=createNode("Child_1",{x: 200, y: 150});
-ch2=createNode("Child_2",{x: 220, y: 230});
-ch1.connectTo(root.supportInput);
-root.updatePosition();
-ch1.updatePosition();
-ch2.updatePosition();
+// root=createNode("Root");
+// ch1=createNode("Child_1",{x: 200, y: 150});
+// ch2=createNode("Child_2",{x: 220, y: 230});
+// ch1.connectTo(root.supportInput);
+// root.updatePosition();
+// ch1.updatePosition();
+// ch2.updatePosition();
 
+//{id: 0, content: ""}
+startingX = 40;
+startingY = 120;
+xMargin = 190;
+yMargin = 80;
+columnSize=4;
+column=0;
+row=0;
+function displayNodes(nodeArray){
+  for(var i=0;i<nodeArray.length;i++){
+    if(column>=columnSize){
+      column=0;
+      row++;
+    }
+      node=nodeArray[i];
+      createNode(node.id,node.content,{x:startingX + xMargin*column,y:startingY + yMargin*row})
+      column++;
+    }
+}
 
+//Random Node Generator
+qty=10;
+nodeArray=[]
+for(var j=0;j<qty;j++){
+  fakeContent=Math.random().toString(36);
+  nodeArray.push({id:j,content:fakeContent})
+}
+displayNodes(nodeArray);
 
