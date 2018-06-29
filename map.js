@@ -93,19 +93,12 @@ function createNode(id=uniqueId(),text=null,coords={x: 180, y: 70}){
   return mynode;
 }
 
-function createClaim(text=null,coords={x: 480, y: 70}, node ){
-  var title= 'claim';
-  if(text===null)
-    var text = $('#text-area').val();
+function createGroup(text=null,coords={x: 480, y: 70}, node ){
   id = uniqueId();
-  var myClaim = new Claim( title, id, node);
-  myClaim.moveTo(coords);
-  myClaim.addContent(text);
-  myClaim.initUI();
-
-  // nodeReference.push(mynode)
-  return myClaim;
-
+  var myGroup = new Group(id, node);
+  myGroup.moveTo(coords);
+  myGroup.initUI();
+  return myGroup;
 }
 
 function deleteDiv(ele) {
@@ -176,16 +169,16 @@ var rootJson = function( root ) {
 
 var evalGroups = function( pros, cons, json, count ){
   if ( pros.length > 0 ) {
-      createGroup( pros, json, count, 'supporting')
+      createJSONGroup( pros, json, count, 'supporting')
       count += 1;
   }
   if ( cons.length > 0 ) {
-      createGroup( cons, json, count, 'opposing')
+      createJSONGroup( cons, json, count, 'opposing')
       count += 1;
   }
 }
 
-var createGroup = function( arr, json, count, type ) {
+var createJSONGroup = function( arr, json, count, type ) {
     json[count] = {
       title : 'group',
       id : uniqueId(),

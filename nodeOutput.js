@@ -10,7 +10,7 @@ function NodeOutput(parentNode){
   this.domElement.onclick = function(e){
     //If user is holding a cable make a connection, otherwise remove existing connection
     if(mouse.currentInput && !that.parentNode.ownsInput(mouse.currentInput)){
-      if(that.parentNode.attachedPaths[0]){
+      if(that.parentNode.attachedPaths && that.parentNode.attachedPaths[0]){
         //If user tries to make a connection but a connection already exists, ignore user action
         return;
       }

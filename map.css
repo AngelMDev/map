@@ -1,4 +1,4 @@
-.claim {
+.group {
   border-top: 5px solid white;
   width: 166px;
   height: 30px;
@@ -171,4 +171,8 @@ svg{
   z-index:-100;
   width:100%;
   height:100%;
+}
+
+.hidden{
+  display: none;
 }
