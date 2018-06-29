@@ -17,6 +17,7 @@ function Claim( name, id, node ){
   this.value = '';
   this.inputs = [];
   this.nodeGroup = [];
+  this.groupLength = this.nodeGroup.length
   this.nodeGroup.push(node);
   this.connected = false;
   // Create inputs
@@ -220,16 +221,18 @@ Claim.prototype.initUI = function(){
     cancel: '.connection,.output',
     drag: function(event, ui){
       that.updatePosition();
+      that.alignGroup();
+    },
+    stop: function(event, ui){
+      that.alignGroup();
     }
   }).droppable({
   accept: ".node",
   hoverClass: "drop-hover",
   drop: function( event, ui ) {
-    var t = ui.draggable[0].node.domElement.style;
-    t.position = 'relative';
-    console.log(t);
-    that.addNode( ui.draggable[0].node )
+    that.addNode( ui.draggable[0].node );
     that.updateForm();
+    that.alignNode( ui.draggable[0].node )
   },
   out: function( event, ui ) {
     that.removeNode( ui.draggable[0].node )
@@ -252,7 +255,11 @@ Claim.prototype.addNode = function (node) {
 }
 
 Claim.prototype.removeNode = function (node) {
-  remove( this.nodeGroup, node )
+  remove( this.nodeGroup, node );
+  this.alignGroup();
+  if ( this.nodeGroup.length == 0 ) {
+    this.domElement.remove();
+  }
 }
 
 Claim.prototype.updateForm = function () {
@@ -265,4 +272,30 @@ Claim.prototype.updateForm = function () {
     delete this;
     console.log(this);
   }
+}
+
+Claim.prototype.alignNode = function (node) {
+  var count = this.nodeGroup.length;
+  var unit = 174;
+  var nodeStyles = node.domElement.style;
+  var claimsPosition = getNodePosition(this);
+  nodeStyles.left = claimsPosition.left + (unit * (count - 1));
+  nodeStyles.top = claimsPosition.top;
+}
+
+Claim.prototype.alignGroup = function () {
+  var that = this;
+  this.nodeGroup.map( function( node, idx ) {
+    var count = that.nodeGroup.length;
+    var unit = 174;
+    var nodeStyles = node.domElement.style;
+    var claimsPosition = getNodePosition(that);
+    if ( idx == 0 ) {
+      nodeStyles.left = claimsPosition.left;
+      nodeStyles.top = claimsPosition.top;
+    } else {
+      nodeStyles.left = claimsPosition.left + (unit * (count - 1));
+      nodeStyles.top = claimsPosition.top;
+      }
+  })
 }
