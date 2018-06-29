@@ -30,11 +30,11 @@ function NodeInput(supports,parentNode){
       }
     }
     mouse.currentInput = that;
-    // if(that.node){
-    //   // that.node.detachInput(that);
-    //   // that.domElement.classList.remove('filled');
-    //   // that.domElement.classList.add('empty');
-    // }
+    if(that.node){
+      that.node.detachInput(that);
+      that.domElement.classList.remove('filled');
+      that.domElement.classList.add('empty');
+    }
     e.stopPropagation();
   };
 }
