@@ -97,18 +97,18 @@ function createNode(text=null,coords={x: 180, y: 70}){
 
 }
 
-function createClaim(text=null,coords={x: 480, y: 70}){
+function createClaim(text=null,coords={x: 480, y: 70}, node ){
   var title= 'claim';
   if(text===null)
     var text = $('#text-area').val();
   id = uniqueId();
-  var myClaim = new Claim(title,id);
+  var myClaim = new Claim( title, id, node);
   myClaim.moveTo(coords);
   myClaim.addContent(text);
   myClaim.initUI();
 
   // nodeReference.push(mynode)
-  return mynode;
+  return myClaim;
 
 }
 
@@ -226,6 +226,14 @@ var getNodePosition = function( node ) {
    left : node.domElement.style.left
  }
  return nodePos;
+}
+
+function remove(array, element) {
+    const index = array.indexOf(element);
+
+    if (index !== -1) {
+        array.splice(index, 1);
+    }
 }
 
 // root=createNode("Root");

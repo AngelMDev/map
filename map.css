@@ -1,11 +1,19 @@
 .claim {
-  border-top: 2px solid white;
+  border-top: 5px solid white;
   width: 166px;
-  height: 80px;
-  display: inline-block;
+  height: 30px;
+  display: inline-flex;
+  justify-content: center;
   border-top-left-radius: 13px;
   border-top-right-radius: 13px;
-  background: rgba(255,255,255,0.8)
+  background: rgba(255,255,255,0.8);
+  transition: width 1s;
+}
+
+.drop-hover {
+  border-top: 5px dotted green;
+  background: rgba(100,100,0,0.5)
+
 }
 
 .post {

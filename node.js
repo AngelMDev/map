@@ -7,6 +7,7 @@ function Node(name,id){
   this.domElement.classList.add('ui-widget-content');
   this.domElement.id=id;
   this.id=id
+  this.domElement.node = this;
   // Create output visual
   this.output = new NodeOutput(this);
   this.domElement.appendChild(this.output.domElement);
@@ -47,17 +48,16 @@ Node.prototype.root = function(){
   } else {
     var parent = this.whosYourDaddy();
     parent.root();
-    console.log("Id:",that.id);
-    console.log("Parent:",that.parentNode);
-    console.log("Children:",that.childNodes);
-    console.log("Attached:",that.attachedPaths);
-    console.log("===");
+    // console.log("Id:",that.id);
+    // console.log("Parent:",that.parentNode);
+    // console.log("Children:",that.childNodes);
+    // console.log("Attached:",that.attachedPaths);
+    // console.log("===");
   }
 }
 
 Node.prototype.getOutputPoint = function(){
   var tmp = this.domElement.firstElementChild;
-  console.log(this);
   var offset = GetFullOffset(tmp);
   return {
     x: offset.left + tmp.offsetWidth / 2,
@@ -175,33 +175,40 @@ Node.prototype.connectTo = function(input){
   if(this.parentNode==input.parentNode)
     return;
   input.node = this;
-  this.connected = true;
-  this.domElement.classList.add('connected');
+  var claim = createClaim(null, this.currentPosition(), input.node)
+  claim.connected = true;
+  claim.domElement.classList.add('connected');
   input.domElement.classList.remove('empty');
   input.domElement.classList.add('filled');
-  var test = createClaim(this.parentNode, 'supporting', this)
-  this.parentNode=input.parentNode;
-  this.attachedPaths.push({
+  console.log(claim);
+  console.log('=======');
+  claim.parentNode=input.parentNode;
+  claim.attachedPaths.push({
     input: input,
     path: input.path
   });
   var iPoint = input.getAttachPoint();
-  var oPoint = this.getOutputPoint();
-  var pathStr = this.createPath(iPoint, oPoint);
+  var oPoint = claim.getOutputPoint();
+  var pathStr = claim.createPath(iPoint, oPoint);
   input.path.setAttributeNS(null, 'd',pathStr);
-  this.output.path=input.path;
+  claim.output.path=input.path;
   input.createPath();
   if(input.supports){
-    input.parentNode.childNodes.supporting.push(this);
+    input.parentNode.childNodes.supporting.push(claim);
   }else{
-    input.parentNode.childNodes.opposing.push(this);
+    input.parentNode.childNodes.opposing.push(claim);
   }
 };
 
 Node.prototype.moveTo = function(point){
-  this.domElement.style.top = point.y + 'px';
-  this.domElement.style.left = point.x + 'px';
-
+  if ( typeof point.y == 'number' ) {
+    this.domElement.style.top = point.y + 'px';
+    this.domElement.style.left = point.x + 'px';
+  }
+  if ( typeof point.y == 'string' ) {
+    this.domElement.style.top = point.y;
+    this.domElement.style.left = point.x;
+  }
   this.updatePosition();
 };
 
@@ -216,6 +223,7 @@ Node.prototype.initUI = function(){
       that.updatePosition();
     }
   });
+
   // Fix positioning
   this.domElement.style.position = 'absolute';
 
@@ -223,3 +231,11 @@ Node.prototype.initUI = function(){
   // Update Visual
   this.updatePosition();
 };
+
+Node.prototype.currentPosition = function() {
+  var pos = {
+    x : this.domElement.style.left,
+    y : this.domElement.style.top
+  }
+  return pos;
+}
