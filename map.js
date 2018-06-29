@@ -97,6 +97,20 @@ function createNode(text=null,coords={x: 180, y: 70}){
 
 }
 
+function createClaim(text=null,coords={x: 480, y: 70}){
+  var title= 'claim';
+  if(text===null)
+    var text = $('#text-area').val();
+  id = uniqueId();
+  var myClaim = new Claim(title,id);
+  myClaim.moveTo(coords);
+  myClaim.addContent(text);
+  myClaim.initUI();
+
+  // nodeReference.push(mynode)
+  return mynode;
+
+}
 
 function deleteDiv(ele) {
   $(ele.parentElement).remove();
@@ -214,13 +228,10 @@ var getNodePosition = function( node ) {
  return nodePos;
 }
 
-root=createNode("Root");
-ch1=createNode("Child_1",{x: 200, y: 150});
-ch2=createNode("Child_2",{x: 220, y: 230});
-ch1.connectTo(root.supportInput);
-root.updatePosition();
-ch1.updatePosition();
-ch2.updatePosition();
-
-
-
+// root=createNode("Root");
+// ch1=createNode("Child_1",{x: 200, y: 150});
+// ch2=createNode("Child_2",{x: 220, y: 230});
+// ch1.connectTo(root.supportInput);
+// root.updatePosition();
+// ch1.updatePosition();
+// ch2.updatePosition();

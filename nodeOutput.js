@@ -32,4 +32,3 @@ function NodeOutput(parentNode){
     e.stopPropagation();
   };
 }
-

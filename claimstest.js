@@ -1,7 +1,7 @@
-function Node(name,id){
+function Claim(name,id){
   // DOM Element creation
   this.domElement = document.createElement('div');
-  this.domElement.classList.add('node');
+  this.domElement.classList.add('claim');
   this.domElement.classList.add('post');
   this.domElement.classList.add('draggable');
   this.domElement.classList.add('ui-widget-content');
@@ -32,7 +32,7 @@ function Node(name,id){
     // console.log("===");
   }
 }
-Node.prototype.whosYourDaddy = function(){
+Claim.prototype.whosYourDaddy = function(){
   if (this.attachedPaths != 0){
     return this.attachedPaths[0].input.parentNode;
   } else {
@@ -40,7 +40,7 @@ Node.prototype.whosYourDaddy = function(){
   }
 }
 
-Node.prototype.root = function(){
+Claim.prototype.root = function(){
   if (!this.whosYourDaddy()) {
     var rootEle = this.inputs[0].parentNode;
     defineRoot(rootEle);
@@ -55,7 +55,7 @@ Node.prototype.root = function(){
   }
 }
 
-Node.prototype.getOutputPoint = function(){
+Claim.prototype.getOutputPoint = function(){
   var tmp = this.domElement.firstElementChild;
   console.log(this);
   var offset = GetFullOffset(tmp);
@@ -65,21 +65,21 @@ Node.prototype.getOutputPoint = function(){
   };
 };
 
-Node.prototype.addInput = function(supports){
+Claim.prototype.addInput = function(supports){
   var input = new NodeInput(supports,this);
   this.inputs.push(input);
   this.domElement.appendChild(input.domElement);
   return input;
 };
 
-Node.prototype.addContent=function(content){
+Claim.prototype.addContent=function(content){
   div=document.createElement('div');
   div.innerHTML=content;
   div.classList.add('wrap');
   this.domElement.appendChild(div);
 }
 
-Node.prototype.detachInput = function(input){
+Claim.prototype.detachInput = function(input){
   if(this.parentNode){
     childNodes=this.parentNode.childNodes;
     if(input.supports){
@@ -101,7 +101,7 @@ Node.prototype.detachInput = function(input){
   }
 };
 
-Node.prototype.ownsInput = function(input){
+Claim.prototype.ownsInput = function(input){
   for(var i = 0; i < this.inputs.length; i++){
     if(this.inputs[i] == input)
       return true;
@@ -109,7 +109,7 @@ Node.prototype.ownsInput = function(input){
   return false;
 };
 
-Node.prototype.updatePosition = function(){
+Claim.prototype.updatePosition = function(){
   var outPoint = this.getOutputPoint();
   var aPaths = this.attachedPaths;
   for(var i = 0; i < aPaths.length; i++){
@@ -136,7 +136,7 @@ Node.prototype.updatePosition = function(){
     this.parentNode.updatePositionWithoutChildren();
 };
 
-Node.prototype.updatePositionWithoutChildren = function(){
+Claim.prototype.updatePositionWithoutChildren = function(){
   var outPoint = this.getOutputPoint();
   var aPaths = this.attachedPaths;
   for(var i = 0; i < aPaths.length; i++){
@@ -156,7 +156,7 @@ Node.prototype.updatePositionWithoutChildren = function(){
   }
 }
 
-Node.prototype.createPath = function(a, b){
+Claim.prototype.createPath = function(a, b){
   var diff = {
     x: b.x - a.x,
     y: b.y - a.y
@@ -171,7 +171,7 @@ Node.prototype.createPath = function(a, b){
   return pathStr;
 };
 
-Node.prototype.connectTo = function(input){
+Claim.prototype.connectTo = function(input){
   if(this.parentNode==input.parentNode)
     return;
   input.node = this;
@@ -198,14 +198,14 @@ Node.prototype.connectTo = function(input){
   }
 };
 
-Node.prototype.moveTo = function(point){
+Claim.prototype.moveTo = function(point){
   this.domElement.style.top = point.y + 'px';
   this.domElement.style.left = point.x + 'px';
 
   this.updatePosition();
 };
 
-Node.prototype.initUI = function(){
+Claim.prototype.initUI = function(){
   var that = this;
 
   // Make draggable
