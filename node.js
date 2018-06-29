@@ -156,8 +156,8 @@ Node.prototype.initUI = function(){
 
 Node.prototype.currentPosition = function() {
   var pos = {
-    x : this.domElement.style.left,
-    y : this.domElement.style.top
+    x : Number(this.domElement.style.left.slice(0,-2)),
+    y : Number(this.domElement.style.top.slice(0,-2))
   }
   return pos;
 }

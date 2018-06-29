@@ -1,6 +1,6 @@
 .group {
   border-top: 5px solid white;
-  width: 166px;
+  width: 165px;
   height: 30px;
   display: inline-flex;
   justify-content: center;
@@ -11,7 +11,7 @@
 }
 
 .drop-hover {
-  border-top: 5px dotted green;
+  border-top: 5px dotted lime;
   background: rgba(100,100,0,0.5)
 
 }

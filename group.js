@@ -143,6 +143,10 @@ Group.prototype.initUI = function(){
     cancel: '.connection,.output',
     drag: function(event, ui){
       that.updatePosition();
+      that.alignGroup();
+    },
+    stop: function(event, ui){
+      that.alignGroup();
     }
   }).droppable({
   accept: ".node",
@@ -152,12 +156,12 @@ Group.prototype.initUI = function(){
     console.log(t);
     that.addNode( ui.draggable[0].node )
     that.updateShape();
-    that.updatePosition();
+    that.alignNode( ui.draggable[0].node )
+
   },
   out: function( event, ui ) {
     that.removeNode( ui.draggable[0].node )
     that.updateShape();
-    that.updatePosition();
   }
 });
   // Fix positioning
@@ -178,6 +182,7 @@ Group.prototype.addNode = function (node) {
 Group.prototype.removeNode = function (node) {
   _.pull(this.nodeGroup,node)
   node.removeFromGroup();
+  this.alignGroup();
 }
 
 Group.prototype.updateShape = function () {
@@ -185,9 +190,36 @@ Group.prototype.updateShape = function () {
   var width = 170;
   if ( count ) {
     this.domElement.style.width = count * width + 'px';
+    this.updatePosition();
   }
   if ( count == 0 ) {
     delete this;
     console.log(this);
   }
+}
+
+Group.prototype.alignNode = function (node) {
+  var count = this.nodeGroup.length;
+  var unit = 174;
+  var nodeStyles = node.domElement.style;
+  var groupPosition = getNodePosition(this);
+  nodeStyles.left = groupPosition.left + (unit * (count - 1));
+  nodeStyles.top = groupPosition.top;
+}
+
+Group.prototype.alignGroup = function () {
+  var that = this;
+  this.nodeGroup.map( function( node, idx ) {
+    var count = that.nodeGroup.length;
+    var unit = 174;
+    var nodeStyles = node.domElement.style;
+    var groupPosition = getNodePosition(that);
+    if ( idx == 0 ) {
+      nodeStyles.left = groupPosition.left;
+      nodeStyles.top = groupPosition.top;
+    } else {
+      nodeStyles.left = groupPosition.left + (unit * (count - 1));
+      nodeStyles.top = groupPosition.top;
+      }
+  })
 }
