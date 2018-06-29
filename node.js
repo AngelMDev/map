@@ -84,12 +84,14 @@ Node.prototype.detachInput = function(input){
     childNodes=this.parentNode.childNodes;
     if(input.supports){
       _.pull(childNodes.supporting,this)
+      $(this.domElement).removeClass('node-support');
       if(childNodes.supporting.length===0){
         this.parentNode.inputs[0].domElement.classList.add('empty');
         this.parentNode.inputs[0].domElement.classList.remove('filled');
       }
     }else{
       _.pull(childNodes.opposing,this)
+      $(this.domElement).removeClass('node-oppose');
       if(childNodes.opposing.length===0){
         this.parentNode.inputs[1].domElement.classList.add('empty');
         this.parentNode.inputs[1].domElement.classList.remove('filled');
@@ -157,18 +159,14 @@ Node.prototype.updatePositionWithoutChildren = function(){
 }
 
 Node.prototype.createPath = function(a, b){
-  var diff = {
-    x: b.x - a.x,
-    y: b.y - a.y
-  };
-
-  var pathStr = 'M' + a.x + ',' + a.y + ' ';
-  pathStr += 'C';
-  pathStr += a.x + diff.x / 3 * 2 + ',' + a.y + ' ';
-  pathStr += a.x + diff.x / 3 + ',' + b.y + ' ';
-  pathStr += b.x + ',' + b.y;
-
-  return pathStr;
+  aControlPointX=a.x-5;
+  aControlPointY=a.y+120;
+  bControlPointX=b.x+5;
+  bControlPointY=b.y-120;
+  return path = SvgPathGenerator()
+                  .moveTo(a.x,a.y)
+                  .curveTo(aControlPointX,aControlPointY,bControlPointX,bControlPointY,b.x,b.y)
+                  .end();
 };
 
 Node.prototype.connectTo = function(input){
