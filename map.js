@@ -240,7 +240,7 @@ function displayNodes(nodeArray){
 
 //Random Node Generator
 qty=10;
-nodeArray=[]
+nodeArray=[{id:"root",content:"bla"}]
 for(var j=0;j<qty;j++){
   fakeContent=Math.random().toString(36);
   nodeArray.push({id:j,content:fakeContent})
