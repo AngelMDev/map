@@ -1,5 +1,7 @@
-function Node(name,id){
+function Node(name,id,root=false){
   // DOM Element creation
+  this.name=name;
+  this.root=root
   this.domElement = document.createElement('div');
   this.domElement.classList.add('node');
   this.domElement.classList.add('post');
@@ -9,11 +11,13 @@ function Node(name,id){
   this.id=id
   this.domElement.node = this;
   // Create output visual
-  this.output = new NodeOutput(this);
-  this.domElement.appendChild(this.output.domElement);
+  if(!root){
+    this.output = new NodeOutput(this);
+    this.domElement.appendChild(this.output.domElement);
+  }
   // Relationships
-  this.parentNode=null;
   this.childNodes={supporting:[], opposing:[]}
+  this.group=null;
   // Node Stuffs
   this.value = '';
   this.inputs = [];
@@ -22,15 +26,15 @@ function Node(name,id){
   this.supportInput = this.addInput(true);
   this.opposeInput = this.addInput(false);
   // SVG Connectors
-  this.attachedPaths = [];
+  //this.attachedPaths = [];
 
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
-    // console.log("Id:",that.id);
-    // console.log("Parent:",that.attachedPaths[0] ? that.attachedPaths[0].input.parentNode : null);
-    // console.log("Children:",that.childNodes);
-    // console.log("===");
+    console.log("Id:",that.id);
+    //console.log("Parent:",that.attachedPaths[0] ? that.attachedPaths[0].input.parentNode : null);
+    console.log("Children:",that.childNodes);
+    console.log("===");
   }
 }
 Node.prototype.whosYourDaddy = function(){
@@ -48,22 +52,8 @@ Node.prototype.root = function(){
   } else {
     var parent = this.whosYourDaddy();
     parent.root();
-    // console.log("Id:",that.id);
-    // console.log("Parent:",that.parentNode);
-    // console.log("Children:",that.childNodes);
-    // console.log("Attached:",that.attachedPaths);
-    // console.log("===");
   }
 }
-
-Node.prototype.getOutputPoint = function(){
-  var tmp = this.domElement.firstElementChild;
-  var offset = GetFullOffset(tmp);
-  return {
-    x: offset.left + tmp.offsetWidth / 2,
-    y: offset.top + tmp.offsetHeight / 2
-  };
-};
 
 Node.prototype.addInput = function(supports){
   var input = new NodeInput(supports,this);
@@ -79,27 +69,15 @@ Node.prototype.addContent=function(content){
   this.domElement.appendChild(div);
 }
 
-Node.prototype.detachInput = function(input){
-  if(this.parentNode){
-    childNodes=this.parentNode.childNodes;
-    if(input.supports){
-      _.pull(childNodes.supporting,this)
-      if(childNodes.supporting.length===0){
-        this.parentNode.inputs[0].domElement.classList.add('empty');
-        this.parentNode.inputs[0].domElement.classList.remove('filled');
-      }
-    }else{
-      _.pull(childNodes.opposing,this)
-      if(childNodes.opposing.length===0){
-        this.parentNode.inputs[1].domElement.classList.add('empty');
-        this.parentNode.inputs[1].domElement.classList.remove('filled');
-      }
-    }
-    this.domElement.classList.remove('connected');
-    this.parentNode=null;
-    input.node=null;
-  }
+Node.prototype.removeFromGroup = function(){
+  $(this.output.domElement).removeClass('hidden');
+  this.group=null;
 };
+
+Node.prototype.addToGroup = function (group){
+  $(this.output.domElement).addClass('hidden');
+  this.group=group;
+}
 
 Node.prototype.ownsInput = function(input){
   for(var i = 0; i < this.inputs.length; i++){
@@ -110,14 +88,6 @@ Node.prototype.ownsInput = function(input){
 };
 
 Node.prototype.updatePosition = function(){
-  var outPoint = this.getOutputPoint();
-  var aPaths = this.attachedPaths;
-  for(var i = 0; i < aPaths.length; i++){
-    var iPoint = aPaths[i].input.getAttachPoint();
-    var pathStr = this.createPath(iPoint, outPoint);
-    aPaths[i].path.setAttributeNS(null, 'd', pathStr);
-  }
-
   for(var j = 0; j < this.inputs.length; j++){
     if(this.inputs[j].node != null){
       var iP = this.inputs[j].getAttachPoint();
@@ -132,72 +102,24 @@ Node.prototype.updatePosition = function(){
   for(var k=0;k<this.childNodes.opposing.length;k++){
     this.childNodes.opposing[k].updatePosition();
   }
-  if(this.parentNode)
-    this.parentNode.updatePositionWithoutChildren();
 };
 
-Node.prototype.updatePositionWithoutChildren = function(){
-  var outPoint = this.getOutputPoint();
-  var aPaths = this.attachedPaths;
-  for(var i = 0; i < aPaths.length; i++){
-    var iPoint = aPaths[i].input.getAttachPoint();
-    var pathStr = this.createPath(iPoint, outPoint);
-    aPaths[i].path.setAttributeNS(null, 'd', pathStr);
-  }
-
-  for(var j = 0; j < this.inputs.length; j++){
-    if(this.inputs[j].node != null){
-      var iP = this.inputs[j].getAttachPoint();
-      var oP = this.inputs[j].node.getOutputPoint();
-
-      var pStr = this.createPath(iP, oP);
-      this.inputs[j].path.setAttributeNS(null, 'd', pStr);
-    }
-  }
-}
-
 Node.prototype.createPath = function(a, b){
-  var diff = {
-    x: b.x - a.x,
-    y: b.y - a.y
-  };
-
-  var pathStr = 'M' + a.x + ',' + a.y + ' ';
-  pathStr += 'C';
-  pathStr += a.x + diff.x / 3 * 2 + ',' + a.y + ' ';
-  pathStr += a.x + diff.x / 3 + ',' + b.y + ' ';
-  pathStr += b.x + ',' + b.y;
-
-  return pathStr;
+  aControlPointX=a.x-5;
+  aControlPointY=a.y+120;
+  bControlPointX=b.x+5;
+  bControlPointY=b.y-120;
+  return path = SvgPathGenerator()
+                  .moveTo(a.x,a.y)
+                  .curveTo(aControlPointX,aControlPointY,bControlPointX,bControlPointY,b.x,b.y)
+                  .end();
 };
 
 Node.prototype.connectTo = function(input){
-  if(this.parentNode==input.parentNode)
-    return;
   input.node = this;
-  var claim = createClaim(null, this.currentPosition(), input.node)
-  claim.connected = true;
-  claim.domElement.classList.add('connected');
-  input.domElement.classList.remove('empty');
-  input.domElement.classList.add('filled');
-  console.log(claim);
-  console.log('=======');
-  claim.parentNode=input.parentNode;
-  claim.attachedPaths.push({
-    input: input,
-    path: input.path
-  });
-  var iPoint = input.getAttachPoint();
-  var oPoint = claim.getOutputPoint();
-  var pathStr = claim.createPath(iPoint, oPoint);
-  input.path.setAttributeNS(null, 'd',pathStr);
-  claim.output.path=input.path;
-  input.createPath();
-  if(input.supports){
-    input.parentNode.childNodes.supporting.push(claim);
-  }else{
-    input.parentNode.childNodes.opposing.push(claim);
-  }
+  this.group = createGroup(null, this.currentPosition(), input.node)
+  this.group.connectTo(input)
+  $(this.output.domElement).addClass('hidden');
 };
 
 Node.prototype.moveTo = function(point){
