@@ -31,10 +31,10 @@ function Node(name,id,root=false){
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
-    console.log("Id:",that.id);
+    // console.log("Id:",that.id);
     //console.log("Parent:",that.attachedPaths[0] ? that.attachedPaths[0].input.parentNode : null);
-    console.log("Children:",that.childNodes);
-    console.log("===");
+    // console.log("Children:",that.childNodes);
+    // console.log("===");
   }
 }
 Node.prototype.whosYourDaddy = function(){
@@ -117,7 +117,7 @@ Node.prototype.createPath = function(a, b){
 
 Node.prototype.connectTo = function(input){
   input.node = this;
-  this.group = createGroup(null, this.currentPosition(), input.node)
+  this.group = createGroup(null, this.currentPosition(), input.node, input.supports)
   this.group.connectTo(input)
   $(this.output.domElement).addClass('hidden');
 };

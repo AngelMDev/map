@@ -47,7 +47,7 @@ window.onclick = function(e){
   if(mouse.currentInput){
     mouse.currentInput.path.removeAttribute('d');
     if(mouse.currentInput.node){
-      //mouse.currentInput.node.detachInput(mouse.currentInput);
+      mouse.currentInput.node.detachInput(mouse.currentInput);
     }
     mouse.currentInput = null;
   }
@@ -93,9 +93,9 @@ function createNode(id=uniqueId(),text=null,coords={x: 180, y: 70}){
   return mynode;
 }
 
-function createGroup(text=null,coords={x: 480, y: 70}, node ){
+function createGroup(text=null,coords={x: 480, y: 70}, node, type ){
   id = uniqueId();
-  var myGroup = new Group(id, node);
+  var myGroup = new Group(id, node, type);
   myGroup.moveTo(coords);
   myGroup.initUI();
   return myGroup;
@@ -233,6 +233,7 @@ yMargin = 80;
 columnSize=4;
 column=0;
 row=0;
+
 function displayNodes(nodeArray){
   for(var i=0;i<nodeArray.length;i++){
     if(column>=columnSize){
@@ -262,11 +263,3 @@ function remove(array, element) {
         array.splice(index, 1);
     }
 }
-
-// root=createNode("Root");
-// ch1=createNode("Child_1",{x: 200, y: 150});
-// ch2=createNode("Child_2",{x: 220, y: 230});
-// ch1.connectTo(root.supportInput);
-// root.updatePosition();
-// ch1.updatePosition();
-// ch2.updatePosition();
