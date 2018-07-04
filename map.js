@@ -211,8 +211,8 @@ var groupContent = function( arr, json ) {
 
 var getNodePosition = function( node ) {
   var nodePos = {
-   top : Number(node.domElement.style.top.slice(0,-2)),
-   left : Number(node.domElement.style.left.slice(0,-2))
+   y : Number(node.domElement.style.top.slice(0,-2)),
+   x : Number(node.domElement.style.left.slice(0,-2))
  }
  return nodePos;
 }

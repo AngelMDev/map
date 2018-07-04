@@ -125,14 +125,15 @@ Group.prototype.connectTo = function(input){
 
 Group.prototype.moveTo = function(point){
   if ( typeof point.y == 'number' ) {
-    this.domElement.style.top = ( point.y - 7 ) + 'px';
+    this.domElement.style.top = ( point.y ) + 'px';
     this.domElement.style.left = point.x + 'px';
   }
   if ( typeof point.y == 'string' ) {
-    this.domElement.style.top = ( point.y + 7 );
+    this.domElement.style.top = ( point.y );
     this.domElement.style.left = point.x;
   }
   this.updatePosition();
+  this.alignGroup()
 };
 
 Group.prototype.initUI = function(){
@@ -141,6 +142,7 @@ Group.prototype.initUI = function(){
   $(this.domElement).draggable({
     containment: 'window',
     cancel: '.connection,.output',
+    cursor: 'move',
     drag: function(event, ui){
       that.updatePosition();
       that.alignGroup();
@@ -159,15 +161,18 @@ Group.prototype.initUI = function(){
     }
   },
   drop: function( event, ui ) {
-    var t = ui.draggable[0].node.domElement.style;
-    that.addNode( ui.draggable[0].node )
+    that.addNode( ui.draggable[0].node );
     that.updateShape();
-    that.alignNode( ui.draggable[0].node )
-
+    that.alignNode( ui.draggable[0].node );
+    var currentPosition = getNodePosition(that);
+    currentPosition.x = currentPosition.x - 85;
+    that.moveTo(currentPosition);
+    that.parentNode.childrenPosition();
   },
   out: function( event, ui ) {
     that.removeNode( ui.draggable[0].node )
     that.updateShape();
+    that.parentNode.childrenPosition();
   }
 });
   // Fix positioning
@@ -209,8 +214,8 @@ Group.prototype.alignNode = function (node) {
   var unit = 174;
   var nodeStyles = node.domElement.style;
   var groupPosition = getNodePosition(this);
-  nodeStyles.left = groupPosition.left + (unit * (count - 1));
-  nodeStyles.top = groupPosition.top + 7;
+  nodeStyles.left = groupPosition.x + (unit * (count - 1));
+  nodeStyles.top = groupPosition.y + 7;
 }
 
 Group.prototype.alignGroup = function () {
@@ -220,8 +225,8 @@ Group.prototype.alignGroup = function () {
     var unit = 174;
     var nodeStyles = node.domElement.style;
     var groupPosition = getNodePosition(that);
-    nodeStyles.left = groupPosition.left + (unit * idx);
-    nodeStyles.top = groupPosition.top + 7;
+    nodeStyles.left = groupPosition.x + (unit * idx);
+    nodeStyles.top = groupPosition.y + 7;
   })
 }
 
@@ -247,3 +252,22 @@ Group.prototype.detachInput = function(input){
   input.domElement.classList.remove('filled');
   input.domElement.classList.add('empty');
 };
+
+// TEST
+Group.prototype.createAt = function( parent){
+  var parentPosition = getNodePosition(parent);
+  parentPosition.y = parentPosition.y + 150;
+
+  if ( typeof parentPosition.y == 'number' ) {
+    this.domElement.style.top = parentPosition.y + 'px';
+    this.domElement.style.left = parentPosition.x + 'px';
+  }
+  if ( typeof parentPosition.y == 'string' ) {
+    this.domElement.style.top = parentPosition.y;
+    this.domElement.style.left = parentPosition.x;
+  }
+  this.updatePosition();
+  this.alignGroup()
+};
+
+// END TEST
