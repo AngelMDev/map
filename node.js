@@ -147,6 +147,20 @@ Node.prototype.initUI = function(){
     cursor: 'move',
     drag: function(event, ui){
       that.updatePosition();
+      if ( that.group ) {
+        const startPos = getNodePosition(that.group);
+        const group = that.group
+        var posY = that.currentPosition().y;
+        console.log(posY);
+        if ( startPos.y - posY < -11 ) {
+          console.log(group);
+          console.log( startPos.y - posY);
+          group.removeNode( that )
+          group.updateShape();
+          group.parentNode.childrenPosition();
+          group.parentNode.applyToChildren();
+        };
+      }
     }
   }).droppable({
   accept: ".node",
@@ -247,4 +261,7 @@ Node.prototype.applyToChildren = function() {
       group.updatePositionWithoutChildren();
     })
   }
+}
+
+Node.prototype.shouldRemove = function() {
 }

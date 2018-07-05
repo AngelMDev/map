@@ -175,18 +175,6 @@ Group.prototype.initUI = function(){
     that.parentNode.childrenPosition();
     that.parentNode.applyToChildren();
   },
-  activate: function ( event, ui ) {
-    // work in progress
-  if ( that.nodeGroup[0].domElement == ui.draggable[0] ) {
-    console.log(ui.draggable[0]);
-    console.log(ui.position);
-    function ( ui.draggable[0] ) {
-      ui.draggable[0].on()
-    }
-
-  }
-  // work in progress
-  },
    out: function( event, ui ) {
     // that.removeNode( ui.draggable[0].node )
     // that.updateShape();
@@ -210,7 +198,7 @@ Group.prototype.addNode = function (node) {
 }
 
 Group.prototype.removeNode = function (node) {
-  _.pull(this.nodeGroup,node)
+  _.pull(this.nodeGroup,node);
   node.removeFromGroup();
   this.alignGroup();
 }
