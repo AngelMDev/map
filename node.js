@@ -105,6 +105,7 @@ Node.prototype.updatePosition = function(){
 };
 
 Node.prototype.createPath = function(a, b){
+  console.log(a.y,b.y);
   aControlPointX=a.x-5;
   aControlPointY=a.y+120;
   bControlPointX=b.x+5;

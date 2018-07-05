@@ -86,10 +86,21 @@ Group.prototype.updatePositionWithoutChildren = function(){
 }
 
 Group.prototype.createPath = function(a, b){
-  aControlPointX=a.x-5;
-  aControlPointY=a.y+120;
-  bControlPointX=b.x+5;
-  bControlPointY=b.y-120;
+  var xModifier=5;
+  var yModifier=Math.abs(a.y-b.y);
+  if(Math.abs(a.x-b.x)<20){
+    xModifier=0;
+  }
+  /*
+  if(Math.abs(a.y-b.y)<150){
+    yModifier=20;
+  } */
+  console.log("y",a.y,b.y, "r=",Math.abs(a.y-b.y));
+  //console.log("x",a.x,b.x);
+  aControlPointX=a.x-xModifier;
+  aControlPointY=a.y+yModifier;
+  bControlPointX=b.x+xModifier;
+  bControlPointY=b.y-yModifier;
   return path = SvgPathGenerator()
                   .moveTo(a.x,a.y)
                   .curveTo(aControlPointX,aControlPointY,bControlPointX,bControlPointY,b.x,b.y)
