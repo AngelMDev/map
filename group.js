@@ -152,7 +152,7 @@ Group.prototype.initUI = function(){
     }
   }).droppable({
   accept: ".node",
-  tolerance: "touch",
+  tolerance: "pointer",
   hoverClass: function () {
     if ( that.type ) {
       return 'drop-supp';
@@ -168,11 +168,25 @@ Group.prototype.initUI = function(){
     currentPosition.x = currentPosition.x - 85;
     that.moveTo(currentPosition);
     that.parentNode.childrenPosition();
+    that.parentNode.applyToChildren();
   },
-  out: function( event, ui ) {
-    that.removeNode( ui.draggable[0].node )
-    that.updateShape();
-    that.parentNode.childrenPosition();
+  activate: function ( event, ui ) {
+    // work in progress
+  if ( that.nodeGroup[0].domElement == ui.draggable[0] ) {
+    console.log(ui.draggable[0]);
+    console.log(ui.position);
+    function ( ui.draggable[0] ) {
+      ui.draggable[0].on()
+    }
+
+  }
+  // work in progress
+  },
+   out: function( event, ui ) {
+    // that.removeNode( ui.draggable[0].node )
+    // that.updateShape();
+    // that.parentNode.childrenPosition();
+    // that.parentNode.applyToChildren();
   }
 });
   // Fix positioning
@@ -199,7 +213,7 @@ Group.prototype.removeNode = function (node) {
 Group.prototype.updateShape = function () {
   var count = this.nodeGroup.length;
   var width = 170;
-  if ( count ) {
+  if ( count > 1 ) {
     this.domElement.style.width = count * width + 'px';
     this.updatePosition();
   }
@@ -256,7 +270,7 @@ Group.prototype.detachInput = function(input){
 // TEST
 Group.prototype.createAt = function( parent){
   var parentPosition = getNodePosition(parent);
-  parentPosition.y = parentPosition.y + 150;
+  parentPosition.y = parentPosition.y + 120;
 
   if ( typeof parentPosition.y == 'number' ) {
     this.domElement.style.top = parentPosition.y + 'px';

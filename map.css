@@ -19,12 +19,14 @@
 
 .drop-supp {
   border: 4px dashed lime;
-  background: rgba(0,255,0,0.3)
+  background: rgba(0,255,0,0.3);
+  width: 160px;
 }
 
 .drop-opp {
   border: 4px dashed red;
-  background: rgba(255,0,0,0.3)
+  background: rgba(255,0,0,0.3);
+  width: 160px;
 }
 
 .parent-child {

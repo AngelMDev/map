@@ -154,7 +154,6 @@ Node.prototype.initUI = function(){
   activate: function (event, ui) {
   },
   drop: function( event, ui ) {
-
     var childNode = ui.draggable[0].node;
     var parentInput = that.inputs[0];
 
@@ -163,7 +162,6 @@ Node.prototype.initUI = function(){
 
     that.childrenPosition( );
     that.applyToChildren( );
-
   }
 });
 
@@ -205,7 +203,7 @@ Node.prototype.childrenPosition = function() {
       childrens[ group ].map( function( group ) {
         if ( group ) {
           var individualPosition = getNodePosition( parent );
-          individualPosition.y = individualPosition.y + 150;
+          individualPosition.y = individualPosition.y + 120;
           group.moveTo( individualPosition );
 
           group.updatePosition();
@@ -220,7 +218,7 @@ Node.prototype.childrenPosition = function() {
       childrens[ group ].map( function( group ) {
         if ( group ) {
           var individualPosition = getNodePosition( parent );
-          individualPosition.y = individualPosition.y + 150;
+          individualPosition.y = individualPosition.y + 120;
           individualPosition.x = individualPosition.x + ( halfW * numElements ) ;
           group.moveTo( individualPosition );
 
@@ -244,6 +242,8 @@ Node.prototype.applyToChildren = function() {
           node.childrenPosition();
         })
       }
+      group.updatePosition();
+      group.updatePositionWithoutChildren();
     })
   }
 }
