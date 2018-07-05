@@ -92,12 +92,6 @@ Group.prototype.createPath = function(a, b){
   if(Math.abs(a.x-b.x)<20){
     xModifier=0;
   }
-  /*
-  if(Math.abs(a.y-b.y)<150){
-    yModifier=20;
-  } */
-  console.log("y",a.y,b.y, "r=",Math.abs(a.y-b.y));
-  //console.log("x",a.x,b.x);
   aControlPointX=a.x-xModifier;
   aControlPointY=a.y+yModifier;
   bControlPointX=b.x+xModifier;
