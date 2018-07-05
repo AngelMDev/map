@@ -1,19 +1,36 @@
 .group {
-  border-top: 5px solid white;
   width: 165px;
-  height: 30px;
+  height: 15px;
   display: inline-flex;
   justify-content: center;
   border-top-left-radius: 13px;
   border-top-right-radius: 13px;
-  background: rgba(255,255,255,0.8);
-  transition: width 1s;
+  /* background: rgba(255,255,255,0.05); */
+  /* transition: width 0.2s; */
 }
 
-.drop-hover {
-  border-top: 5px dotted lime;
-  background: rgba(100,100,0,0.5)
+.supp {
+  border-top: 3px solid lime;
+}
 
+.opp {
+  border-top: 3px solid red;
+}
+
+.drop-supp {
+  border: 4px dashed lime;
+  background: rgba(0,255,0,0.3);
+  width: 160px;
+}
+
+.drop-opp {
+  border: 4px dashed red;
+  background: rgba(255,0,0,0.3);
+  width: 160px;
+}
+
+.parent-child {
+  border: 3px dashed #3ea4ef !important;
 }
 
 .post {
@@ -70,7 +87,7 @@
 }
 
   body{
-  background-color: #2e2e2e;
+  background-color: #a5855cde;
   color: #d4d4d4;
   font-family: sans-serif;
 }
@@ -139,7 +156,7 @@
   border-color:red;
 }
 .output{
-  top: -0.9em;
+  top: -0.35em;
   left: 50%;
   cursor: pointer;
 }

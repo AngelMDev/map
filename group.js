@@ -1,8 +1,9 @@
-function Group(id, node ){
+function Group(id, node, type ){
   // DOM Element creation
   this.domElement = document.createElement('div');
   this.domElement.classList.add('group');
-  // this.domElement.classList.add('post');
+  this.type = type;
+  this.domElement.classList.add(type ? 'supp' : 'opp');
   this.domElement.classList.add('draggable');
   this.domElement.classList.add('ui-widget-content');
   this.domElement.id=id;
@@ -135,15 +136,15 @@ Group.prototype.connectTo = function(input){
 
 Group.prototype.moveTo = function(point){
   if ( typeof point.y == 'number' ) {
-    this.domElement.style.top = point.y + 'px';
+    this.domElement.style.top = ( point.y ) + 'px';
     this.domElement.style.left = point.x + 'px';
   }
   if ( typeof point.y == 'string' ) {
-    this.domElement.style.top = point.y;
+    this.domElement.style.top = ( point.y );
     this.domElement.style.left = point.x;
   }
   this.updatePosition();
-  //TODO Make nodes inside this group move with the group
+  this.alignGroup()
 };
 
 Group.prototype.initUI = function(){
@@ -152,6 +153,7 @@ Group.prototype.initUI = function(){
   $(this.domElement).draggable({
     containment: 'window',
     cancel: '.connection,.output',
+    cursor: 'move',
     drag: function(event, ui){
       that.updatePosition();
       that.alignGroup();
@@ -161,18 +163,41 @@ Group.prototype.initUI = function(){
     }
   }).droppable({
   accept: ".node",
-  hoverClass: "drop-hover",
-  drop: function( event, ui ) {
-    var t = ui.draggable[0].node.domElement.style;
-    console.log(t);
-    that.addNode( ui.draggable[0].node )
-    that.updateShape();
-    that.alignNode( ui.draggable[0].node )
-
+  tolerance: "pointer",
+  hoverClass: function () {
+    if ( that.type ) {
+      return 'drop-supp';
+    } else {
+      return 'drop-opp';
+    }
   },
-  out: function( event, ui ) {
-    that.removeNode( ui.draggable[0].node )
+  drop: function( event, ui ) {
+    that.addNode( ui.draggable[0].node );
     that.updateShape();
+    that.alignNode( ui.draggable[0].node );
+    var currentPosition = getNodePosition(that);
+    currentPosition.x = currentPosition.x - 85;
+    that.moveTo(currentPosition);
+    that.parentNode.childrenPosition();
+    that.parentNode.applyToChildren();
+  },
+  activate: function ( event, ui ) {
+    // work in progress
+  if ( that.nodeGroup[0].domElement == ui.draggable[0] ) {
+    console.log(ui.draggable[0]);
+    console.log(ui.position);
+    function ( ui.draggable[0] ) {
+      ui.draggable[0].on()
+    }
+
+  }
+  // work in progress
+  },
+   out: function( event, ui ) {
+    // that.removeNode( ui.draggable[0].node )
+    // that.updateShape();
+    // that.parentNode.childrenPosition();
+    // that.parentNode.applyToChildren();
   }
 });
   // Fix positioning
@@ -199,13 +224,13 @@ Group.prototype.removeNode = function (node) {
 Group.prototype.updateShape = function () {
   var count = this.nodeGroup.length;
   var width = 170;
-  if ( count ) {
+  if ( count > 1 ) {
     this.domElement.style.width = count * width + 'px';
     this.updatePosition();
   }
   if ( count == 0 ) {
-    delete this;
-    console.log(this);
+    this.domElement.remove();
+    this.detachInput(this.attachedPaths[0].input)
   }
 }
 
@@ -214,8 +239,8 @@ Group.prototype.alignNode = function (node) {
   var unit = 174;
   var nodeStyles = node.domElement.style;
   var groupPosition = getNodePosition(this);
-  nodeStyles.left = groupPosition.left + (unit * (count - 1));
-  nodeStyles.top = groupPosition.top;
+  nodeStyles.left = groupPosition.x + (unit * (count - 1));
+  nodeStyles.top = groupPosition.y + 7;
 }
 
 Group.prototype.alignGroup = function () {
@@ -225,12 +250,49 @@ Group.prototype.alignGroup = function () {
     var unit = 174;
     var nodeStyles = node.domElement.style;
     var groupPosition = getNodePosition(that);
-    if ( idx == 0 ) {
-      nodeStyles.left = groupPosition.left;
-      nodeStyles.top = groupPosition.top;
-    } else {
-      nodeStyles.left = groupPosition.left + (unit * (count - 1));
-      nodeStyles.top = groupPosition.top;
-      }
+    nodeStyles.left = groupPosition.x + (unit * idx);
+    nodeStyles.top = groupPosition.y + 7;
   })
 }
+
+Group.prototype.detachInput = function(input){
+  var index = -1;
+  for(var i = 0; i < this.attachedPaths.length; i++){
+    if(this.attachedPaths[i].input == input)
+      index = i;
+  };
+
+  if(index >= 0){
+    this.attachedPaths[index].path.removeAttribute('d');
+    this.attachedPaths[index].input.node = null;
+    this.attachedPaths.splice(index, 1);
+  }
+
+  if(this.attachedPaths.length <= 0){
+    this.domElement.classList.remove('connected');
+  }
+  this.nodeGroup.map( function ( node ) {
+    node.removeFromGroup()
+  })
+  input.domElement.classList.remove('filled');
+  input.domElement.classList.add('empty');
+};
+
+// TEST
+Group.prototype.createAt = function( parent){
+  var parentPosition = getNodePosition(parent);
+  parentPosition.y = parentPosition.y + 120;
+
+  if ( typeof parentPosition.y == 'number' ) {
+    this.domElement.style.top = parentPosition.y + 'px';
+    this.domElement.style.left = parentPosition.x + 'px';
+  }
+  if ( typeof parentPosition.y == 'string' ) {
+    this.domElement.style.top = parentPosition.y;
+    this.domElement.style.left = parentPosition.x;
+  }
+  this.updatePosition();
+  this.alignGroup()
+};
+
+// END TEST

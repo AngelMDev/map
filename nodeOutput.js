@@ -22,9 +22,11 @@ function NodeOutput(parentNode){
     }else if(!mouse.currentInput){
       if(that.parentNode){
         //Remove connection
-        that.parentNode.detachInput(that.parentNode.attachedPaths[0].input);
         that.parentNode.attachedPaths[0].input.path.removeAttribute('d')
+        that.parentNode.detachInput(that.parentNode.attachedPaths[0].input);
         that.parentNode.attachedPaths=[];
+        that.parentNode.domElement.remove();
+        that.parentNode = null;
         that.path.removeAttribute('d');
         that.path=null
       }

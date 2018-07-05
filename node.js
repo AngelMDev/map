@@ -7,9 +7,9 @@ function Node(name,id,root=false){
   this.domElement.classList.add('post');
   this.domElement.classList.add('draggable');
   this.domElement.classList.add('ui-widget-content');
+  this.domElement.node = this;
   this.domElement.id=id;
   this.id=id
-  this.domElement.node = this;
   // Create output visual
   if(!root){
     this.output = new NodeOutput(this);
@@ -31,10 +31,10 @@ function Node(name,id,root=false){
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
-    console.log("Id:",that.id);
+    // console.log("Id:",that.id);
     //console.log("Parent:",that.attachedPaths[0] ? that.attachedPaths[0].input.parentNode : null);
-    console.log("Children:",that.childNodes);
-    console.log("===");
+    // console.log("Children:",that.childNodes);
+    // console.log("===");
   }
 }
 Node.prototype.whosYourDaddy = function(){
@@ -118,7 +118,7 @@ Node.prototype.createPath = function(a, b){
 
 Node.prototype.connectTo = function(input){
   input.node = this;
-  this.group = createGroup(null, this.currentPosition(), input.node)
+  this.group = createGroup(null, this.currentPosition(), input.node, input.supports)
   this.group.connectTo(input)
   $(this.output.domElement).addClass('hidden');
 };
@@ -142,10 +142,29 @@ Node.prototype.initUI = function(){
   $(this.domElement).draggable({
     containment: 'window',
     cancel: '.connection,.output',
+    opacity: 0.7,
+    zIndex: 100,
+    cursor: 'move',
     drag: function(event, ui){
       that.updatePosition();
     }
-  });
+  }).droppable({
+  accept: ".node",
+  tolerance: "pointer",
+  hoverClass: 'parent-child',
+  activate: function (event, ui) {
+  },
+  drop: function( event, ui ) {
+    var childNode = ui.draggable[0].node;
+    var parentInput = that.inputs[0];
+
+    childNode.connectTo(parentInput);
+    childNode.group.createAt( that );
+
+    that.childrenPosition( );
+    that.applyToChildren( );
+  }
+});
 
   // Fix positioning
   this.domElement.style.position = 'absolute';
@@ -161,4 +180,71 @@ Node.prototype.currentPosition = function() {
     y : Number(this.domElement.style.top.slice(0,-2))
   }
   return pos;
+}
+
+Node.prototype.childrenPosition = function() {
+  var halfW = 90; //control the space between nodes;
+  var parent = this;
+  var numElements = 1; //to count the number of nodes in all the groups
+// counting the number of nodes in all the groups
+  var keys = Object.keys( this.childNodes )
+  var childrens = this.childNodes;
+  for ( var group in childrens ) {
+    childrens[ group ].map( function( group ) {
+      if ( group ) {
+        group.nodeGroup.map( function( node ) {
+          numElements -= 1
+        })
+      }
+    })
+  }
+// center the child with the parent
+  if ( numElements == 0 ) {
+    for ( var group in childrens ) {
+      childrens[ group ].map( function( group ) {
+        if ( group ) {
+          var individualPosition = getNodePosition( parent );
+          individualPosition.y = individualPosition.y + 120;
+          group.moveTo( individualPosition );
+
+          group.updatePosition();
+          group.updatePositionWithoutChildren();
+        }
+      })
+    }
+  }
+// moving each node acording to the groups
+  if ( numElements < 0 ){
+    for ( var group in childrens ) {
+      childrens[ group ].map( function( group ) {
+        if ( group ) {
+          var individualPosition = getNodePosition( parent );
+          individualPosition.y = individualPosition.y + 120;
+          individualPosition.x = individualPosition.x + ( halfW * numElements ) ;
+          group.moveTo( individualPosition );
+
+          group.updatePosition();
+          group.updatePositionWithoutChildren();
+
+          var numNodes = group.nodeGroup.length;
+          numElements += ( 2 * numNodes );
+        }
+      })
+    }
+  }
+}
+
+Node.prototype.applyToChildren = function() {
+  var childrens = this.childNodes;
+  for ( var group in childrens ) {
+    childrens[ group ].map( function( group ) {
+      if ( group ) {
+        group.nodeGroup.map( function( node ) {
+          node.childrenPosition();
+        })
+      }
+      group.updatePosition();
+      group.updatePositionWithoutChildren();
+    })
+  }
 }
