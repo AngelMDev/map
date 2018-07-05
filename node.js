@@ -151,10 +151,7 @@ Node.prototype.initUI = function(){
         const startPos = getNodePosition(that.group);
         const group = that.group
         var posY = that.currentPosition().y;
-        console.log(posY);
         if ( startPos.y - posY < -11 ) {
-          console.log(group);
-          console.log( startPos.y - posY);
           group.removeNode( that )
           group.updateShape();
           group.parentNode.childrenPosition();

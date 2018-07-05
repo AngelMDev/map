@@ -87,15 +87,10 @@ Group.prototype.updatePositionWithoutChildren = function(){
 }
 
 Group.prototype.createPath = function(a, b){
-  var xModifier=5;
-  var yModifier=Math.abs(a.y-b.y);
-  if(Math.abs(a.x-b.x)<20){
-    xModifier=0;
-  }
-  aControlPointX=a.x-xModifier;
-  aControlPointY=a.y+yModifier;
-  bControlPointX=b.x+xModifier;
-  bControlPointY=b.y-yModifier;
+  aControlPointX=a.x-5;
+  aControlPointY=a.y+120;
+  bControlPointX=b.x+5;
+  bControlPointY=b.y-120;
   return path = SvgPathGenerator()
                   .moveTo(a.x,a.y)
                   .curveTo(aControlPointX,aControlPointY,bControlPointX,bControlPointY,b.x,b.y)
@@ -176,10 +171,6 @@ Group.prototype.initUI = function(){
     that.parentNode.applyToChildren();
   },
    out: function( event, ui ) {
-    // that.removeNode( ui.draggable[0].node )
-    // that.updateShape();
-    // that.parentNode.childrenPosition();
-    // that.parentNode.applyToChildren();
   }
 });
   // Fix positioning
@@ -206,7 +197,7 @@ Group.prototype.removeNode = function (node) {
 Group.prototype.updateShape = function () {
   var count = this.nodeGroup.length;
   var width = 170;
-  if ( count > 1 ) {
+  if ( count ) {
     this.domElement.style.width = count * width + 'px';
     this.updatePosition();
   }
