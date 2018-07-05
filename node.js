@@ -183,13 +183,10 @@ Node.prototype.initUI = function(){
     drag: function(event, ui){
       that.updatePosition();
       if ( that.group ) {
-        const startPos = getNodePosition(that.group);
+        const groupPos = getNodePosition(that.group);
         const group = that.group
-        var posY = that.currentPosition().y;
-        console.log(posY);
-        if ( startPos.y - posY < -11 ) {
-          console.log(group);
-          console.log( startPos.y - posY);
+        var nodePos = that.currentPosition();
+        if ( Math.abs(groupPos.y - nodePos.y) > 11 || Math.abs(groupPos.x - nodePos.x) > 15 ) {
           group.removeNode( that )
           group.updateShape();
           group.parentNode.childrenPosition();
