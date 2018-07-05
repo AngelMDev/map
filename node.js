@@ -88,6 +88,7 @@ Node.prototype.ownsInput = function(input){
 };
 
 Node.prototype.updatePosition = function(){
+  debugger
   for(var j = 0; j < this.inputs.length; j++){
     if(this.inputs[j].node != null){
       var iP = this.inputs[j].getAttachPoint();
@@ -104,12 +105,46 @@ Node.prototype.updatePosition = function(){
   }
 };
 
+Node.prototype.updatePosition = function(){
+  for(var j = 0; j < this.inputs.length; j++){
+    if(this.inputs[j].node != null){
+      var iP = this.inputs[j].getAttachPoint();
+      var oP = this.inputs[j].node.getOutputPoint();
+      var pStr = this.createPath(iP, oP);
+      this.inputs[j].path.setAttributeNS(null, 'd', pStr);
+    }
+  }
+  for(var k=0;k<this.childNodes.supporting.length;k++){
+    this.childNodes.supporting[k].updatePosition();
+  }
+  for(var k=0;k<this.childNodes.opposing.length;k++){
+    this.childNodes.opposing[k].updatePosition();
+  }
+  if(this.group)
+    this.group.parentNode.updatePositionWithoutChildren();
+};
+
+Node.prototype.updatePositionWithoutChildren = function(){
+  for(var j = 0; j < this.inputs.length; j++){
+    if(this.inputs[j].node != null){
+      var iP = this.inputs[j].getAttachPoint();
+      var oP = this.inputs[j].node.getOutputPoint();
+      var pStr = this.createPath(iP, oP);
+      this.inputs[j].path.setAttributeNS(null, 'd', pStr);
+    }
+  }
+};
+
 Node.prototype.createPath = function(a, b){
-  console.log(a.y,b.y);
-  aControlPointX=a.x-5;
-  aControlPointY=a.y+120;
-  bControlPointX=b.x+5;
-  bControlPointY=b.y-120;
+  var xModifier=5;
+  var yModifier=Math.abs(a.y-b.y);
+  if(Math.abs(a.x-b.x)<20){
+    xModifier=0;
+  }
+  aControlPointX=a.x-xModifier;
+  aControlPointY=a.y+yModifier;
+  bControlPointX=b.x+xModifier;
+  bControlPointY=b.y-yModifier;
   return path = SvgPathGenerator()
                   .moveTo(a.x,a.y)
                   .curveTo(aControlPointX,aControlPointY,bControlPointX,bControlPointY,b.x,b.y)
