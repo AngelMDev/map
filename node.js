@@ -213,6 +213,10 @@ Node.prototype.initUI = function(){
 
     that.childrenPosition( );
     that.applyToChildren( );
+
+    if ( that.group ) {
+      that.group.allTheChildren();
+    }
   }
 });
 
@@ -297,7 +301,4 @@ Node.prototype.applyToChildren = function() {
       group.updatePositionWithoutChildren();
     })
   }
-}
-
-Node.prototype.shouldRemove = function() {
 }
