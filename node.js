@@ -103,23 +103,6 @@ Node.prototype.updatePosition = function(){
   for(var k=0;k<this.childNodes.opposing.length;k++){
     this.childNodes.opposing[k].updatePosition();
   }
-};
-
-Node.prototype.updatePosition = function(){
-  for(var j = 0; j < this.inputs.length; j++){
-    if(this.inputs[j].node != null){
-      var iP = this.inputs[j].getAttachPoint();
-      var oP = this.inputs[j].node.getOutputPoint();
-      var pStr = this.createPath(iP, oP);
-      this.inputs[j].path.setAttributeNS(null, 'd', pStr);
-    }
-  }
-  for(var k=0;k<this.childNodes.supporting.length;k++){
-    this.childNodes.supporting[k].updatePosition();
-  }
-  for(var k=0;k<this.childNodes.opposing.length;k++){
-    this.childNodes.opposing[k].updatePosition();
-  }
   if(this.group)
     this.group.parentNode.updatePositionWithoutChildren();
 };
@@ -182,19 +165,22 @@ Node.prototype.initUI = function(){
     cursor: 'move',
     drag: function(event, ui){
       that.updatePosition();
-      if ( that.group ) {
+      if (that.group) {
         const groupPos = getNodePosition(that.group);
         const group = that.group
         var nodePos = that.currentPosition();
         if ( Math.abs(groupPos.y - nodePos.y) > 11 || Math.abs(groupPos.x - nodePos.x) > 15 ) {
-          that.updatePosition();
           group.removeNode(that);
-          group.attachedPaths[0].input.path.removeAttribute('d')
-          group.detachInput(group.attachedPaths[0].input);
-          group.attachedPaths=[];
+          if(group.nodeGroup.length<1){
+            group.attachedPaths[0].input.path.removeAttribute('d')
+            group.detachInput(group.attachedPaths[0].input);
+            group.attachedPaths=[];
+          }
           group.updateShape();
           group.parentNode.childrenPosition();
           group.parentNode.applyToChildren();
+          group.parentNode.updatePosition();
+          group.updatePosition();
         };
       }
     }
