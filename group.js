@@ -1,4 +1,4 @@
-function Group(id, node, type ){
+function Group(id, node, type){
   // DOM Element creation
   this.domElement = document.createElement('div');
   this.domElement.classList.add('group');
@@ -195,6 +195,11 @@ Group.prototype.addNode = function (node) {
 
 Group.prototype.removeNode = function (node) {
   _.pull(this.nodeGroup,node);
+  if(this.type){
+    _.pull(this.parentNode.childNodes.supporting,this)
+  }else{
+    _.pull(this.parentNode.childNodes.opposing,this)
+  }
   node.removeFromGroup();
   this.alignGroup();
 }
@@ -202,13 +207,12 @@ Group.prototype.removeNode = function (node) {
 Group.prototype.updateShape = function () {
   var count = this.nodeGroup.length;
   var width = 170;
-  if ( count ) {
+  if (count) {
     this.domElement.style.width = count * width + 'px';
     this.updatePosition();
   }
-  if ( count == 0 ) {
+  if (count == 0) {
     this.domElement.remove();
-    this.detachInput(this.attachedPaths[0].input)
   }
 }
 

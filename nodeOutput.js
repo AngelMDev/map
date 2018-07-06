@@ -25,6 +25,11 @@ function NodeOutput(parentNode){
         that.parentNode.attachedPaths[0].input.path.removeAttribute('d')
         that.parentNode.detachInput(that.parentNode.attachedPaths[0].input);
         that.parentNode.attachedPaths=[];
+        if(that.parentNode.type){
+          _.pull(that.parentNode.parentNode.childNodes.supporting,that.parentNode)
+        }else{
+          _.pull(that.parentNode.parentNode.childNodes.opposing,that.parentNode)
+        }
         that.parentNode.domElement.remove();
         that.parentNode = null;
         that.path.removeAttribute('d');
