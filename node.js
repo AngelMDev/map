@@ -31,7 +31,11 @@ function Node(name,id,root=false){
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
-    // console.log("===");
+    console.log("Id:",that.id);
+    console.log("Group:",that.group);
+    console.log("Parent:",that.group ? that.group.parentNode : null);
+    console.log("Children:",that.childNodes);
+    console.log("===");
   }
 }
 Node.prototype.whosYourDaddy = function(){
@@ -85,7 +89,6 @@ Node.prototype.ownsInput = function(input){
 };
 
 Node.prototype.updatePosition = function(){
-  debugger
   for(var j = 0; j < this.inputs.length; j++){
     if(this.inputs[j].node != null){
       var iP = this.inputs[j].getAttachPoint();
@@ -184,7 +187,11 @@ Node.prototype.initUI = function(){
         const group = that.group
         var nodePos = that.currentPosition();
         if ( Math.abs(groupPos.y - nodePos.y) > 11 || Math.abs(groupPos.x - nodePos.x) > 15 ) {
-          group.removeNode( that )
+          that.updatePosition();
+          group.removeNode(that);
+          group.attachedPaths[0].input.path.removeAttribute('d')
+          group.detachInput(group.attachedPaths[0].input);
+          group.attachedPaths=[];
           group.updateShape();
           group.parentNode.childrenPosition();
           group.parentNode.applyToChildren();
