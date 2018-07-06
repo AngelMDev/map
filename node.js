@@ -31,9 +31,6 @@ function Node(name,id,root=false){
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
-    // console.log("Id:",that.id);
-    //console.log("Parent:",that.attachedPaths[0] ? that.attachedPaths[0].input.parentNode : null);
-    // console.log("Children:",that.childNodes);
     // console.log("===");
   }
 }
@@ -209,6 +206,10 @@ Node.prototype.initUI = function(){
 
     that.childrenPosition( );
     that.applyToChildren( );
+
+    if ( that.group ) {
+      that.group.allTheChildren();
+    }
   }
 });
 
@@ -293,7 +294,4 @@ Node.prototype.applyToChildren = function() {
       group.updatePositionWithoutChildren();
     })
   }
-}
-
-Node.prototype.shouldRemove = function() {
 }
