@@ -22,8 +22,10 @@ function Group(id, node, type){
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.ondblclick = function (e){
-    that.changeRelation()
+    that.changeRelation();
+
     console.log( that.attachedPaths[0].input.parentNode );
+
   }
 }
 Group.prototype.whosYourDaddy = function(){
@@ -344,4 +346,12 @@ Group.prototype.changeRelation = function() {
   this.domElement.classList.add( this.type ? 'opp' : 'supp' );
   this.type = this.type ? false : true;
   addTo.push( this );
+
+  // var parentPaths = that.attachedPaths[0].input.parentNode.inputs
+  // color = this.supports ? '#00ff00' : '#ff0000';
+
+  // test.setAttributeNS(null, 'stroke', '#000000');
+
+
+
 }
