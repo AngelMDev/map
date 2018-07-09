@@ -62,7 +62,7 @@ Group.prototype.ownsInput = function(input){
   return false;
 };
 
-Group.prototype.updatePosition = function(){
+Group.prototype.updatePosition = function(){ 
   var outPoint = this.getOutputPoint();
   var aPaths = this.attachedPaths;
   for(var i = 0; i < aPaths.length; i++){
@@ -199,10 +199,12 @@ Group.prototype.addNode = function (node) {
 
 Group.prototype.removeNode = function (node) {
   _.pull(this.nodeGroup,node);
-  if(this.type){
-    _.pull(this.parentNode.childNodes.supporting,this)
-  }else{
-    _.pull(this.parentNode.childNodes.opposing,this)
+  if(this.nodeGroup.length<1){
+    if(this.type){
+      _.pull(this.parentNode.childNodes.supporting,this)
+    }else{
+      _.pull(this.parentNode.childNodes.opposing,this)
+    }
   }
   node.removeFromGroup();
   this.alignGroup();
