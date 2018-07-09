@@ -46,6 +46,7 @@ NodeInput.prototype.createPath = function(){
   this.path.setAttributeNS(null, 'stroke', color);
   this.path.setAttributeNS(null, 'stroke-width', '2');
   this.path.setAttributeNS(null, 'fill', 'none');
+  this.path.setAttributeNS(null, 'id', uniqueId());
   svg.appendChild(this.path);
 }
 
