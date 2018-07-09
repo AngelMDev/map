@@ -23,9 +23,6 @@ function Group(id, node, type){
   var that=this
   this.domElement.ondblclick = function (e){
     that.changeRelation();
-
-    console.log( that.attachedPaths[0].input.parentNode );
-
   }
 }
 Group.prototype.whosYourDaddy = function(){
@@ -63,13 +60,15 @@ Group.prototype.ownsInput = function(input){
   return false;
 };
 
-Group.prototype.updatePosition = function(){ 
+Group.prototype.updatePosition = function(){
   var outPoint = this.getOutputPoint();
   var aPaths = this.attachedPaths;
   for(var i = 0; i < aPaths.length; i++){
     var iPoint = aPaths[i].input.getAttachPoint();
     var pathStr = this.createPath(iPoint, outPoint);
+    var pathColor = this.type ? '#00ff00' : '#ff0000';
     aPaths[i].path.setAttributeNS(null, 'd', pathStr);
+    aPaths[i].path.setAttributeNS(null, 'stroke', pathColor);
   }
   for(var j = 0; j < this.nodeGroup.length; j++){
     this.nodeGroup[j].updatePosition();
@@ -341,6 +340,8 @@ Group.prototype.belongsTo = function () {
 
 Group.prototype.changeRelation = function() {
   var parentGroups = this.attachedPaths[0].input.parentNode.childNodes;
+  var outPath = this.output;
+  var inPath = this.attachedPaths[0].input.parentNode.supportInput;
   var removeFrom = this.type ? parentGroups.supporting : parentGroups.opposing;
   var addTo = this.type ? parentGroups.opposing : parentGroups.supporting;
   _.pull( removeFrom, this );
@@ -348,12 +349,10 @@ Group.prototype.changeRelation = function() {
   this.domElement.classList.add( this.type ? 'opp' : 'supp' );
   this.type = this.type ? false : true;
   addTo.push( this );
-
-  // var parentPaths = that.attachedPaths[0].input.parentNode.inputs
-  // color = this.supports ? '#00ff00' : '#ff0000';
-
-  // test.setAttributeNS(null, 'stroke', '#000000');
-
-
-
+  color = this.type ? '#00ff00' : '#ff0000';
+  outPath.path.setAttributeNS(null, 'stroke', color);
+  var outColor = outPath.path.getAttributeNS(null, 'stroke');
+  if ( inPath.node.domElement == outPath.parentNode.domElement ) {
+    inPath.path.setAttributeNS(null, 'stroke', outColor);
+  }
 }
