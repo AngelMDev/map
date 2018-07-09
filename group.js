@@ -24,7 +24,6 @@ function Group(id, node, type){
   this.domElement.ondblclick = function (e){
     that.changeRelation();
 
-    console.log( that.attachedPaths[0].input.parentNode );
 
   }
 }
@@ -339,6 +338,8 @@ Group.prototype.belongsTo = function () {
 
 Group.prototype.changeRelation = function() {
   var parentGroups = this.attachedPaths[0].input.parentNode.childNodes;
+  var outPath = this.output.path;
+  var inPath = this.attachedPaths[0].input.parentNode.supportInput.path;
   var removeFrom = this.type ? parentGroups.supporting : parentGroups.opposing;
   var addTo = this.type ? parentGroups.opposing : parentGroups.supporting;
   _.pull( removeFrom, this );
@@ -346,11 +347,19 @@ Group.prototype.changeRelation = function() {
   this.domElement.classList.add( this.type ? 'opp' : 'supp' );
   this.type = this.type ? false : true;
   addTo.push( this );
+  color = this.type ? '#00ff00' : '#ff0000';
 
-  // var parentPaths = that.attachedPaths[0].input.parentNode.inputs
-  // color = this.supports ? '#00ff00' : '#ff0000';
+// console.log('output: ', outPath);
+// console.log('input: ', inPath);
 
-  // test.setAttributeNS(null, 'stroke', '#000000');
+
+
+
+    outPath.setAttributeNS(null, 'stroke', color);
+    var outColor = outPath.getAttributeNS(null, 'stroke');
+    inPath.setAttributeNS(null, 'stroke', outColor);
+
+
 
 
 

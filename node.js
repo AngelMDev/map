@@ -31,10 +31,11 @@ function Node(name,id,root=false){
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
-    console.log("Id:",that.id);
-    console.log("Group:",that.group);
-    console.log("Parent:",that.group ? that.group.parentNode : null);
-    console.log("Children:",that.childNodes);
+    // console.log("Id:",that.id);
+    // console.log("Group:",that.group);
+    // console.log("Parent:",that.group ? that.group.parentNode : null);
+    // console.log("Children:",that.childNodes);
+    console.log( that);
     console.log("===");
   }
 }
