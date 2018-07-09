@@ -29,8 +29,12 @@
   width: 160px;
 }
 
-.parent-child {
-  border: 3px dashed #3ea4ef !important;
+.parent-child-supp {
+  border: 3px dashed lime !important;
+}
+
+.parent-child-opp {
+  border: 3px dashed red !important;
 }
 
 .post {
@@ -192,4 +196,18 @@ svg{
 
 .hidden{
   display: none;
+}
+
+.area_support,.area_oppose{
+  width: 50%;
+  height: 50%;
+  position: absolute;
+}
+
+.area_support{
+  right: 0;
+}
+
+.area_oppose{
+  left: 0;
 }

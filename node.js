@@ -10,6 +10,9 @@ function Node(name,id,root=false){
   this.domElement.node = this;
   this.domElement.id=id;
   this.id=id
+  //Create Droppable areas
+  this.suppArea = this.createDroppableArea(true);
+  this.oppArea = this.createDroppableArea(false);
   // Create output visual
   if(!root){
     this.output = new NodeOutput(this);
@@ -54,6 +57,13 @@ Node.prototype.root = function(){
     var parent = this.whosYourDaddy();
     parent.root();
   }
+}
+
+Node.prototype.createDroppableArea = function(supports){
+  area=document.createElement('div');
+  area.classList.add(supports ? 'area_support' : 'area_oppose');
+  this.domElement.appendChild(area);
+  return area;
 }
 
 Node.prototype.addInput = function(supports){
@@ -184,15 +194,39 @@ Node.prototype.initUI = function(){
         };
       }
     }
-  }).droppable({
+  })
+  
+  $(this.suppArea).droppable({
   accept: ".node",
   tolerance: "pointer",
-  hoverClass: 'parent-child',
+  hoverClass: 'parent-child-supp',
   activate: function (event, ui) {
   },
   drop: function( event, ui ) {
     var childNode = ui.draggable[0].node;
     var parentInput = that.inputs[0];
+
+    childNode.connectTo(parentInput);
+    childNode.group.createAt( that );
+
+    that.childrenPosition( );
+    that.applyToChildren( );
+
+    if ( that.group ) {
+      that.group.allTheChildren();
+    }
+  }
+});
+
+$(this.oppArea).droppable({
+  accept: ".node",
+  tolerance: "pointer",
+  hoverClass: 'parent-child-opp',
+  activate: function (event, ui) {
+  },
+  drop: function( event, ui ) {
+    var childNode = ui.draggable[0].node;
+    var parentInput = that.inputs[1];
 
     childNode.connectTo(parentInput);
     childNode.group.createAt( that );
