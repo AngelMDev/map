@@ -23,8 +23,6 @@ function Group(id, node, type){
   var that=this
   this.domElement.ondblclick = function (e){
     that.changeRelation();
-
-
   }
 }
 Group.prototype.whosYourDaddy = function(){
@@ -68,7 +66,9 @@ Group.prototype.updatePosition = function(){
   for(var i = 0; i < aPaths.length; i++){
     var iPoint = aPaths[i].input.getAttachPoint();
     var pathStr = this.createPath(iPoint, outPoint);
+    var pathColor = this.type ? '#00ff00' : '#ff0000';
     aPaths[i].path.setAttributeNS(null, 'd', pathStr);
+    aPaths[i].path.setAttributeNS(null, 'stroke', pathColor);
   }
   for(var j = 0; j < this.nodeGroup.length; j++){
     this.nodeGroup[j].updatePosition();
@@ -350,17 +350,9 @@ Group.prototype.changeRelation = function() {
   this.type = this.type ? false : true;
   addTo.push( this );
   color = this.type ? '#00ff00' : '#ff0000';
-
-// console.log('output: ', outPath.path);
-// console.log('input: ', inPath.path);
-
-
-
-
-    outPath.path.setAttributeNS(null, 'stroke', color);
-    var outColor = outPath.path.getAttributeNS(null, 'stroke');
-    if ( inPath.node.domElement == outPath.parentNode.domElement ) {
-      inPath.path.setAttributeNS(null, 'stroke', outColor);
-    }
-
+  outPath.path.setAttributeNS(null, 'stroke', color);
+  var outColor = outPath.path.getAttributeNS(null, 'stroke');
+  if ( inPath.node.domElement == outPath.parentNode.domElement ) {
+    inPath.path.setAttributeNS(null, 'stroke', outColor);
+  }
 }
