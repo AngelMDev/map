@@ -136,8 +136,7 @@
 .output,
 .connection:after{
   position:absolute;
-  border:solid 1px #dedede;
-  background-color:#2e2e2e;
+  border:solid 1px transparent;
   width:0.5em;
   height:0.5em;
   border-radius:0.5em;
@@ -145,7 +144,6 @@
 .node.connected > .output,
 .connection.filled:after{
   border:solid 1px transparent;
-  background-color:#aeaeae;
 }
 .node > .output:hover,
 .connection:hover:after{
@@ -160,7 +158,7 @@
   border-color:red;
 }
 .output{
-  top: -0.35em;
+  top: -0.3em;
   left: 50%;
   cursor: pointer;
 }
@@ -168,8 +166,8 @@
   width:100%;
   position:absolute;
   cursor:pointer;
-  left: -20%;
-  top: 90%;
+  left: -43%;
+  top: 80%;
 }
 .support:after{
   border-color: '#00ff00'

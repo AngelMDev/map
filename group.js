@@ -66,8 +66,8 @@ Group.prototype.updatePosition = function(){
   for(var i = 0; i < aPaths.length; i++){
     var iPoint = aPaths[i].input.getAttachPoint();
     var pathStr = this.createPath(iPoint, outPoint);
-    var pathColor = this.type ? '#00ff00' : '#ff0000';
     aPaths[i].path.setAttributeNS(null, 'd', pathStr);
+    var pathColor = this.type ? '#00ff00' : '#ff0000';
     aPaths[i].path.setAttributeNS(null, 'stroke', pathColor);
   }
   for(var j = 0; j < this.nodeGroup.length; j++){
@@ -82,6 +82,8 @@ Group.prototype.updatePositionWithoutChildren = function(){
     var iPoint = aPaths[i].input.getAttachPoint();
     var pathStr = this.createPath(iPoint, outPoint);
     aPaths[i].path.setAttributeNS(null, 'd', pathStr);
+    var pathColor = this.type ? '#00ff00' : '#ff0000';
+    aPaths[i].path.setAttributeNS(null, 'stroke', pathColor);
   }
 }
 
@@ -119,8 +121,8 @@ Group.prototype.connectTo = function(input){
   var pathStr = this.createPath(iPoint, oPoint);
   input.path.setAttributeNS(null, 'd',pathStr);
   this.output.path=input.path;
-  input.createPath();
-  if(input.supports){
+  input.createPath(this.type);
+  if(this.type){
     input.parentNode.childNodes.supporting.push(this);
   }else{
     input.parentNode.childNodes.opposing.push(this);

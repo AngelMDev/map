@@ -27,7 +27,7 @@ function Node(name,id,root=false){
   this.connected = false;
   // Create inputs
   this.supportInput = this.addInput(true);
-  this.opposeInput = this.addInput(false);
+  // this.opposeInput = this.addInput(false);
   // SVG Connectors
   //this.attachedPaths = [];
 
@@ -35,8 +35,8 @@ function Node(name,id,root=false){
   var that=this
   this.domElement.onclick = function (e){
     // console.log("Id:",that.id);
-    // console.log("Node:",that);
-    console.log("Group:",that.group);
+    console.log("Node:",that);
+    // console.log("Group:",that.group);
     // console.log("Parent:",that.group ? that.group.parentNode : null);
     // console.log("Children:",that.childNodes);
     console.log("===");
@@ -145,9 +145,9 @@ Node.prototype.createPath = function(a, b){
                   .end();
 };
 
-Node.prototype.connectTo = function(input){
+Node.prototype.connectTo = function(input, type){
   input.node = this;
-  this.group = createGroup(null, this.currentPosition(), input.node, input.supports)
+  this.group = createGroup(null, this.currentPosition(), input.node, type)
   this.group.connectTo(input)
   $(this.output.domElement).addClass('hidden');
 };
@@ -206,7 +206,7 @@ Node.prototype.initUI = function(){
     var childNode = ui.draggable[0].node;
     var parentInput = that.inputs[0];
 
-    childNode.connectTo(parentInput);
+    childNode.connectTo(parentInput, true);
     childNode.group.createAt( that );
 
     that.childrenPosition( );
@@ -226,9 +226,9 @@ $(this.oppArea).droppable({
   },
   drop: function( event, ui ) {
     var childNode = ui.draggable[0].node;
-    var parentInput = that.inputs[1];
+    var parentInput = that.inputs[0];
 
-    childNode.connectTo(parentInput);
+    childNode.connectTo(parentInput, false);
     childNode.group.createAt( that );
 
     that.childrenPosition( );
