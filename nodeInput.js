@@ -9,12 +9,6 @@ function NodeInput(supports,parentNode){
   this.domElement.classList.add('connection');
   this.domElement.classList.add('empty');
 
-  if(this.supports){
-    this.domElement.classList.add('support');
-  }else{
-    this.domElement.classList.add('oppose');
-  }
-
   this.createPath();
 
   // DOM Event handlers
@@ -39,14 +33,14 @@ function NodeInput(supports,parentNode){
   };
 }
 
-NodeInput.prototype.createPath = function(){
+NodeInput.prototype.createPath = function(type){
   // SVG Connector
   this.path = document.createElementNS(svg.ns, 'path');
-  color = this.supports ? '#00ff00' : '#ff0000';
+  color = type ? '#00ff00' : '#ff0000';
   this.path.setAttributeNS(null, 'stroke', color);
   this.path.setAttributeNS(null, 'stroke-width', '2');
   this.path.setAttributeNS(null, 'fill', 'none');
-  this.path.setAttributeNS(null, 'id', uniqueId());
+  this.path.setAttributeNS(null, 'id', uniqueId);
   svg.appendChild(this.path);
 }
 
