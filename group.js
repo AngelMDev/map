@@ -62,7 +62,7 @@ Group.prototype.ownsInput = function(input){
   return false;
 };
 
-Group.prototype.updatePosition = function(){ 
+Group.prototype.updatePosition = function(){
   var outPoint = this.getOutputPoint();
   var aPaths = this.attachedPaths;
   for(var i = 0; i < aPaths.length; i++){
