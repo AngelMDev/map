@@ -256,7 +256,7 @@ qty=10;
 nodeArray=[{id:"root",content:"bla"}]
 for(var j=0;j<qty;j++){
   fakeContent=Math.random().toString(36);
-  nodeArray.push({id:j,content:fakeContent})
+  nodeArray.push({id:j,content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."})
 }
 
 displayNodes(nodeArray);

@@ -165,7 +165,6 @@ Node.prototype.moveTo = function(point){
 
 Node.prototype.initUI = function(){
   var that = this;
-
   // Make draggable
   $(this.domElement).draggable({
     containment: 'window',
