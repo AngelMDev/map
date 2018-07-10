@@ -127,6 +127,7 @@ Group.prototype.connectTo = function(input){
   }else{
     input.parentNode.childNodes.opposing.push(this);
   }
+  input.parentNode.connected = true;
 };
 
 Group.prototype.moveTo = function(point){
@@ -204,8 +205,14 @@ Group.prototype.removeNode = function (node) {
   if(this.nodeGroup.length<1){
     if(this.type){
       _.pull(this.parentNode.childNodes.supporting,this)
-    }else{
+      if (this.parentNode.childNodes.supporting.length == 0 && this.parentNode.childNodes.supporting.length == 0) {
+        this.parentNode.connected = false;
+      }
+    }else {
       _.pull(this.parentNode.childNodes.opposing,this)
+      if (this.parentNode.childNodes.supporting.length == 0 && this.parentNode.childNodes.supporting.length == 0) {
+        this.parentNode.connected = false;
+      }
     }
   }
   node.removeFromGroup();

@@ -39,24 +39,24 @@ function Node(name,id,root=false){
     // console.log("Group:",that.group);
     // console.log("Parent:",that.group ? that.group.parentNode : null);
     // console.log("Children:",that.childNodes);
-    console.log("===");
+    // console.log("===");
   }
 }
 Node.prototype.whosYourDaddy = function(){
-  if (this.attachedPaths != 0){
-    return this.attachedPaths[0].input.parentNode;
+  if ( this.group != null){
+    return this.group.parentNode
   } else {
     return false;
   }
 }
 
-Node.prototype.root = function(){
+Node.prototype.lookForRoot = function(){
   if (!this.whosYourDaddy()) {
-    var rootEle = this.inputs[0].parentNode;
+    var rootEle = this;
     defineRoot(rootEle);
   } else {
     var parent = this.whosYourDaddy();
-    parent.root();
+    parent.lookForRoot();
   }
 }
 
@@ -114,8 +114,9 @@ Node.prototype.updatePosition = function(){
   for(var k=0;k<this.childNodes.opposing.length;k++){
     this.childNodes.opposing[k].updatePosition();
   }
-  if(this.group)
+  if(this.group) {
     this.group.parentNode.updatePositionWithoutChildren();
+  }
 };
 
 Node.prototype.updatePositionWithoutChildren = function(){
