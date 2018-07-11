@@ -1,4 +1,4 @@
-class Builder {
+class ARGmap {
   constructor() {
    this.selectedNode = null;
  }
@@ -80,9 +80,9 @@ class Builder {
      group.moveTo( currentPosition );
      group.parentNode.arrangeGroups();
      group.parentNode.applyToChildren();
-     // if ( group.belongsTo() ) {
-     //   group.belongsTo().allTheChildren();
-     // }
+     if ( group.belongsTo() ) {
+       group.belongsTo().allTheChildren();
+     }
    }
 
    if ( this.selectedNode && this.selectedNode.group == null ) {
@@ -97,5 +97,5 @@ class Builder {
 
 }
 
-var builder = new Builder();
-builder.createRoot();
+var argmap = new ARGmap();
+argmap.createRoot();

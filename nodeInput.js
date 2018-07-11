@@ -50,6 +50,6 @@ NodeInput.prototype.getAttachPoint = function(){
   rect=this.domElement.getBoundingClientRect();
   return {
     x: rect.x + $(this.domElement.parentElement).width()+2,
-    y: rect.y + 10
+    y: rect.y + window.scrollY
   };
 };

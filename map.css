@@ -1,4 +1,4 @@
-/* BUILDER TOOL BAR  */
+/* ARG MAP TOOL BAR  */
 .selected {
   border: 2px dashed #32abe0 !important;
 }
@@ -67,8 +67,10 @@
 }
 .wrap {
   word-wrap: break-word;
-  position: relative;
-  z-index: 2000;
+  color: black;
+  min-height: 30x;
+  height: 100%;
+  text-align: left;
 }
 
 .line::after{
@@ -110,7 +112,7 @@
   display: inline-flex;
 }
 
-  body {
+body {
   background-color: white;
   color: #d4d4d4;
   font-family: sans-serif;
@@ -148,14 +150,14 @@
 .output,
 .connection:after{
   position:absolute;
-  border:solid 1px black;
+  border:solid 1px transparent;
   width:0.5em;
   height:0.5em;
   border-radius:0.5em;
 }
 .node.connected > .output,
 .connection.filled:after{
-  border:solid 1px black;
+  border:solid 1px transparent;
 }
 .output{
   top: -0.3em;
@@ -167,7 +169,7 @@
   position:absolute;
   cursor:pointer;
   left: -43%;
-  top: 90%;
+  top: 100%;
 }
 .support:after{
   border-color: '#409966'
@@ -181,15 +183,15 @@
 .connection:after{
   content:"";
   right:0em;
-  top:0.25em;
+  top:-0.2em;
 }
 svg{
   position:absolute;
   top:0px;
   left:0px;
   z-index:-100;
-  width:100%;
-  height:100%;
+  width:1000%;
+  height:1000%;
 }
 
 .hidden{

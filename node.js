@@ -35,21 +35,33 @@ function Node(name,id,root=false){
   var that=this
   this.domElement.onclick = function (e){
     // console.log("Id:",that.id);
-    // console.log("Node:",that);
+    // console.log(that.domElement.clientHeight);
+    // console.log("Node:",that.inputs[0].domElement.style.top = that.domElement.clientHeight-8);
     // console.log("Group:",that.group);
     // console.log("Parent:",that.group ? that.group.parentNode : null);
     // console.log("Children:",that.childNodes);
     // console.log("===");
-    builder.selectNode( that );
+    argmap.selectNode( that );
   }
 
-  this.domElement.ondblclick = function (e){
+  // this.domElement.ondblclick = function (e){
     // var input = document.createElement( 'textarea' );
     // input.classList.add( 'customInput' );
     // that.domElement.appendChild( input );
     // input.focus();
     // that.domElement.children[ 4 ].inputMode;
-  }
+  // }
+
+  $('body').on('dblclick','.node .wrap', function(){
+        $(this).focus();
+        document.execCommand( 'selectAll', true);
+        $(this).on("keyup", function(event) {
+          event.preventDefault();
+          if (event.keyCode === 13) {
+          $(this).blur();
+          }
+        })
+        });
 }
 
 
@@ -232,7 +244,7 @@ Node.prototype.initUI = function(){
             group.attachedPaths=[];
           }
           group.updateShape();
-          group.parentNode.childrenPosition();
+          // group.parentNode.childrenPosition();
           group.parentNode.applyToChildren();
           group.parentNode.updatePosition();
           group.updatePosition();
@@ -395,4 +407,8 @@ Node.prototype.applyToChildren = function() {
       group.updatePosition();
     })
   }
+}
+
+Node.prototype.calcHeight = function() {
+  return this.domElement.offsetHeight;
 }
