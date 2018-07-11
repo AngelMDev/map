@@ -42,6 +42,8 @@ function Node(name,id,root=false){
     console.log("===");
   }
 }
+
+
 Node.prototype.whosYourDaddy = function(){
   if ( this.group != null){
     return this.group.parentNode
@@ -116,7 +118,7 @@ Node.prototype.updatePosition = function(){
   }
   if(this.group) {
     this.group.parentNode.updatePositionWithoutChildren();
-
+  }
     //this.dontOverlap();
 };
 
@@ -326,7 +328,6 @@ Node.prototype.arrangeGroups = function () {
   }else{
     for (var stance in this.childNodes) {
       widthSum=nodeWidth;
-      debugger
       for(var i=0;i<this.childNodes[stance].length;i++){
         group=this.childNodes[stance][i];
         groupPosition=getNodePosition(group);
