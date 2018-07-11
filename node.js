@@ -324,7 +324,7 @@ Node.prototype.arrangeGroups = function () {
         direction*=-1;
       }
     }
-    //When this node has both opposing and supporting views children
+    //When this node has both opposing and supporting children views
   }else{
     for (var stance in this.childNodes) {
       widthSum=nodeWidth;
@@ -334,10 +334,12 @@ Node.prototype.arrangeGroups = function () {
         groupPosition.x = currentPosition.x + (widthSum+spacing+group.domElement.offsetWidth/2) * direction;
         widthSum += group.domElement.offsetWidth+spacing;
         group.moveTo(groupPosition);
+        
       }
       direction*=-1;
     }
   }
+  this.updatePosition();
 }
 
 // Node.prototype.childrenPosition = function() {
