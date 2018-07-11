@@ -67,7 +67,7 @@ Group.prototype.updatePosition = function(){
     var iPoint = aPaths[i].input.getAttachPoint();
     var pathStr = this.createPath(iPoint, outPoint);
     aPaths[i].path.setAttributeNS(null, 'd', pathStr);
-    var pathColor = this.type ? '#00ff00' : '#ff0000';
+    var pathColor = this.type ? '#409966' : '#ff0000';
     aPaths[i].path.setAttributeNS(null, 'stroke', pathColor);
   }
   for(var j = 0; j < this.nodeGroup.length; j++){
@@ -82,7 +82,7 @@ Group.prototype.updatePositionWithoutChildren = function(){
     var iPoint = aPaths[i].input.getAttachPoint();
     var pathStr = this.createPath(iPoint, outPoint);
     aPaths[i].path.setAttributeNS(null, 'd', pathStr);
-    var pathColor = this.type ? '#00ff00' : '#ff0000';
+    var pathColor = this.type ? '#409966' : '#ff0000';
     aPaths[i].path.setAttributeNS(null, 'stroke', pathColor);
   }
 }
@@ -272,7 +272,7 @@ Group.prototype.detachInput = function(input){
 
 Group.prototype.createAt = function( parent){
   var parentPosition = getNodePosition(parent);
-  parentPosition.y = parentPosition.y + 120;
+  parentPosition.y = parentPosition.y + 100;
 
   if ( typeof parentPosition.y == 'number' ) {
     this.domElement.style.top = parentPosition.y + 'px';
@@ -329,16 +329,16 @@ Group.prototype.createAt = function( parent){
 //   }
 // }
 
-// Group.prototype.belongsTo = function () {
-//   var nodeParent = this.attachedPaths[0].input.parentNode;
-//   if ( nodeParent.group ) {
-//     if ( nodeParent.group.nodeGroup.length > 1 ){
-//       return nodeParent.group;
-//     }
-//   } else {
-//     return false;
-//   }
-// }
+Group.prototype.belongsTo = function () {
+  var nodeParent = this.attachedPaths[0].input.parentNode;
+  if ( nodeParent.group ) {
+    if ( nodeParent.group.nodeGroup.length > 1 ){
+      return nodeParent.group;
+    }
+  } else {
+    return false;
+  }
+}
 
 Group.prototype.changeRelation = function() {
   var parentGroups = this.attachedPaths[0].input.parentNode.childNodes;
@@ -351,7 +351,7 @@ Group.prototype.changeRelation = function() {
   this.domElement.classList.add( this.type ? 'opp' : 'supp' );
   this.type = this.type ? false : true;
   addTo.push( this );
-  color = this.type ? '#00ff00' : '#ff0000';
+  color = this.type ? '#409966' : '#ff0000';
   outPath.path.setAttributeNS(null, 'stroke', color);
   var outColor = outPath.path.getAttributeNS(null, 'stroke');
   if ( inPath.node.domElement == outPath.parentNode.domElement ) {

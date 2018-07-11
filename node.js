@@ -34,12 +34,21 @@ function Node(name,id,root=false){
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
-    console.log("Id:",that.id);
-    //console.log("Node:",that);
-    //console.log("Group:",that.group);
-    //console.log("Parent:",that.group ? that.group.parentNode : null);
-    //console.log("Children:",that.childNodes);
-    console.log("===");
+    // console.log("Id:",that.id);
+    // console.log("Node:",that);
+    // console.log("Group:",that.group);
+    // console.log("Parent:",that.group ? that.group.parentNode : null);
+    // console.log("Children:",that.childNodes);
+    // console.log("===");
+    builder.selectNode( that );
+  }
+
+  this.domElement.ondblclick = function (e){
+    // var input = document.createElement( 'textarea' );
+    // input.classList.add( 'customInput' );
+    // that.domElement.appendChild( input );
+    // input.focus();
+    // that.domElement.children[ 4 ].inputMode;
   }
 }
 
@@ -76,10 +85,11 @@ Node.prototype.addInput = function(supports){
   return input;
 };
 
-Node.prototype.addContent=function(content){
+Node.prototype.addContent=function(content = 'Click here to edit'){
   div=document.createElement('div');
   div.innerHTML=content;
   div.classList.add('wrap');
+  div.setAttribute( 'contenteditable', true );
   this.domElement.appendChild(div);
 }
 
@@ -144,7 +154,7 @@ Node.prototype.dontOverlap = function(){
   });
 };
 
-Node.prototype.isColliding = function (a, b) {  
+Node.prototype.isColliding = function (a, b) {
   return !(
     ((a.y + a.height) < (b.y)) ||
     (a.y > (b.y + b.height)) ||
@@ -306,7 +316,7 @@ Node.prototype.arrangeGroups = function () {
     }else{
       nonEmptyGroup=this.childNodes.opposing;
       nonEmptyGroupCount=opposeGroupCount;
-    }  
+    }
     rightWidthSum=nonEmptyGroup[0].domElement.offsetWidth+spacing;
     leftWidthSum=nonEmptyGroup[0].domElement.offsetWidth+spacing;
     for(var i=0;i<nonEmptyGroupCount;i++){
@@ -315,7 +325,7 @@ Node.prototype.arrangeGroups = function () {
         groupPosition=getNodePosition(group);
         if(direction>0){
           groupPosition.x = currentPosition.x + (rightWidthSum+spacing) * direction;
-          rightWidthSum += group.domElement.offsetWidth+spacing;       
+          rightWidthSum += group.domElement.offsetWidth+spacing;
         }else{
           groupPosition.x = currentPosition.x + (leftWidthSum+spacing) * direction;
           leftWidthSum += group.domElement.offsetWidth+spacing;
@@ -381,7 +391,7 @@ Node.prototype.applyToChildren = function() {
     childrens[ group ].map( function( group ) {
       if ( group ) {
         group.nodeGroup.map( function( node ) {
-          node.childrenPosition();
+          node.arrangeGroups();
         })
       }
       group.updatePosition();

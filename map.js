@@ -2,7 +2,7 @@
 var uniqueId = function() {
   return Math.random().toString(36).substr(2, 16);
 };
-  // SVG SETUP
+// SVG SETUP
 // ===========
 var svg = document.getElementById('svg');
 svg.ns = svg.namespaceURI;
@@ -76,15 +76,11 @@ function GetFullOffset(element){
   else
     return offset;
 }
-
-
-
-
-
 //===================MY CODE===================
 
 var nodeReference = [];
 var root = [];
+
 function createNode(id=uniqueId(),text=null,coords={x: 180, y: 70}){
   var title=$('#title').val();
   if(text===null)
@@ -260,7 +256,7 @@ qty=10;
 nodeArray=[{id:"root",content:"bla"}]
 for(var j=0;j<qty;j++){
   fakeContent=Math.random().toString(36);
-  nodeArray.push({id:j,content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."})
+  nodeArray.push({id:j,content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"})
 }
 
 displayNodes(nodeArray);
