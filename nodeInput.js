@@ -36,7 +36,7 @@ function NodeInput(supports,parentNode){
 NodeInput.prototype.createPath = function(type){
   // SVG Connector
   this.path = document.createElementNS(svg.ns, 'path');
-  color = type ? '#00ff00' : '#ff0000';
+  color = type ? '#409966' : '#ff0000';
   this.path.setAttributeNS(null, 'stroke', color);
   this.path.setAttributeNS(null, 'stroke-width', '2');
   this.path.setAttributeNS(null, 'fill', 'none');

@@ -2,7 +2,7 @@
 var uniqueId = function() {
   return Math.random().toString(36).substr(2, 16);
 };
-  // SVG SETUP
+// SVG SETUP
 // ===========
 var svg = document.getElementById('svg');
 svg.ns = svg.namespaceURI;
@@ -76,15 +76,11 @@ function GetFullOffset(element){
   else
     return offset;
 }
-
-
-
-
-
 //===================MY CODE===================
 
 var nodeReference = [];
 var root = [];
+
 function createNode(id=uniqueId(),text=null,coords={x: 180, y: 70}){
   var title=$('#title').val();
   if(text===null)
@@ -256,19 +252,19 @@ function displayNodes(nodeArray){
 }
 
 //Random Node Generator
-qty=10;
-nodeArray=[{id:"root",content:"bla"}]
-for(var j=0;j<qty;j++){
-  fakeContent=Math.random().toString(36);
-  nodeArray.push({id:j,content:fakeContent})
-}
-
-displayNodes(nodeArray);
-
-function remove(array, element) {
-    const index = array.indexOf(element);
-
-    if (index !== -1) {
-        array.splice(index, 1);
-    }
-}
+// qty=10;
+// nodeArray=[{id:"root",content:"bla"}]
+// for(var j=0;j<qty;j++){
+//   fakeContent=Math.random().toString(36);
+//   nodeArray.push({id:j,content:fakeContent})
+// }
+//
+// displayNodes(nodeArray);
+//
+// function remove(array, element) {
+//     const index = array.indexOf(element);
+//
+//     if (index !== -1) {
+//         array.splice(index, 1);
+//     }
+// }

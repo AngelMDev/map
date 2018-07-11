@@ -4,7 +4,7 @@
   </svg>
 </div>
 
-<div id='grid'>
+<!-- <div id='grid'>
     <div class="panel">
       <form class="form">
         <textarea id='text-area' name="name" rows="4" cols="30" maxlength="50"></textarea>
@@ -12,7 +12,14 @@
       </form>
     </div>
     <button type="button" name="button" onclick="creategroup()">Create group</button>
-    <button type="button" name="button" onclick="saveMap()">save</button>
+</div> -->
+
+<div class="toolbar">
+  <!-- <button type="button" name="button" onclick="builder.createRoot()">create root</button> -->
+  <button type="button" name="button" onclick="saveMap()">save</button>
+  <button type="button" name="button" onclick="builder.suppClaim()">Support</button>
+  <button type="button" name="button" onclick="builder.oppClaim()">Oppose</button>
+  <button type="button" name="button" onclick="builder.addSibling()">Add sibling</button>
 
 </div>
 
@@ -26,4 +33,6 @@
 <script src="nodeOutput.js"></script>
 <script src="map.js"></script>
 <script src="group.js"></script>
+<script src="builder.js"></script>
+
 <link rel="stylesheet" href="map.css">

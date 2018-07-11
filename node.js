@@ -33,13 +33,22 @@ function Node(name,id,root=false){
 
     //DEBUGGING PURPOSES
   var that=this
-  this.domElement.onclick = function (e){
+  // this.domElement.onclick = function (e){
     // console.log("Id:",that.id);
-    console.log("Node:",that);
+    // console.log("Node:",that);
     // console.log("Group:",that.group);
     // console.log("Parent:",that.group ? that.group.parentNode : null);
     // console.log("Children:",that.childNodes);
     // console.log("===");
+    // builder.selectNode( that );
+  // }
+
+  this.domElement.ondblclick = function (e){
+    // var input = document.createElement( 'textarea' );
+    // input.classList.add( 'customInput' );
+    // that.domElement.appendChild( input );
+    // input.focus();
+    // that.domElement.children[ 4 ].inputMode;
   }
 }
 Node.prototype.whosYourDaddy = function(){
@@ -74,10 +83,11 @@ Node.prototype.addInput = function(supports){
   return input;
 };
 
-Node.prototype.addContent=function(content){
+Node.prototype.addContent=function(content = 'Click here to edit'){
   div=document.createElement('div');
   div.innerHTML=content;
   div.classList.add('wrap');
+  div.setAttribute( 'contenteditable', true );
   this.domElement.appendChild(div);
 }
 
@@ -280,7 +290,7 @@ Node.prototype.childrenPosition = function() {
       childrens[ group ].map( function( group ) {
         if ( group ) {
           var individualPosition = getNodePosition( parent );
-          individualPosition.y = individualPosition.y + 120;
+          individualPosition.y = individualPosition.y + 100;
           group.moveTo( individualPosition );
 
           group.updatePosition();
@@ -295,7 +305,7 @@ Node.prototype.childrenPosition = function() {
       childrens[ group ].map( function( group ) {
         if ( group ) {
           var individualPosition = getNodePosition( parent );
-          individualPosition.y = individualPosition.y + 120;
+          individualPosition.y = individualPosition.y + 100;
           individualPosition.x = individualPosition.x + ( halfW * numElements ) ;
           group.moveTo( individualPosition );
 
