@@ -148,14 +148,14 @@
 .output,
 .connection:after{
   position:absolute;
-  border:solid 1px transparent;
+  border:solid 1px black;
   width:0.5em;
   height:0.5em;
   border-radius:0.5em;
 }
 .node.connected > .output,
 .connection.filled:after{
-  border:solid 1px transparent;
+  border:solid 1px black;
 }
 .output{
   top: -0.3em;
@@ -167,7 +167,7 @@
   position:absolute;
   cursor:pointer;
   left: -43%;
-  top: 80%;
+  top: 90%;
 }
 .support:after{
   border-color: '#409966'
