@@ -33,15 +33,15 @@ function Node(name,id,root=false){
 
     //DEBUGGING PURPOSES
   var that=this
-  // this.domElement.onclick = function (e){
+  this.domElement.onclick = function (e){
     // console.log("Id:",that.id);
     // console.log("Node:",that);
     // console.log("Group:",that.group);
     // console.log("Parent:",that.group ? that.group.parentNode : null);
     // console.log("Children:",that.childNodes);
     // console.log("===");
-    // builder.selectNode( that );
-  // }
+    builder.selectNode( that );
+  }
 
   this.domElement.ondblclick = function (e){
     // var input = document.createElement( 'textarea' );
@@ -389,7 +389,7 @@ Node.prototype.applyToChildren = function() {
     childrens[ group ].map( function( group ) {
       if ( group ) {
         group.nodeGroup.map( function( node ) {
-          node.childrenPosition();
+          node.arrangeGroups();
         })
       }
       group.updatePosition();

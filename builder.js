@@ -39,13 +39,12 @@ class Builder {
      childNode.connectTo(parentInput, true);
      childNode.group.createAt( this.selectedNode );
 
-     this.selectedNode.childrenPosition( );
+     this.selectedNode.arrangeGroups( );
      this.selectedNode.applyToChildren( );
 
-     if ( this.selectedNode.group ) {
-       this.selectedNode.group.allTheChildren();
-     }
-
+     // if ( this.selectedNode.group ) {
+     //   this.selectedNode.group.allTheChildren();
+     // }
      this.selectNode( childNode );
    }
  }
@@ -58,12 +57,12 @@ class Builder {
      childNode.connectTo(parentInput, false );
      childNode.group.createAt( this.selectedNode );
 
-     this.selectedNode.childrenPosition( );
+     this.selectedNode.arrangeGroups( );
      this.selectedNode.applyToChildren( );
 
-     if ( this.selectedNode.group ) {
-       this.selectedNode.group.allTheChildren();
-     }
+     // if ( this.selectedNode.group ) {
+     //   this.selectedNode.group.allTheChildren();
+     // }
 
      this.selectNode( childNode );
    }
@@ -79,11 +78,11 @@ class Builder {
      var currentPosition = getNodePosition( group );
      currentPosition.x = currentPosition.x - 85;
      group.moveTo( currentPosition );
-     group.parentNode.childrenPosition();
+     group.parentNode.arrangeGroups();
      group.parentNode.applyToChildren();
-     if ( group.belongsTo() ) {
-       group.belongsTo().allTheChildren();
-     }
+     // if ( group.belongsTo() ) {
+     //   group.belongsTo().allTheChildren();
+     // }
    }
 
    if ( this.selectedNode && this.selectedNode.group == null ) {

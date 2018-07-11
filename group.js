@@ -329,16 +329,16 @@ Group.prototype.createAt = function( parent){
 //   }
 // }
 
-// Group.prototype.belongsTo = function () {
-//   var nodeParent = this.attachedPaths[0].input.parentNode;
-//   if ( nodeParent.group ) {
-//     if ( nodeParent.group.nodeGroup.length > 1 ){
-//       return nodeParent.group;
-//     }
-//   } else {
-//     return false;
-//   }
-// }
+Group.prototype.belongsTo = function () {
+  var nodeParent = this.attachedPaths[0].input.parentNode;
+  if ( nodeParent.group ) {
+    if ( nodeParent.group.nodeGroup.length > 1 ){
+      return nodeParent.group;
+    }
+  } else {
+    return false;
+  }
+}
 
 Group.prototype.changeRelation = function() {
   var parentGroups = this.attachedPaths[0].input.parentNode.childNodes;
