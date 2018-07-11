@@ -113,28 +113,28 @@ function deleteDiv(ele) {
 function saveMap() {
   root = [];
   nodeReference.map(function(node){
-    node.root();
+    node.lookForRoot();
   })
   rootJson(root[0]);
   return dataJson;
 }
 
 function defineRoot(node) {
-  if (!root.includes(node)) {
+  if (!root.includes(node) && node.connected == true) {
     root.push(node);
   }
 }
 
 var text = function(node){
   var textContent = "";
-  textContent = node.domElement.children[3].innerHTML;
+  textContent = node.domElement.children[4].innerHTML;
   return textContent;
 }
 
 var support = function(node){
   var supp = [];
   node.childNodes.supporting.map(function(ele){
-    supp.push(ele);
+    supp.push(ele.nodeGroup);
   })
   return supp;
 }
@@ -142,7 +142,7 @@ var support = function(node){
 var oppose = function(node){
   var opp = [];
   node.childNodes.opposing.map(function(ele){
-    opp.push(ele);
+    opp.push(ele.nodeGroup);
   })
   return opp;
 }
@@ -174,12 +174,16 @@ var rootJson = function( root ) {
 
 var evalGroups = function( pros, cons, json, count ){
   if ( pros.length > 0 ) {
+    pros.map( function( groups ) {
       createJSONGroup( pros, json, count, 'supporting')
       count += 1;
+    })
   }
   if ( cons.length > 0 ) {
+    cons.map( function( groups ) {
       createJSONGroup( cons, json, count, 'opposing')
       count += 1;
+    })
   }
 }
 
@@ -197,7 +201,7 @@ var createJSONGroup = function( arr, json, count, type ) {
 }
 
 var groupContent = function( arr, json ) {
-  arr.map(function(node, idx) {
+  arr[0].map(function(node, idx) {
     json[idx+1] = {};
     json[idx+1].title = text(node);
     json[idx+1].id = uniqueId();

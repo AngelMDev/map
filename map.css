@@ -145,18 +145,6 @@
 .connection.filled:after{
   border:solid 1px transparent;
 }
-.node > .output:hover,
-.connection:hover:after{
-  border-color:red;
-}
-.node-support > .output:hover,
-.connection:hover:after{
-  border-color:red;
-}
-.node-oppose > .output:hover,
-.connection:hover:after{
-  border-color:red;
-}
 .output{
   top: -0.3em;
   left: 50%;
