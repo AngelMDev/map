@@ -252,6 +252,7 @@ function displayNodes(nodeArray){
 }
 
 //Random Node Generator
+<<<<<<< HEAD
 // qty=10;
 // nodeArray=[{id:"root",content:"bla"}]
 // for(var j=0;j<qty;j++){
@@ -268,3 +269,21 @@ function displayNodes(nodeArray){
 //         array.splice(index, 1);
 //     }
 // }
+=======
+qty=10;
+nodeArray=[{id:"root",content:"bla"}]
+for(var j=0;j<qty;j++){
+  fakeContent=Math.random().toString(36);
+  nodeArray.push({id:j,content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."})
+}
+
+displayNodes(nodeArray);
+
+function remove(array, element) {
+    const index = array.indexOf(element);
+
+    if (index !== -1) {
+        array.splice(index, 1);
+    }
+}
+>>>>>>> master

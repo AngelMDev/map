@@ -204,8 +204,10 @@ svg{
 
 .area_support{
   right: 0;
+  bottom: 0;
 }
 
 .area_oppose{
   left: 0;
+  bottom: 0;
 }
