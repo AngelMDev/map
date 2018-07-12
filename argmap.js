@@ -3,6 +3,16 @@ class ARGmap {
    this.selectedNode = null;
  }
 
+  collapse() {
+    if (!this.selectedNode) return;
+    this.selectedNode.collapseChildren();
+  }
+
+  expand() {
+    if (!this.selectedNode) return;
+    this.selectedNode.expandChildren();
+  }
+
  createNode( id = uniqueId(), coords={x: 0, y: 0} ){
    var mynode = new Node( null, id );
    mynode.moveTo( coords );
@@ -83,7 +93,10 @@ class ARGmap {
      if ( group.belongsTo() ) {
        group.belongsTo().allTheChildren();
      }
+
+     
    }
+
 
    if ( this.selectedNode && this.selectedNode.group == null ) {
      console.log('this');

@@ -366,3 +366,34 @@ Group.prototype.changeRelation = function() {
 Group.prototype.height = function() {
   return this.domElement.clientHeight;
 }
+
+Group.prototype.hide = function() {
+  $(this.domElement).addClass('hide');
+  this.attachedPaths.forEach((path)=>{
+    path.path.setAttributeNS(null, 'stroke-width', 0);
+  })
+  this.nodeGroup.forEach((node)=>{
+    node.hide();
+  })
+}
+
+Group.prototype.show = function() {
+  $(this.domElement).removeClass('hide');
+  this.attachedPaths.forEach((path)=>{
+    setTimeout(()=>path.path.setAttributeNS(null, 'stroke-width', 2),255);
+  })
+  this.nodeGroup.forEach((node)=>{
+    node.show();
+  })
+}
+
+Group.prototype.propagateMoveTo=function(point){
+  pos=getPositionAtOrigin(this);
+  this.moveTo({
+    x:point.x+pos.x/2,
+    y:point.y+pos.y/2
+  });
+  this.nodeGroup.forEach((node)=>{
+    node.propagateMoveTo(point);
+  });
+}

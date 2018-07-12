@@ -15,7 +15,12 @@
     box-shadow: 0;
 }
 
-
+.hide{
+  -moz-transform: scale(0);
+  -webkit-transform: scale(0);
+  -o-transform: scale(0);
+  transform: scale(0);
+}
 
 .group {
   width: 165px;
@@ -24,6 +29,10 @@
   justify-content: center;
   border-top-left-radius: 13px;
   border-top-right-radius: 13px;
+  -webkit-transition: -webkit-transform .25s; 
+  -moz-transition: -moz-transform .25s; 
+  -o-transition: -o-transform .25s; 
+  transition: transform .25s; 
 }
 
 .supp {
@@ -36,7 +45,7 @@
 
 .drop-supp {
   border: 4px dashed #409966;
-  background: rgba(0,255,0,0.3);
+  background: rgba(0,22.55,0,0.3);
   width: 160px;
 }
 
@@ -125,6 +134,10 @@ body {
   padding:0.1em .3em .25em;
   position:absolute;
   box-shadow: 3px 3px 3px #888888;
+  -webkit-transition: -webkit-transform .25s; 
+  -moz-transition: -moz-transform .25s; 
+  -o-transition: -o-transform .25s; 
+  transition: transform .25s; 
 }
 
 .node-support:before{
@@ -161,7 +174,7 @@ body {
 }
 .output{
   top: -0.3em;
-  left: 50%;
+  left: 48%;
   cursor: pointer;
 }
 .connection{
@@ -212,4 +225,9 @@ svg{
 .area_oppose{
   left: 0;
   bottom: 0;
+}
+
+.collapsed{
+  width: 30px;
+  height: 30px;
 }

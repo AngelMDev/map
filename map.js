@@ -284,3 +284,10 @@ function zoomOut(){
   $("#amp").animate({zoom: zoomValue-=0.1}, "slow");
 }
 
+function getPositionAtOrigin(element){
+  var nodePos = {
+    y : element.domElement.offsetTop+element.domElement.offsetHeight/2,
+    x : element.domElement.offsetLeft+element.domElement.offsetWidth/2
+  }
+  return nodePos;
+}

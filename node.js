@@ -129,7 +129,7 @@ Node.prototype.updatePosition = function(){
       var iP = this.inputs[j].getAttachPoint();
       var oP = this.inputs[j].node.getOutputPoint();
       var pStr = this.createPath(iP, oP);
-      this.inputs[j].path.setAttributeNS(null, 'd', pStr);
+      //this.inputs[j].path.setAttributeNS(null, 'd', pStr);
     }
   }
   for(var k=0;k<this.childNodes.supporting.length;k++){
@@ -141,7 +141,12 @@ Node.prototype.updatePosition = function(){
   if(this.group) {
     this.group.parentNode.updatePositionWithoutChildren();
   }
-    //this.dontOverlap();
+
+  //this.dontOverlap();
+  if(this.collapsedNode){
+    this.collapsedNode.moveTo(getNodePosition(this));
+    this.collapsedNode.updatePosition();
+  }
 };
 
 Node.prototype.dontOverlap = function(){
@@ -181,7 +186,7 @@ Node.prototype.updatePositionWithoutChildren = function(){
       var iP = this.inputs[j].getAttachPoint();
       var oP = this.inputs[j].node.getOutputPoint();
       var pStr = this.createPath(iP, oP);
-      this.inputs[j].path.setAttributeNS(null, 'd', pStr);
+      //this.inputs[j].path.setAttributeNS(null, 'd', pStr);
     }
   }
 };
@@ -255,9 +260,17 @@ Node.prototype.initUI = function(){
           group.updatePosition();
         };
       }
+    },
+    stop: function(e, ui){
+      if(that.collapsedNode){
+        that.propagateMoveTo({
+          x: getPositionAtOrigin(that).x-that.collapsedNode.positionWhenCollapsed.x,
+          y: getPositionAtOrigin(that).y-that.collapsedNode.positionWhenCollapsed.y
+        });
+      }
     }
   })
-
+  
     $(this.suppArea).droppable({
   accept: ".node",
   tolerance: "pointer",
@@ -424,4 +437,56 @@ Node.prototype.applyToChildren = function() {
 
 Node.prototype.calcHeight = function() {
   return this.domElement.offsetHeight;
+}
+
+Node.prototype.collapseChildren = function(){
+  this.childNodes["supporting"].forEach((group)=>{
+    group.hide();
+  })
+  this.childNodes["opposing"].forEach((group)=>{
+    group.hide();
+  })
+  this.updatePosition();
+  this.collapsedNode=new CollapsedNode(this);
+}
+
+Node.prototype.expandChildren = function(){
+  this.childNodes["supporting"].forEach((group)=>{
+    group.show();
+  })
+  this.childNodes["opposing"].forEach((group)=>{
+    group.show();
+  })
+  setTimeout(()=>this.updatePosition(),260);
+  this.collapsedNode.domElement.remove();
+  this.collapsedNode.path.removeAttribute('d');
+  this.collapsedNode=null;
+}
+
+Node.prototype.hide = function(){
+  $(this.domElement).addClass('hide');
+  this.childNodes["supporting"].forEach((group)=>{
+    group.hide();
+  })
+  this.childNodes["opposing"].forEach((group)=>{
+    group.hide();
+  })
+}
+
+Node.prototype.show = function(){
+  $(this.domElement).removeClass('hide');
+  this.childNodes["supporting"].forEach((group)=>{
+    group.show();
+  })
+  this.childNodes["opposing"].forEach((group)=>{
+    group.show();
+  })
+}
+
+Node.prototype.propagateMoveTo = function(point){
+  for(stance in this.childNodes){
+    this.childNodes[stance].forEach((group)=>{
+      group.propagateMoveTo(point);
+    })
+  }
 }
