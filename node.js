@@ -97,11 +97,11 @@ Node.prototype.addInput = function(supports){
   return input;
 };
 
-Node.prototype.addContent=function(content = 'Click here to edit'){
+Node.prototype.addContent=function( content = 'Click here to edit', editable ){
   div=document.createElement('div');
   div.innerHTML=content;
   div.classList.add('wrap');
-  div.setAttribute( 'contenteditable', true );
+  div.setAttribute( 'contenteditable', editable );
   this.domElement.appendChild(div);
 }
 
@@ -289,7 +289,6 @@ $(this.oppArea).droppable({
 
   // Fix positioning
   this.domElement.style.position = 'absolute';
-
   document.body.append(this.domElement);
   // Update Visual
   this.updatePosition();
