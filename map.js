@@ -216,8 +216,8 @@ var groupContent = function( arr, json ) {
 
 var getNodePosition = function( node ) {
   var nodePos = {
-   y : Number(node.domElement.style.top.slice(0,-2)),
-   x : Number(node.domElement.style.left.slice(0,-2))
+   y : node.domElement.offsetTop,
+   x : node.domElement.offsetLeft
  }
  return nodePos;
 }
@@ -252,23 +252,25 @@ function displayNodes(nodeArray){
 }
 
 //Random Node Generator
-qty=10;
-nodeArray=[{id:"root",content:"bla"}]
-for(var j=0;j<qty;j++){
-  fakeContent=Math.random().toString(36);
-  nodeArray.push({id:j,content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"})
-}
+// qty=7;
+// nodeArray=[{id:"root",content:"bla"}]
+// for(var j=0;j<qty;j++){
+//   fakeContent=Math.random().toString(36);
+//   nodeArray.push({id:j,content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"})
+// }
+//
+// displayNodes(nodeArray);
+//
+// function remove(array, element) {
+//     const index = array.indexOf(element);
+//
+//     if (index !== -1) {
+//         array.splice(index, 1);
+//     }
+// }
 
-displayNodes(nodeArray);
 
-function remove(array, element) {
-    const index = array.indexOf(element);
-
-    if (index !== -1) {
-        array.splice(index, 1);
-    }
-}
-
+//Zoom Functionality stuff (doesn't work)
 amp=document.getElementById("amp")
 nodeReference.forEach(function(node){
   amp.appendChild(node.domElement);
@@ -281,3 +283,4 @@ function zoomIn(){
 function zoomOut(){
   $("#amp").animate({zoom: zoomValue-=0.1}, "slow");
 }
+

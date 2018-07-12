@@ -275,7 +275,8 @@ Group.prototype.detachInput = function(input){
 
 Group.prototype.createAt = function( parent){
   var parentPosition = getNodePosition(parent);
-  parentPosition.y = parentPosition.y + 100;
+  var parentHeight = parent.calcHeight();
+  parentPosition.y = parentPosition.y + 70 + parentHeight + window.scrollY;
 
   if ( typeof parentPosition.y == 'number' ) {
     this.domElement.style.top = parentPosition.y + 'px';
@@ -360,4 +361,8 @@ Group.prototype.changeRelation = function() {
   if ( inPath.node.domElement == outPath.parentNode.domElement ) {
     inPath.path.setAttributeNS(null, 'stroke', outColor);
   }
+}
+
+Group.prototype.height = function() {
+  return this.domElement.clientHeight;
 }
