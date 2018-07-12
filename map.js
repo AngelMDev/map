@@ -268,3 +268,16 @@ function remove(array, element) {
         array.splice(index, 1);
     }
 }
+
+amp=document.getElementById("amp")
+nodeReference.forEach(function(node){
+  amp.appendChild(node.domElement);
+})
+
+var zoomValue=1
+function zoomIn(){
+  $("#amp").animate({zoom: zoomValue+=0.1}, "slow");
+}
+function zoomOut(){
+  $("#amp").animate({zoom: zoomValue-=0.1}, "slow");
+}
