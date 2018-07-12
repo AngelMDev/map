@@ -187,10 +187,14 @@ Node.prototype.updatePositionWithoutChildren = function(){
 };
 
 Node.prototype.createPath = function(a, b){
+  return null;
   var xModifier=5;
   var yModifier=Math.abs(a.y-b.y);
   if(Math.abs(a.x-b.x)<20){
-    xModifier=0;
+    return path = SvgPathGenerator()
+                      .moveTo(a.x,a.y)
+                      .lineTo(b.x,b.y)
+                      .end();
   }
   aControlPointX=a.x-xModifier;
   aControlPointY=a.y+yModifier;
@@ -230,6 +234,7 @@ Node.prototype.initUI = function(){
     opacity: 0.7,
     zIndex: 100,
     cursor: 'move',
+    refreshPositions: true,
     drag: function(event, ui){
       that.updatePosition();
       if (that.group) {
@@ -329,7 +334,7 @@ Node.prototype.arrangeGroups = function () {
       nonEmptyGroupCount=opposeGroupCount;
     }
     rightWidthSum=nonEmptyGroup[0].domElement.offsetWidth+spacing;
-    leftWidthSum=nonEmptyGroup[0].domElement.offsetWidth+spacing;
+    leftWidthSum=0
     for(var i=0;i<nonEmptyGroupCount;i++){
       if(i!=0){
         group=nonEmptyGroup[i];
@@ -338,27 +343,35 @@ Node.prototype.arrangeGroups = function () {
           groupPosition.x = currentPosition.x + (rightWidthSum+spacing) * direction;
           rightWidthSum += group.domElement.offsetWidth+spacing;
         }else{
-          groupPosition.x = currentPosition.x + (leftWidthSum+spacing) * direction;
+          groupPosition.x = currentPosition.x + (leftWidthSum+spacing+group.domElement.offsetWidth) * direction;
           leftWidthSum += group.domElement.offsetWidth+spacing;
         }
         group.moveTo(groupPosition);
         direction*=-1;
       }
     }
-    //When this node has both opposing and supporting views children
+    //When this node has both opposing and supporting children views
   }else{
-    for (var stance in this.childNodes) {
-      widthSum=nodeWidth;
-      for(var i=0;i<this.childNodes[stance].length;i++){
-        group=this.childNodes[stance][i];
-        groupPosition=getNodePosition(group);
-        groupPosition.x = currentPosition.x + (widthSum+spacing+group.domElement.offsetWidth/2) * direction;
-        widthSum += group.domElement.offsetWidth+spacing;
-        group.moveTo(groupPosition);
-      }
-      direction*=-1;
+    stance="supporting";
+    var widthSum=nodeWidth;
+    for(var i=0;i<this.childNodes[stance].length;i++){
+      group=this.childNodes[stance][i];
+      groupPosition=getNodePosition(group);            
+      groupPosition.x = currentPosition.x + (widthSum+spacing);
+      widthSum += group.domElement.offsetWidth+spacing;
+      group.moveTo(groupPosition);  
+    }
+    stance="opposing";
+    var widthSum=0
+    for(var i=0;i<this.childNodes[stance].length;i++){
+      group=this.childNodes[stance][i];
+      groupPosition=getNodePosition(group);        
+      groupPosition.x = currentPosition.x - (widthSum+spacing+group.domElement.offsetWidth);
+      widthSum += group.domElement.offsetWidth+spacing;
+      group.moveTo(groupPosition);  
     }
   }
+  this.updatePosition();
 }
 
 // Node.prototype.childrenPosition = function() {
