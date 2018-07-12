@@ -91,7 +91,10 @@ Group.prototype.createPath = function(a, b){
   var xModifier=5;
   var yModifier=Math.abs(a.y-b.y);
   if(Math.abs(a.x-b.x)<20){
-    xModifier=0;
+    return path = SvgPathGenerator()
+                      .moveTo(a.x,a.y)
+                      .lineTo(b.x,b.y)
+                      .end();
   }
   aControlPointX=a.x-xModifier;
   aControlPointY=a.y+yModifier;
