@@ -214,3 +214,7 @@ svg{
   left: 0;
   bottom: 0;
 }
+
+.root {
+  border: 2px dashed red;
+}

@@ -228,6 +228,9 @@ class ARGmap {
           yPosition = this.calcHeight(  nodeAbove );
           startingY = this.getNodePosition( nodeAbove ).y;
         }
+        if ( node.id == 'root' ){
+          node.domElement.classList.add('root');
+        }
         var point = { x : startingX + xMargin * column, y : startingY + ( yPosition + yMargin)  };
         node.moveTo( point );
 
@@ -243,10 +246,16 @@ class ARGmap {
       this.nodeArray.push( { id : j, content : content.slice( 0, endPoint ) } )
     }
 
-    for( var j = 0; j < qty; j++ ){
-      this.createNode( this.nodeArray[ j ].id, this.nodeArray[ j ].content, false );
+    var n = this.nodeArray.length;
+    var arr = [];
+    while ( arr.length < n ) {
+      var num = Math.floor((Math.random() * n) + 0 );
+      arr.includes( num ) ? ' ' : arr.push( num );
     }
-
+    var that = this;
+    arr.map( function( num ) {
+      that.createNode( that.nodeArray[ num ].id, that.nodeArray[ num ].content, false );
+    })
   }
 
 }
