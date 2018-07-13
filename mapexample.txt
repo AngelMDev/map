@@ -1,0 +1,569 @@
+{
+    "formatVersion": 3,
+    "id": "root",
+    "ideas": {
+        "1": {
+            "title": "\n\nUS textile and apparel import barriers were bad for the United States\n",
+            "id": 1,
+            "attr": {
+                "position": [ -191, -485, 1]
+            }
+            ,
+            "ideas": {
+                "1": {
+                    "title": "group",
+                    "id": "102.6f6eb4ebc5d9c416",
+                    "ideas": {
+                        "1": {
+                            "title": "The USITC estimates that textile and apparel barriers cost US consumers between $80,000 and $180,000 annually per job saved",
+                            "id": "9.2c45fc699dc63c5a",
+                            "ideas": {}
+                            ,
+                            "attr": {}
+                        }
+                    }
+                    ,
+                    "attr": {
+                        "group": "supporting", "contentLocked": true
+                    }
+                }
+                ,
+                "3": {
+                    "title": "group",
+                    "id": "112.6f6eb4ebc5d9c416",
+                    "ideas": {
+                        "1": {
+                            "title": "Raising production costs to the US apparel manufacturing industry made it less competitive",
+                            "id": "76.5be46adf6fe0461f",
+                            "ideas": {
+                                "2": {
+                                    "title": "group",
+                                    "id": "113.6f6eb4ebc5d9c416",
+                                    "ideas": {
+                                        "1": {
+                                            "title": "More costly inputs raise production costs", "id": "94.766d2a1d6ea51109"
+                                        }
+                                    }
+                                    ,
+                                    "attr": {
+                                        "group": "supporting", "contentLocked": true
+                                    }
+                                }
+                                ,
+                                "3": {
+                                    "title": "group",
+                                    "id": "114.6f6eb4ebc5d9c416",
+                                    "ideas": {
+                                        "1": {
+                                            "title": "Complex rules raise production costs",
+                                            "id": "80.5be46adf6fe0461f",
+                                            "ideas": {
+                                                "1": {
+                                                    "title": "group",
+                                                    "id": "141.6f6eb4ebc5d9c416",
+                                                    "ideas": {
+                                                        "1": {
+                                                            "title": "MFA rules were very complex", "id": "78.5be46adf6fe0461f"
+                                                        }
+                                                    }
+                                                    ,
+                                                    "attr": {
+                                                        "group": "supporting", "contentLocked": true
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    ,
+                                    "attr": {
+                                        "group": "supporting", "contentLocked": true
+                                    }
+                                }
+                            }
+                            ,
+                            "attr": {}
+                        }
+                    }
+                    ,
+                    "attr": {
+                        "group": "supporting", "contentLocked": true
+                    }
+                }
+                ,
+                "24": {
+                    "title": "group",
+                    "id": "138.6f6eb4ebc5d9c416",
+                    "attr": {
+                        "contentLocked": true, "group": "opposing"
+                    }
+                    ,
+                    "ideas": {
+                        "1": {
+                            "title": "Loss of jobs harms communities",
+                            "id": "139.6f6eb4ebc5d9c416",
+                            "ideas": {
+                                "1": {
+                                    "title": "group",
+                                    "id": "140.6f6eb4ebc5d9c416",
+                                    "ideas": {
+                                        "1": {
+                                            "title": "Textile import barriers protected US textile manufacturing jobs",
+                                            "id": "134.6f6eb4ebc5d9c416",
+                                            "ideas": {
+                                                "1": {
+                                                    "title": "group",
+                                                    "id": "135.6f6eb4ebc5d9c416",
+                                                    "attr": {
+                                                        "contentLocked": true, "group": "opposing"
+                                                    }
+                                                    ,
+                                                    "ideas": {
+                                                        "1": {
+                                                            "title": "Automation has been the main cause of lost textile manufacturing jobs", "id": "136.6f6eb4ebc5d9c416"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            ,
+                                            "attr": {}
+                                        }
+                                    }
+                                    ,
+                                    "attr": {
+                                        "group": "supporting", "contentLocked": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                ,
+                "-2": {
+                    "title": "group",
+                    "id": "109.6f6eb4ebc5d9c416",
+                    "ideas": {
+                        "1": {
+                            "title": "Textile import barriers raised production costs for the US apparel manufacturing industry",
+                            "id": "90.766d2a1d6ea51109",
+                            "ideas": {
+                                "2": {
+                                    "title": "group",
+                                    "id": "115.6f6eb4ebc5d9c416",
+                                    "ideas": {
+                                        "1": {
+                                            "title": "Textiles import barriers raised costs of inputs for apparel manufacturing", "id": "73.5be46adf6fe0461f"
+                                        }
+                                    }
+                                    ,
+                                    "attr": {
+                                        "group": "supporting", "contentLocked": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ,
+                    "attr": {
+                        "group": "supporting", "contentLocked": true
+                    }
+                }
+            }
+        }
+    }
+    ,
+    "title": "\n\nUS textile and apparel import barriers were bad for the United States\n",
+    "attr": {
+        "theme": "argMappingSimple"
+    }
+    ,
+    "links": [],
+    "theme": {
+        "name": "MindMup Top Down Argument Mapping",
+        "blockParentConnectorOverride": true,
+        "layout": {
+            "orientation": "top-down",
+            "spacing": {
+                "h": 20, "v": 100
+            }
+        }
+        ,
+        "node": [ {
+            "name": "default",
+            "cornerRadius": 5,
+            "backgroundColor": "#ffffff",
+            "border": {
+                "type": "surround",
+                "line": {
+                    "color": "#707070", "width": 1
+                }
+            }
+            ,
+            "shadow": [ {
+                "color": "#070707",
+                "opacity": 0.3,
+                "offset": {
+                    "width": 2, "height": 2
+                }
+                ,
+                "radius": 2
+            }
+            ],
+            "text": {
+                "margin": 5,
+                "alignment": "left",
+                "maxWidth": 146,
+                "color": "#4F4F4F",
+                "lightColor": "#EEEEEE",
+                "darkColor": "#000000",
+                "font": {
+                    "lineSpacing": 2, "lineSpacingPx": 2.6, "size": 10, "sizePx": 13.3, "weight": "light"
+                }
+            }
+            ,
+            "connections": {
+                "default": {
+                    "h": "center-separated", "v": "base"
+                }
+                ,
+                "from": {
+                    "horizontal": {
+                        "h": "center-separated", "v": "base"
+                    }
+                }
+                ,
+                "to": {
+                    "h": "center", "v": "top"
+                }
+            }
+            ,
+            "decorations": {
+                "height": 16, "edge": "top", "overlap": true, "position": "end"
+            }
+        }
+        ,
+        {
+            "name": "activated",
+            "border": {
+                "type": "surround",
+                "line": {
+                    "color": "#22AAE0", "width": 3, "style": "dotted"
+                }
+            }
+        }
+        ,
+        {
+            "name": "selected",
+            "shadow": [ {
+                "color": "#000000",
+                "opacity": 0.9,
+                "offset": {
+                    "width": 2, "height": 2
+                }
+                ,
+                "radius": 2
+            }
+            ]
+        }
+        ,
+        {
+            "name": "collapsed",
+            "shadow": [ {
+                "color": "#888888",
+                "offset": {
+                    "width": 0, "height": 1
+                }
+                ,
+                "radius": 0
+            }
+            ,
+            {
+                "color": "#FFFFFF",
+                "offset": {
+                    "width": 0, "height": 3
+                }
+                ,
+                "radius": 0
+            }
+            ,
+            {
+                "color": "#888888",
+                "offset": {
+                    "width": 0, "height": 4
+                }
+                ,
+                "radius": 0
+            }
+            ,
+            {
+                "color": "#FFFFFF",
+                "offset": {
+                    "width": 0, "height": 6
+                }
+                ,
+                "radius": 0
+            }
+            ,
+            {
+                "color": "#888888",
+                "offset": {
+                    "width": 0, "height": 7
+                }
+                ,
+                "radius": 0
+            }
+            ]
+        }
+        ,
+        {
+            "name": "collapsed.selected",
+            "shadow": [ {
+                "color": "#FFFFFF",
+                "offset": {
+                    "width": 0, "height": 1
+                }
+                ,
+                "radius": 0
+            }
+            ,
+            {
+                "color": "#888888",
+                "offset": {
+                    "width": 0, "height": 3
+                }
+                ,
+                "radius": 0
+            }
+            ,
+            {
+                "color": "#FFFFFF",
+                "offset": {
+                    "width": 0, "height": 6
+                }
+                ,
+                "radius": 0
+            }
+            ,
+            {
+                "color": "#555555",
+                "offset": {
+                    "width": 0, "height": 7
+                }
+                ,
+                "radius": 0
+            }
+            ,
+            {
+                "color": "#FFFFFF",
+                "offset": {
+                    "width": 0, "height": 10
+                }
+                ,
+                "radius": 0
+            }
+            ,
+            {
+                "color": "#333333",
+                "offset": {
+                    "width": 0, "height": 11
+                }
+                ,
+                "radius": 0
+            }
+            ]
+        }
+        ,
+        {
+            "name": "attr_group",
+            "cornerRadius": 10,
+            "backgroundColor": "transparent",
+            "border": {
+                "type": "overline"
+            }
+            ,
+            "shadow": [ {
+                "color": "transparent"
+            }
+            ],
+            "text": {
+                "margin": 0,
+                "alignment": "center",
+                "color": "#4F4F4F",
+                "lightColor": "#EEEEEE",
+                "darkColor": "#000000",
+                "font": {
+                    "lineSpacing": 2.5, "lineSpacingPx": 3.25, "size": 9, "sizePx": 12, "weight": "bold"
+                }
+            }
+            ,
+            "connections": {
+                "style": "supporting-group",
+                "childstyle": "no-connector",
+                "default": {
+                    "h": "center", "v": "base"
+                }
+                ,
+                "from": {
+                    "below": {
+                        "h": "center", "v": "base"
+                    }
+                }
+                ,
+                "to": {
+                    "h": "center", "v": "top"
+                }
+            }
+        }
+        ,
+        {
+            "name": "attr_group_supporting",
+            "connections": {
+                "style": "supporting-group",
+                "childstyle": "no-connector",
+                "default": {
+                    "h": "center", "v": "base"
+                }
+                ,
+                "from": {
+                    "below": {
+                        "h": "center", "v": "base"
+                    }
+                }
+                ,
+                "to": {
+                    "h": "center", "v": "top"
+                }
+            }
+        }
+        ,
+        {
+            "name": "attr_group_supporting.level_1",
+            "backgroundColor": "rgba(0, 255, 0, 0.2)",
+            "border": {
+                "type": "surround",
+                "line": {
+                    "color": "transparent", "width": 2, "style": "solid"
+                }
+            }
+        }
+        ,
+        {
+            "name": "attr_group_supporting.activated",
+            "backgroundColor": "rgba(0, 255, 0, 0.2)",
+            "border": {
+                "type": "surround",
+                "line": {
+                    "color": "#00FF00", "width": 3, "style": "dotted"
+                }
+            }
+        }
+        ,
+        {
+            "name": "attr_group_opposing",
+            "connections": {
+                "style": "opposing-group",
+                "childstyle": "no-connector",
+                "default": {
+                    "h": "center", "v": "base"
+                }
+                ,
+                "from": {
+                    "below": {
+                        "h": "center", "v": "base"
+                    }
+                }
+                ,
+                "to": {
+                    "h": "center", "v": "top"
+                }
+            }
+        }
+        ,
+        {
+            "name": "attr_group_opposing.level_1",
+            "backgroundColor": "rgba(255, 0, 0, 0.2)",
+            "border": {
+                "type": "surround",
+                "line": {
+                    "color": "transparent", "width": 2, "style": "solid"
+                }
+            }
+        }
+        ,
+        {
+            "name": "attr_group_opposing.activated",
+            "backgroundColor": "rgba(255, 0, 0, 0.2)",
+            "border": {
+                "type": "surround",
+                "line": {
+                    "color": "#FF0000", "width": 3, "style": "dotted"
+                }
+            }
+        }
+        ,
+        {
+            "name": "attr_group_supporting.droppable",
+            "backgroundColor": "rgba(0, 255, 0, 0.6)",
+            "border": {
+                "type": "surround",
+                "line": {
+                    "color": "#00FF00", "width": 3, "style": "dashed"
+                }
+            }
+        }
+        ,
+        {
+            "name": "attr_group_opposing.droppable",
+            "backgroundColor": "rgba(255, 0, 0, 0.6)",
+            "border": {
+                "type": "surround",
+                "line": {
+                    "color": "#FF0000", "width": 3, "style": "dashed"
+                }
+            }
+        }
+        ],
+        "connector": {
+            "default": {
+                "type": "vertical-quadratic-s-curve",
+                "line": {
+                    "color": "#707070", "width": 1
+                }
+            }
+            ,
+            "no-connector": {
+                "type": "no-connector",
+                "line": {
+                    "color": "#707070", "width": 0
+                }
+            }
+            ,
+            "supporting-group": {
+                "type": "vertical-quadratic-s-curve",
+                "line": {
+                    "color": "#00FF00", "width": 3
+                }
+            }
+            ,
+            "opposing-group": {
+                "type": "vertical-quadratic-s-curve",
+                "line": {
+                    "color": "#FF0000", "width": 3
+                }
+            }
+            ,
+            "no-connector.supporting-group": {
+                "type": "no-connector",
+                "line": {
+                    "color": "#00FF00", "width": 4
+                }
+            }
+            ,
+            "no-connector.opposing-group": {
+                "type": "no-connector",
+                "line": {
+                    "color": "#FF0000", "width": 4
+                }
+            }
+        }
+    }
+}

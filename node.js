@@ -97,11 +97,11 @@ Node.prototype.addInput = function(supports){
   return input;
 };
 
-Node.prototype.addContent=function(content = 'Click here to edit'){
+Node.prototype.addContent=function( content = 'Click here to edit', editable = true ){
   div=document.createElement('div');
   div.innerHTML=content;
   div.classList.add('wrap');
-  div.setAttribute( 'contenteditable', true );
+  div.setAttribute( 'contenteditable', editable );
   this.domElement.appendChild(div);
 }
 
@@ -270,7 +270,7 @@ Node.prototype.initUI = function(){
       }
     }
   })
-  
+
     $(this.suppArea).droppable({
   accept: ".node",
   tolerance: "pointer",
@@ -307,7 +307,6 @@ $(this.oppArea).droppable({
 
   // Fix positioning
   this.domElement.style.position = 'absolute';
-
   document.body.append(this.domElement);
   // Update Visual
   this.updatePosition();
@@ -370,19 +369,19 @@ Node.prototype.arrangeGroups = function () {
     var widthSum=nodeWidth;
     for(var i=0;i<this.childNodes[stance].length;i++){
       group=this.childNodes[stance][i];
-      groupPosition=getNodePosition(group);            
+      groupPosition=getNodePosition(group);
       groupPosition.x = currentPosition.x + (widthSum+spacing);
       widthSum += group.domElement.offsetWidth+spacing;
-      group.moveTo(groupPosition);  
+      group.moveTo(groupPosition);
     }
     stance="opposing";
     var widthSum=0
     for(var i=0;i<this.childNodes[stance].length;i++){
       group=this.childNodes[stance][i];
-      groupPosition=getNodePosition(group);        
+      groupPosition=getNodePosition(group);
       groupPosition.x = currentPosition.x - (widthSum+spacing+group.domElement.offsetWidth);
       widthSum += group.domElement.offsetWidth+spacing;
-      group.moveTo(groupPosition);  
+      group.moveTo(groupPosition);
     }
   }
   this.updatePosition();
