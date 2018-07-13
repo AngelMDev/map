@@ -41,7 +41,7 @@ function Node(name,id,root=false){
     // console.log("Parent:",that.group ? that.group.parentNode : null);
     // console.log("Children:",that.childNodes);
     // console.log("===");
-    that.addCues();
+    // that.addCues();
     argmap.selectNode( that );
   }
 
