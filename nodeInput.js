@@ -49,7 +49,7 @@ NodeInput.prototype.getAttachPoint = function(){
   parentId=this.domElement.parentElement.id;
   rect=this.domElement.getBoundingClientRect();
   return {
-    x: rect.x + $(this.domElement.parentElement).width()+2,
+    x: rect.x + window.scrollX + $(this.domElement.parentElement).width()+2,
     y: rect.y + window.scrollY
   };
 };
