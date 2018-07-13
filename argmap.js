@@ -81,18 +81,18 @@ class ARGmap {
   addSibling() {
    var group = this.selectedNode.group;
    var sibling = this.createNode()
-   if ( this.selectedNode != null && this.selectedNode.group != null ){
-     group.addNode( sibling );
+   if (this.selectedNode != null && this.selectedNode.group != null){
+     group.addNode(sibling);
      group.updateShape();
      group.alignNode( sibling );
      var currentPosition = this.getNodePosition( group );
      currentPosition.x = currentPosition.x - 85;
-     group.moveTo( currentPosition );
+     group.moveTo(currentPosition);
      group.parentNode.arrangeGroups();
      group.parentNode.applyToChildren();
-     if ( group.belongsTo() ) {
-       group.belongsTo().allTheChildren();
-     }
+     // if ( group.belongsTo() ) {
+     //   group.belongsTo().allTheChildren();
+     // }
    }
    if ( this.selectedNode && this.selectedNode.group == null ) {
      console.log('this');

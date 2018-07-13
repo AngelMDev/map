@@ -34,13 +34,13 @@ function Node(name,id,root=false){
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
-    // console.log("Id:",that.id);
-    // console.log(that.domElement.clientHeight);
-    // console.log("Node:",that.inputs[0].domElement.style.top = that.domElement.clientHeight-8);
-    // console.log("Group:",that.group);
-    // console.log("Parent:",that.group ? that.group.parentNode : null);
-    // console.log("Children:",that.childNodes);
-    // console.log("===");
+    console.log("Id:",that.id);
+    console.log(that.domElement.clientHeight);
+    console.log("Node:",that.inputs[0].domElement.style.top = that.domElement.clientHeight-8);
+    console.log("Group:",that.group);
+    console.log("Parent:",that.group ? that.group.parentNode : null);
+    console.log("Children:",that.childNodes);
+    console.log("===");
     argmap.selectNode( that );
   }
 
@@ -264,8 +264,8 @@ Node.prototype.initUI = function(){
     stop: function(e, ui){
       if(that.collapsedNode){
         that.propagateMoveTo({
-          x: getPositionAtOrigin(that).x-that.collapsedNode.positionWhenCollapsed.x,
-          y: getPositionAtOrigin(that).y-that.collapsedNode.positionWhenCollapsed.y
+          x: ui.position.left-ui.originalPosition.left,
+          y: ui.position.top-ui.originalPosition.top
         });
       }
     }
@@ -438,15 +438,21 @@ Node.prototype.calcHeight = function() {
   return this.domElement.offsetHeight;
 }
 
+//Collapsible functionality logic
 Node.prototype.collapseChildren = function(){
+  childCount=0;
   this.childNodes["supporting"].forEach((group)=>{
     group.hide();
+    childCount++;
   })
   this.childNodes["opposing"].forEach((group)=>{
     group.hide();
+    childCount++;
   })
   this.updatePosition();
-  this.collapsedNode=new CollapsedNode(this);
+  if(!this.collapsedNode && childCount > 0){
+    this.collapsedNode=new CollapsedNode(this);
+  }
 }
 
 Node.prototype.expandChildren = function(){
@@ -457,12 +463,16 @@ Node.prototype.expandChildren = function(){
     group.show();
   })
   setTimeout(()=>this.updatePosition(),260);
+  if (!this.collapsedNode) return;
   this.collapsedNode.domElement.remove();
   this.collapsedNode.path.removeAttribute('d');
   this.collapsedNode=null;
 }
 
 Node.prototype.hide = function(){
+  if(this.collapsedNode) {
+    this.collapsedNode.hide();
+  }
   $(this.domElement).addClass('hide');
   this.childNodes["supporting"].forEach((group)=>{
     group.hide();
@@ -474,6 +484,10 @@ Node.prototype.hide = function(){
 
 Node.prototype.show = function(){
   $(this.domElement).removeClass('hide');
+  if(this.collapsedNode) {
+    this.collapsedNode.show();
+    return;
+  }
   this.childNodes["supporting"].forEach((group)=>{
     group.show();
   })
@@ -482,10 +496,16 @@ Node.prototype.show = function(){
   })
 }
 
+//Move children with parent
 Node.prototype.propagateMoveTo = function(point){
   for(stance in this.childNodes){
     this.childNodes[stance].forEach((group)=>{
       group.propagateMoveTo(point);
     })
   }
+}
+
+Node.prototype.moveCollapsedWithParentGroup = function(point){
+  if (!this.collapsedNode) return;
+  this.propagateMoveTo(point);
 }
