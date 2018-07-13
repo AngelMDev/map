@@ -10,17 +10,16 @@ class ARGmap {
        1 : {}
       }
     }
-    this.nodeArray = [{id:"root",content:"blablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablabla"}]
+    this.nodeArray = [{id:"root",content:"blablablablablablablablablablablablablablablablabla"}]
   }
 
-
   // BUILDER FUNCTIONS
-  createNode( id = uniqueId(), coords={ x : 0, y : 0 }){
+  createNode( id = uniqueId(), coords = { x : 0, y : 0 }, content, type ){
    var mynode = new Node( null, id );
    mynode.initUI();
    mynode.moveTo( coords );
-   mynode.addContent( );
-   this.nodeReference.push( mynode )
+   mynode.addContent( content, type );
+   this.nodeReference.push( mynode );
    return mynode;
    }
 
@@ -117,9 +116,9 @@ class ARGmap {
     this.root = [];
     this.nodeReference.map( function( node ){
       node.lookForRoot();
-    })
-    this.rootJson( root[0] );
-    return dataJson;
+    });
+    this.rootJson( this.root[0] );
+    // return dataJson;
   }
 
   getText( node ){
@@ -155,7 +154,7 @@ class ARGmap {
   rootJson( root ) {
     var json = this.dataJson['ideas'][1];
     if ( root ) {
-      json.title = text( root );
+      json.title = this.getText( root );
       json.id = '1';
       json.ideas = {};
       json.position = this.getNodePosition(root);
@@ -246,7 +245,7 @@ class ARGmap {
   }
   //Random Node Generator
   playerMode(){
-    var qty = 15;
+    var qty = 2;
     for( var j = 0; j < qty; j++ ){
       var content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua";
       var endPoint = Math.floor((Math.random() * 220) + 1 );
@@ -261,15 +260,31 @@ class ARGmap {
     }
     var that = this;
     arr.map( function( num ) {
-      var node = that.createNode( that.nodeArray[ num ].id );
-      node.addContent( that.nodeArray[ num ].content, false );
+      var node = that.createNode( that.nodeArray[ num ].id, { x : 0, y : 0 }, that.nodeArray[ num ].content, false );
+      node.domElement.classList.add('noselect');
 
     })
   }
 
+  checkDueDate( dueDate = null ){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    dd = dd < 10 ? '0' + dd : dd
+    mm = mm < 10 ? '0' + mm : mm
+    today = mm + '/' + dd + '/' + yyyy;
+
+    // if ( dueDate > today ) {
+    if ( true ) {
+      this.nodeReference.map( function( node ) {
+        $(node.domElement).draggable('disable');
+      })
+    }
+  }
 }
 
 var argmap = new ARGmap();
-  argmap.createRoot();
-// argmap.playerMode();
-// argmap.displayNodes();
+  // argmap.createRoot();
+  argmap.playerMode();
+  argmap.displayNodes();
