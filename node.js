@@ -34,13 +34,14 @@ function Node(name,id,root=false){
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
-    console.log("Id:",that.id);
-    console.log(that.domElement.clientHeight);
-    console.log("Node:",that.inputs[0].domElement.style.top = that.domElement.clientHeight-8);
-    console.log("Group:",that.group);
-    console.log("Parent:",that.group ? that.group.parentNode : null);
-    console.log("Children:",that.childNodes);
-    console.log("===");
+    // console.log("Id:",that.id);
+    // console.log(that.domElement.clientHeight);
+    // console.log("Node:",that.inputs[0].domElement.style.top = that.domElement.clientHeight-8);
+    // console.log("Group:",that.group);
+    // console.log("Parent:",that.group ? that.group.parentNode : null);
+    // console.log("Children:",that.childNodes);
+    // console.log("===");
+    that.addCues();
     argmap.selectNode( that );
   }
 
@@ -61,7 +62,7 @@ function Node(name,id,root=false){
           $(this).blur();
           }
         })
-        });
+      });
 }
 
 
@@ -508,4 +509,20 @@ Node.prototype.propagateMoveTo = function(point){
 Node.prototype.moveCollapsedWithParentGroup = function(point){
   if (!this.collapsedNode) return;
   this.propagateMoveTo(point);
+}
+
+Node.prototype.addCues = function( type ) {
+  var classes = {
+    group: 'group-prob',
+    child: 'child-prob'
+  }
+  var text = {
+    group: "S",
+    child: 'C'
+  }
+  // var ran = Math.floor((Math.random() * 2) + 1 );
+  cue = document.createElement('div');
+  cue.classList.add(classes[type])
+  cue.innerHTML = text[type];
+  this.domElement.append(cue)
 }
