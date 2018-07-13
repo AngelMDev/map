@@ -79,16 +79,12 @@ function GetFullOffset(element){
 //===================MY CODE===================
 
 var nodeReference = [];
-var root = [];
 
-function createNode(id=uniqueId(),text=null,coords={x: 180, y: 70}){
-  var title=$('#title').val();
-  if(text===null)
-    var text = $('#text-area').val();
-  // id = uniqueId();
-  var mynode = new Node(title,id);
+function createNode( id = uniqueId(), text = null, coords = { x : 180, y : 70 } ){
+  id = uniqueId();
+  var mynode = new Node( title = null, id );
   mynode.moveTo(coords);
-  mynode.addContent(text);
+  mynode.addContent( text, false );
   mynode.initUI();
   nodeReference.push(mynode)
   return mynode;
@@ -106,113 +102,10 @@ function deleteDiv(ele) {
   $(ele.parentElement).remove();
 }
 
-function saveMap() {
-  root = [];
-  nodeReference.map(function(node){
-    node.lookForRoot();
-  })
-  rootJson(root[0]);
-  debugger
-  return dataJson;
-}
-
 function defineRoot(node) {
   if (!root.includes(node) && node.connected == true) {
     root.push(node);
   }
-}
-
-var text = function(node){
-  var textContent = "";
-  textContent = node.domElement.children[4].innerHTML;
-  return textContent;
-}
-
-var support = function(node){
-  var supp = [];
-  node.childNodes.supporting.map(function(ele){
-    supp.push(ele.nodeGroup);
-  })
-  return supp;
-}
-
-var oppose = function(node){
-  var opp = [];
-  node.childNodes.opposing.map(function(ele){
-    opp.push(ele.nodeGroup);
-  })
-  return opp;
-}
-
-
-var dataJson = {
-  formatVersion : 0,
-  id : 'root',
-  ideas : {
-    1 : {}
-  }
-}
-var rootJson = function( root ) {
-  var json = dataJson['ideas'][1];
-  if ( root ) {
-    json.title = text( root );
-    json.id = '1';
-    json.ideas = {};
-    json.position = getNodePosition(root);
-  }
-  var newJson = json['ideas'];
-
-  var numGroups = 1;
-  var pros = support( root );
-  var cons = oppose( root );
-  evalGroups( pros, cons, newJson, numGroups);
-
-}
-
-var evalGroups = function( pros, cons, json, count ){
-  if ( pros.length > 0 ) {
-    pros.map( function( groups ) {
-      createJSONGroup( pros, json, count, 'supporting')
-      count += 1;
-    })
-  }
-  if ( cons.length > 0 ) {
-    cons.map( function( groups ) {
-      createJSONGroup( cons, json, count, 'opposing')
-      count += 1;
-    })
-  }
-}
-
-var createJSONGroup = function( arr, json, count, type ) {
-    json[count] = {
-      title : 'group',
-      id : uniqueId(),
-      attr : {
-        group : type
-      },
-      ideas: {}
-    }
-    var newJson = json[count]['ideas']
-    groupContent( arr, newJson )
-}
-
-var groupContent = function( arr, json ) {
-  arr[0].map(function(node, idx) {
-    json[idx+1] = {};
-    json[idx+1].title = text(node);
-    json[idx+1].id = uniqueId();
-    json[idx+1].position = getNodePosition(node);
-
-    var subGroups = 1;
-    var subpros = support( node );
-    var subcons = oppose( node );
-    if ( subpros.length > 0 || subcons.length > 0 ){
-      json[idx+1].ideas = {};
-      var newJson = json[idx+1].ideas
-    }
-    evalGroups( subpros, subcons, newJson, subGroups);
-  })
 }
 
 var getNodePosition = function( node ) {
@@ -222,54 +115,6 @@ var getNodePosition = function( node ) {
  }
  return nodePos;
 }
-
-// root=createNode("Root");
-// ch1=createNode("Child_1",{x: 200, y: 150});
-// ch2=createNode("Child_2",{x: 220, y: 230});
-// ch1.connectTo(root.supportInput);
-// root.updatePosition();
-// ch1.updatePosition();
-// ch2.updatePosition();
-
-//{id: 0, content: ""}
-startingX = 40;
-startingY = 120;
-xMargin = 190;
-yMargin = 80;
-columnSize=4;
-column=0;
-row=0;
-
-function displayNodes(nodeArray){
-  for(var i=0;i<nodeArray.length;i++){
-    if(column>=columnSize){
-      column=0;
-      row++;
-    }
-      node=nodeArray[i];
-      createNode(node.id,node.content,{x:startingX + xMargin*column,y:startingY + yMargin*row})
-      column++;
-    }
-}
-
-//Random Node Generator
-// qty=7;
-// nodeArray=[{id:"root",content:"bla"}]
-// for(var j=0;j<qty;j++){
-//   fakeContent=Math.random().toString(36);
-//   nodeArray.push({id:j,content:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"})
-// }
-//
-// displayNodes(nodeArray);
-//
-// function remove(array, element) {
-//     const index = array.indexOf(element);
-//
-//     if (index !== -1) {
-//         array.splice(index, 1);
-//     }
-// }
-
 
 //Zoom Functionality stuff (doesn't work)
 amp=document.getElementById("amp")

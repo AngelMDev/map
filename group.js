@@ -282,7 +282,8 @@ Group.prototype.detachInput = function(input){
 Group.prototype.createAt = function( parent){
   var parentPosition = getNodePosition(parent);
   var parentHeight = parent.calcHeight();
-  parentPosition.y = parentPosition.y + 70 + parentHeight + window.scrollY;
+  parentPosition.y = parentPosition.y + 70
+   // + parentHeight + window.scrollY;
 
   if ( typeof parentPosition.y == 'number' ) {
     this.domElement.style.top = parentPosition.y + 'px';
