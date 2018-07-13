@@ -112,6 +112,7 @@ function saveMap() {
     node.lookForRoot();
   })
   rootJson(root[0]);
+  debugger
   return dataJson;
 }
 

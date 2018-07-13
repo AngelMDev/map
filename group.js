@@ -159,6 +159,12 @@ Group.prototype.initUI = function(){
     },
     stop: function(event, ui){
       that.alignGroup();
+      that.nodeGroup.forEach((node)=>{
+          node.moveCollapsedWithParentGroup({
+            x: ui.position.left-ui.originalPosition.left,
+            y: ui.position.top-ui.originalPosition.top
+        });
+      })
     }
   }).droppable({
   accept: ".node",
@@ -388,10 +394,10 @@ Group.prototype.show = function() {
 }
 
 Group.prototype.propagateMoveTo=function(point){
-  pos=getPositionAtOrigin(this);
+  pos=getNodePosition(this);
   this.moveTo({
-    x:point.x+pos.x/2,
-    y:point.y+pos.y/2
+    x:point.x+pos.x,
+    y:point.y+pos.y
   });
   this.nodeGroup.forEach((node)=>{
     node.propagateMoveTo(point);

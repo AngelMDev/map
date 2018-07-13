@@ -80,4 +80,14 @@ CollapsedNode.prototype.initUI = function(){
     document.body.append(this.domElement);
     // Update Visual
     this.updatePosition();
-  };
+};
+
+CollapsedNode.prototype.hide = function() {
+    $(this.domElement).addClass('hide');
+    this.cable.path.setAttributeNS(null, 'stroke-width', '0');
+}
+
+CollapsedNode.prototype.show = function() {
+    $(this.domElement).removeClass('hide');
+    setTimeout(()=>this.cable.path.setAttributeNS(null, 'stroke-width', '2'),255);
+}
