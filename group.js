@@ -184,6 +184,7 @@ Group.prototype.initUI = function(){
     currentPosition.x = currentPosition.x - 85;
     that.moveTo(currentPosition);
     that.parentNode.arrangeGroups();
+    
   },
    out: function( event, ui ) {
 

@@ -103,8 +103,8 @@ function deleteDiv(ele) {
 }
 
 function defineRoot(node) {
-  if (!root.includes(node) && node.connected == true) {
-    root.push(node);
+  if (!argmap.root.includes(node) && node.connected == true) {
+    argmap.root.push(node);
   }
 }
 

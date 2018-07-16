@@ -219,7 +219,7 @@ Node.prototype.connectTo = function(input, type){
   $(this.output.domElement).addClass('hidden');
 };
 
-Node.prototype.moveTo = function(point){
+Node.prototype.moveTo = function( point ){
   if ( typeof point.y == 'number' ) {
     this.domElement.style.top = point.y + 'px';
     this.domElement.style.left = point.x + 'px';
@@ -286,6 +286,7 @@ Node.prototype.initUI = function(){
     childNode.group.createAt( that );
 
     that.initialArrangement(childNode.group);
+    argmap.selectNode( childNode );
   }
 });
 
@@ -303,6 +304,7 @@ $(this.oppArea).droppable({
     childNode.group.createAt( that );
 
     that.initialArrangement(childNode.group);
+    argmap.selectNode( childNode );
   }
 });
 
