@@ -14,7 +14,7 @@ function CollapsedNode(parent){
 }
 
 CollapsedNode.prototype.moveTo = function(point){
-    point.y=point.y+50;
+    point.y=point.y+this.parent.domElement.offsetHeight+60;
     point.x+=(this.parent.domElement.offsetWidth/2)-(15);
     if ( typeof point.y == 'number' ) {
       this.domElement.style.top = point.y + 'px';
