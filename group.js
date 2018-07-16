@@ -242,6 +242,12 @@ Group.prototype.alignNode = function (node) {
   var groupPosition = getNodePosition(this);
   nodeStyles.left = groupPosition.x + (unit * (count - 1));
   nodeStyles.top = groupPosition.y + 7;
+  var groupUpdatedPosition = getNodePosition(this);
+  if(node.collapsedNode) node.propagateMoveTo(
+    {
+      x:groupUpdatedPosition.x - groupPosition.x,
+      y:groupUpdatedPosition.y -groupPosition.y
+    })
 }
 
 Group.prototype.alignGroup = function () {
@@ -253,6 +259,12 @@ Group.prototype.alignGroup = function () {
     var groupPosition = getNodePosition(that);
     nodeStyles.left = groupPosition.x + (unit * idx);
     nodeStyles.top = groupPosition.y + 7;
+    var groupUpdatedPosition = getNodePosition(that);
+    if(node.collapsedNode) node.propagateMoveTo(
+      {
+        x:groupUpdatedPosition.x - groupPosition.x,
+        y:groupUpdatedPosition.y -groupPosition.y
+      })
   })
 }
 

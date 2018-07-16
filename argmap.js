@@ -51,8 +51,9 @@ class ARGmap {
      childNode.connectTo(parentInput, true);
      childNode.group.createAt( this.selectedNode );
 
-     this.selectedNode.arrangeGroups( );
-     this.selectedNode.applyToChildren( );
+     childNode.initialArrangement(childNode.group);
+     this.selectedNode.arrangeGroups();
+    //  this.selectedNode.applyToChildren( );
 
      // if ( this.selectedNode.group ) {
      //   this.selectedNode.group.allTheChildren();
@@ -69,8 +70,8 @@ class ARGmap {
      childNode.connectTo(parentInput, false );
      childNode.group.createAt( this.selectedNode );
 
-     this.selectedNode.arrangeGroups( );
-     this.selectedNode.applyToChildren( );
+     childNode.initialArrangement(childNode.group);
+     this.selectedNode.arrangeGroups();
      // if ( this.selectedNode.group ) {
      //   this.selectedNode.group.allTheChildren();
      // }
@@ -119,13 +120,28 @@ class ARGmap {
       node.lookForRoot();
     })
     this.rootJson( root[0] );
+    this.download(this.dataJson,"save.txt","text/plain");
     return dataJson;
+  }
+
+  download(content, fileName, contentType) {
+    var a = document.createElement("a");
+    var file = new Blob([content], {type: contentType});
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
   }
 
   getText( node ){
     var textContent = "";
     textContent = node.domElement.children[4].innerHTML;
     return textContent;
+  }
+
+  defineRoot(node) {
+    if (!root.includes(node) && node.connected == true) {
+      this.root.push(node);
+    }
   }
 
   getSupport( node ){
@@ -265,6 +281,13 @@ class ARGmap {
       node.addContent( that.nodeArray[ num ].content, false );
 
     })
+  }
+
+  loadMap(){
+    //Loads from local temporarily, for testing purposes
+    $.getJSON("mapexample.txt", function(json) {
+      debugger
+  });
   }
 
 }
