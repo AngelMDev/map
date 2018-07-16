@@ -46,7 +46,6 @@ class ARGmap {
    if ( this.selectedNode != null ){
      var childNode = this.createNode()
      var parentInput = this.selectedNode.inputs[0];
-
      childNode.connectTo(parentInput, true);
      childNode.group.createAt( this.selectedNode );
 
@@ -245,7 +244,7 @@ class ARGmap {
   }
   //Random Node Generator
   playerMode(){
-    var qty = 2;
+    var qty = 8;
     for( var j = 0; j < qty; j++ ){
       var content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua";
       var endPoint = Math.floor((Math.random() * 220) + 1 );
