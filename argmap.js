@@ -164,7 +164,7 @@ class ARGmap {
     var supp = this.getSupport( root );
     var cons = this.getOppose( root );
     this.evalGroups( supp, newJson, numGroups, 'suporting' );
-    this.evalGroups( supp, newJson, numGroups, 'opposing' );
+    this.evalGroups( cons, newJson, numGroups, 'opposing' );
   }
 
   evalGroups( arr, json, count, type ){
@@ -244,7 +244,7 @@ class ARGmap {
   }
   //Random Node Generator
   playerMode(){
-    var qty = 8;
+    var qty = 5;
     for( var j = 0; j < qty; j++ ){
       var content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua";
       var endPoint = Math.floor((Math.random() * 220) + 1 );
