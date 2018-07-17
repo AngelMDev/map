@@ -183,8 +183,13 @@ Group.prototype.initUI = function(){
     var currentPosition = getNodePosition(that);
     currentPosition.x = currentPosition.x - 85;
     that.moveTo(currentPosition);
-    that.parentNode.arrangeGroups();
-    
+    // that.parentNode.arrangeGroups();
+    that.parentNode.childrenPosition();
+    that.parentNode.applyToChildren();
+     if ( that.belongsTo() ) {
+       that.belongsTo().allTheChildren();
+     };
+
   },
    out: function( event, ui ) {
 
@@ -283,8 +288,7 @@ Group.prototype.detachInput = function(input){
 Group.prototype.createAt = function( parent){
   var parentPosition = getNodePosition(parent);
   var parentHeight = parent.calcHeight();
-  parentPosition.y = parentPosition.y + 70
-   // + parentHeight + window.scrollY;
+  parentPosition.y = parentPosition.y + 70 + parentHeight + window.scrollY;
 
   if ( typeof parentPosition.y == 'number' ) {
     this.domElement.style.top = parentPosition.y + 'px';
@@ -298,48 +302,49 @@ Group.prototype.createAt = function( parent){
   this.alignGroup()
 };
 
-// Group.prototype.allTheChildren = function() {
-//   var nodeInGroup = this.nodeGroup;
-//   var unit = 175;
-//   var width = nodeInGroup.length *  unit;
-//   var halfW = width / 2; //control the space between nodes;
-//   var quartW = width / 4 ;
-//   var parent = this;
-//   var numElements = 2; //to count the number of nodes in all the groups
-// // counting the number of nodes in all the groups
-//   var control = 2;
-//   nodeInGroup.map( function( node ){
-//     var childrens = node.childNodes;
-//     control -= 1
-//     for ( var group in childrens ) {
-//       childrens[ group ].map( function( group ) {
-//         if ( group.nodeGroup ) {
-//           group.nodeGroup.map( function( node ) {
-//             numElements -= 1
-//           })
-//         }
-//       })
-//     }
-//   })
-//   if ( numElements < control ){
-//     nodeInGroup.map( function( node ) {
-//       var childrens = node.childNodes;
-//       for ( var group in childrens ) {
-//         childrens[ group ].map( function( group ) {
-//           if ( group.nodeGroup ) {
-//             var individualPosition = getNodePosition( parent );
-//             individualPosition.y = individualPosition.y + 127;
-//             individualPosition.x = individualPosition.x + ( quartW * numElements ) ;
-//             group.moveTo( individualPosition );
-//             group.updatePosition();
-//             var numNodes = group.nodeGroup.length;
-//             numElements += ( 2 * numNodes );
-//           }
-//         })
-//       }
-//     })
-//   }
-// }
+Group.prototype.allTheChildren = function() {
+  var nodeInGroup = this.nodeGroup;
+  var unit = 175;
+  var width = nodeInGroup.length *  unit;
+  var halfW = width / 2; //control the space between nodes;
+  var quartW = width / 4 ;
+  var parent = this;
+  var numElements = 2; //to count the number of nodes in all the groups
+// counting the number of nodes in all the groups
+  var control = 2;
+  nodeInGroup.map( function( node ){
+    var childrens = node.childNodes;
+    control -= 1
+    for ( var group in childrens ) {
+      childrens[ group ].map( function( group ) {
+        if ( group.nodeGroup ) {
+          group.nodeGroup.map( function( node ) {
+            numElements -= 1
+          })
+        }
+      })
+    }
+  })
+  if ( numElements < control ){
+    nodeInGroup.map( function( node ) {
+      var childrens = node.childNodes;
+      for ( var group in childrens ) {
+        childrens[ group ].map( function( group ) {
+          if ( group.nodeGroup ) {
+            var individualPosition = getNodePosition( parent );
+
+            individualPosition.y = individualPosition.y + 70 + window.scrollY;;
+            individualPosition.x = individualPosition.x + ( quartW * numElements ) ;
+            group.moveTo( individualPosition );
+            group.updatePosition();
+            var numNodes = group.nodeGroup.length;
+            numElements += ( 2 * numNodes );
+          }
+        })
+      }
+    })
+  }
+}
 
 Group.prototype.belongsTo = function () {
   var nodeParent = this.attachedPaths[0].input.parentNode;
@@ -404,4 +409,10 @@ Group.prototype.propagateMoveTo=function(point){
   this.nodeGroup.forEach((node)=>{
     node.propagateMoveTo(point);
   });
+}
+
+Group.prototype.numOfNodes = function() {
+  if ( this.nodeGroup.length > 1 ) {
+    this.allTheChildren();
+  }
 }

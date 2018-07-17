@@ -255,7 +255,7 @@ Node.prototype.initUI = function(){
             group.attachedPaths=[];
           }
           group.updateShape();
-          // group.parentNode.childrenPosition();
+          group.parentNode.childrenPosition();
           group.parentNode.applyToChildren();
           group.parentNode.updatePosition();
           group.updatePosition();
@@ -272,7 +272,7 @@ Node.prototype.initUI = function(){
     }
   })
 
-    $(this.suppArea).droppable({
+$(this.suppArea).droppable({
   accept: ".node",
   tolerance: "pointer",
   hoverClass: 'parent-child-supp',
@@ -284,8 +284,15 @@ Node.prototype.initUI = function(){
 
     childNode.connectTo(parentInput, true);
     childNode.group.createAt( that );
+    // that.initialArrangement(childNode.group);
 
-    that.initialArrangement(childNode.group);
+    that.childrenPosition( );
+    that.applyToChildren( );
+
+    // that.countNode();
+    if ( that.group ) {
+      that.group.numOfNodes() ;
+    }
     argmap.selectNode( childNode );
   }
 });
@@ -303,7 +310,15 @@ $(this.oppArea).droppable({
     childNode.connectTo(parentInput, false);
     childNode.group.createAt( that );
 
-    that.initialArrangement(childNode.group);
+    // that.initialArrangement(childNode.group);
+
+    that.childrenPosition( );
+    that.applyToChildren( );
+
+    // that.countNode();
+    if ( that.group ) {
+      that.group.numOfNodes() ;
+    }
     argmap.selectNode( childNode );
   }
 });
@@ -327,7 +342,7 @@ Node.prototype.initialArrangement = function(group){
   currentPosition=getNodePosition(this);
   currentPosition.y=currentPosition.y+this.domElement.offsetHeight + 40;
   group.moveTo(currentPosition);
-  this.arrangeGroups();
+  // this.arrangeGroups();
 }
 
 Node.prototype.arrangeGroups = function () {
@@ -390,7 +405,7 @@ Node.prototype.arrangeGroups = function () {
   this.updatePosition();
 }
 
-// Node.prototype.childrenPosition = function() {
+Node.prototype.childrenPosition = function() {
 //   var halfW = 180; //control the space between nodes;
 //   var parent = this;
 //   var numElements = 0; //to count the number of nodes in all the groups
@@ -402,7 +417,7 @@ Node.prototype.arrangeGroups = function () {
 //     });
 //   }
 // // center the child with the parent
-
+//
 //   for (var stance in children) {
 //     var placement = (stance == "supporting") ? 1 : -1
 //     var count=0;
@@ -421,7 +436,59 @@ Node.prototype.arrangeGroups = function () {
 //       count++;
 //     });
 //   }
-// }
+var halfW = 85; //control the space between nodes;
+  var parent = this;
+  var numElements = 1; //to count the number of nodes in all the groups
+// counting the number of nodes in all the groups
+  var keys = Object.keys( this.childNodes )
+  var childrens = this.childNodes;
+  for ( var group in childrens ) {
+    childrens[ group ].map( function( group ) {
+      if ( group ) {
+        group.nodeGroup.map( function( node ) {
+          numElements -= 1
+        })
+      }
+    })
+  }
+// center the child with the parent
+  if ( numElements == 0 ) {
+    for ( var group in childrens ) {
+      childrens[ group ].map( function( group ) {
+        if ( group ) {
+          var individualPosition = getNodePosition( parent );
+          var parentHeight = parent.calcHeight();
+          individualPosition.y = individualPosition.y + 70 + parentHeight + window.scrollY;;
+          group.moveTo( individualPosition );
+
+          group.updatePosition();
+          group.updatePositionWithoutChildren();
+        }
+      })
+    }
+  }
+// moving each node acording to the groups
+  if ( numElements < 0 ){
+    for ( var group in childrens ) {
+      childrens[ group ].map( function( group ) {
+        if ( group ) {
+          var individualPosition = getNodePosition( parent );
+          var parentHeight = parent.calcHeight();
+          individualPosition.y = individualPosition.y + 70 + parentHeight + window.scrollY;;
+          individualPosition.x = individualPosition.x + ( halfW * numElements ) ;
+          group.moveTo( individualPosition );
+
+          group.updatePosition();
+          group.updatePositionWithoutChildren();
+
+          var numNodes = group.nodeGroup.length;
+          numElements += ( 2 * numNodes );
+        }
+      })
+    }
+  }
+
+}
 
 Node.prototype.applyToChildren = function() {
   var childrens = this.childNodes;
@@ -429,8 +496,10 @@ Node.prototype.applyToChildren = function() {
     childrens[ group ].map( function( group ) {
       if ( group ) {
         group.nodeGroup.map( function( node ) {
-          node.arrangeGroups();
+          // node.arrangeGroups();
+            node.childrenPosition();
         })
+        // group.numOfNodes();
       }
       group.updatePosition();
     })
@@ -528,3 +597,43 @@ Node.prototype.addCues = function( type ) {
   cue.innerHTML = text[type];
   this.domElement.append(cue)
 }
+
+// TEST TO IMPROVE POSITIOTING
+
+Node.prototype.countNode = function() {
+  // counting the number of nodes in all the groups
+  var numOfNodes = 0;
+  var keys = Object.keys( this.childNodes )
+  var childrens = this.childNodes;
+  var that = this;
+  for ( var group in childrens ) {
+    childrens[ group ].map( function( group ) {
+      if ( group ) {
+        group.nodeGroup.map( function( node ) {
+          numOfNodes += 1;
+        })
+      }
+    })
+  }
+  if ( numOfNodes > 1 ) {
+    if ( that.group ) {
+      var parent = that.group.attachedPaths[0].input.parentNode;
+      that.hasSiblings( parent );
+    }
+  }
+}
+
+Node.prototype.hasSiblings = function( parent ) {
+  if ( this.group.type == true && ( parent.childNodes.supporting.length > 1 || parent.childNodes.opposing.length > 0 ) ) {
+    console.log('spacing');
+    return true;
+  } else if ( this.group.type == false && ( parent.childNodes.opposing.length > 1 || parent.childNodes.supporting.length > 0 ) ) {
+    console.log('spacing');
+    return true;
+  } else {
+  return false; }
+}
+
+// Node.prototype.
+
+// END OF TEST

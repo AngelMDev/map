@@ -49,12 +49,13 @@ class ARGmap {
      childNode.connectTo(parentInput, true);
      childNode.group.createAt( this.selectedNode );
 
-     this.selectedNode.arrangeGroups( );
+     // this.selectedNode.arrangeGroups( );
+     this.selectedNode.childrenPosition( );
      this.selectedNode.applyToChildren( );
 
-     // if ( this.selectedNode.group ) {
-     //   this.selectedNode.group.allTheChildren();
-     // }
+     if ( this.selectedNode.group ) {
+       this.selectedNode.group.allTheChildren();
+     }
      this.selectNode( childNode );
     }
   }
@@ -67,11 +68,12 @@ class ARGmap {
      childNode.connectTo(parentInput, false );
      childNode.group.createAt( this.selectedNode );
 
-     this.selectedNode.arrangeGroups( );
+     // this.selectedNode.arrangeGroups( );
+     this.selectedNode.childrenPosition( );
      this.selectedNode.applyToChildren( );
-     // if ( this.selectedNode.group ) {
-     //   this.selectedNode.group.allTheChildren();
-     // }
+     if ( this.selectedNode.group ) {
+       this.selectedNode.group.allTheChildren();
+     }
      this.selectNode( childNode );
     }
   }
@@ -86,11 +88,12 @@ class ARGmap {
      var currentPosition = this.getNodePosition( group );
      currentPosition.x = currentPosition.x - 85;
      group.moveTo(currentPosition);
-     group.parentNode.arrangeGroups();
+     // group.parentNode.arrangeGroups();
+     group.parentNode.childrenPosition();
      group.parentNode.applyToChildren();
-     // if ( group.belongsTo() ) {
-     //   group.belongsTo().allTheChildren();
-     // }
+     if ( group.belongsTo() ) {
+       group.belongsTo().allTheChildren();
+     }
    }
    if ( this.selectedNode && this.selectedNode.group == null ) {
      console.log('this');
