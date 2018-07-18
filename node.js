@@ -56,10 +56,10 @@ function Node(name,id,root=false){
   $('body').on('dblclick','.node .wrap', function(){
         $(this).focus();
         document.execCommand( 'selectAll', true);
-        $(this).on("keyup", function(event) {
-          event.preventDefault();
+        $(this).on("keydown", function( event ) {
           if (event.keyCode === 13) {
-          $(this).blur();
+            event.preventDefault();
+            $(this).blur();
           }
         })
       });
@@ -257,6 +257,12 @@ Node.prototype.initUI = function(){
           group.updateShape();
           group.parentNode.childrenPosition();
           group.parentNode.applyToChildren();
+
+          group.parentNode.countNode();
+          if ( group.parentNode.group ) {
+            group.numOfNodes();
+          }
+
           group.parentNode.updatePosition();
           group.updatePosition();
         };
@@ -284,14 +290,13 @@ $(this.suppArea).droppable({
 
     childNode.connectTo(parentInput, true);
     childNode.group.createAt( that );
-    // that.initialArrangement(childNode.group);
 
     that.childrenPosition( );
     that.applyToChildren( );
 
-    // that.countNode();
+    that.countNode();
     if ( that.group ) {
-      that.group.numOfNodes() ;
+      that.group.numOfNodes();
     }
     argmap.selectNode( childNode );
   }
@@ -315,7 +320,7 @@ $(this.oppArea).droppable({
     that.childrenPosition( );
     that.applyToChildren( );
 
-    // that.countNode();
+    that.countNode();
     if ( that.group ) {
       that.group.numOfNodes() ;
     }
@@ -405,45 +410,17 @@ Node.prototype.arrangeGroups = function () {
   this.updatePosition();
 }
 
-Node.prototype.childrenPosition = function() {
-//   var halfW = 180; //control the space between nodes;
-//   var parent = this;
-//   var numElements = 0; //to count the number of nodes in all the groups
-// // counting the number of nodes in all the groups
-//   var children = this.childNodes;
-//   for (var stance in children) {
-//     children[stance].forEach(function(group) {
-//       numElements +=group.nodeGroup.length;
-//     });
-//   }
-// // center the child with the parent
-//
-//   for (var stance in children) {
-//     var placement = (stance == "supporting") ? 1 : -1
-//     var count=0;
-//     children[stance].forEach(function(group) {
-//       var individualPosition = getNodePosition(parent);
-//       individualPosition.y = individualPosition.y + parent.domElement.offsetHeight + 40;
-//       if(numElements!=1){
-//         if (count==0){
-//           count=1;
-//         }
-//         console.log(individualPosition)
-//         individualPosition.x = individualPosition.x + (count * halfW * placement * group.nodeGroup.length);
-//       }
-//       group.moveTo(individualPosition);
-//       group.updatePosition();
-//       count++;
-//     });
-//   }
-var halfW = 85; //control the space between nodes;
+Node.prototype.childrenPosition = function( halfW = 85) {
+  // var halfW = 85; //control the space between nodes;
+  var spacing = halfW;
   var parent = this;
   var numElements = 1; //to count the number of nodes in all the groups
 // counting the number of nodes in all the groups
   var keys = Object.keys( this.childNodes )
-  var childrens = this.childNodes;
-  for ( var group in childrens ) {
-    childrens[ group ].map( function( group ) {
+  var children = this.childNodes;
+  for ( var group in children ) {
+    children[ group ].map( function( group ) {
+      group.spacing = spacing;
       if ( group ) {
         group.nodeGroup.map( function( node ) {
           numElements -= 1
@@ -453,8 +430,8 @@ var halfW = 85; //control the space between nodes;
   }
 // center the child with the parent
   if ( numElements == 0 ) {
-    for ( var group in childrens ) {
-      childrens[ group ].map( function( group ) {
+    for ( var group in children ) {
+      children[ group ].map( function( group ) {
         if ( group ) {
           var individualPosition = getNodePosition( parent );
           var parentHeight = parent.calcHeight();
@@ -467,10 +444,10 @@ var halfW = 85; //control the space between nodes;
       })
     }
   }
-// moving each node acording to the groups
+// moving each group acording to the groups
   if ( numElements < 0 ){
-    for ( var group in childrens ) {
-      childrens[ group ].map( function( group ) {
+    for ( var group in children ) {
+      children[ group ].map( function( group ) {
         if ( group ) {
           var individualPosition = getNodePosition( parent );
           var parentHeight = parent.calcHeight();
@@ -491,9 +468,9 @@ var halfW = 85; //control the space between nodes;
 }
 
 Node.prototype.applyToChildren = function() {
-  var childrens = this.childNodes;
-  for ( var group in childrens ) {
-    childrens[ group ].map( function( group ) {
+  var children = this.childNodes;
+  for ( var group in children ) {
+    children[ group ].map( function( group ) {
       if ( group ) {
         group.nodeGroup.map( function( node ) {
           // node.arrangeGroups();
@@ -604,10 +581,12 @@ Node.prototype.countNode = function() {
   // counting the number of nodes in all the groups
   var numOfNodes = 0;
   var keys = Object.keys( this.childNodes )
-  var childrens = this.childNodes;
+  var children = this.childNodes;
+  var childrenLvl = this.group != null ? this.group.level + 1 : 1;
   var that = this;
-  for ( var group in childrens ) {
-    childrens[ group ].map( function( group ) {
+  var maxLvl = getMaxLevel();
+  for ( var group in children ) {
+    children[ group ].map( function( group ) {
       if ( group ) {
         group.nodeGroup.map( function( node ) {
           numOfNodes += 1;
@@ -615,20 +594,17 @@ Node.prototype.countNode = function() {
       }
     })
   }
-  if ( numOfNodes > 1 ) {
-    if ( that.group ) {
-      var parent = that.group.attachedPaths[0].input.parentNode;
-      that.hasSiblings( parent );
+  if ( numOfNodes > 0 ) {
+    for( var i = childrenLvl; i <= maxLvl; i++){
+      alignNodesInlevel( i );
     }
   }
 }
 
 Node.prototype.hasSiblings = function( parent ) {
   if ( this.group.type == true && ( parent.childNodes.supporting.length > 1 || parent.childNodes.opposing.length > 0 ) ) {
-    console.log('spacing');
     return true;
   } else if ( this.group.type == false && ( parent.childNodes.opposing.length > 1 || parent.childNodes.supporting.length > 0 ) ) {
-    console.log('spacing');
     return true;
   } else {
   return false; }

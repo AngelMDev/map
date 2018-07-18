@@ -18,6 +18,8 @@ function Group(id, node, type){
   this.nodeGroup.push(node);
   this.connected = false;
   this.attachedPaths = [];
+  this.spacing = 85;
+  this.level = null
 // }
     //DEBUGGING PURPOSES
   var that=this
@@ -183,11 +185,11 @@ Group.prototype.initUI = function(){
     var currentPosition = getNodePosition(that);
     currentPosition.x = currentPosition.x - 85;
     that.moveTo(currentPosition);
-    // that.parentNode.arrangeGroups();
+
     that.parentNode.childrenPosition();
     that.parentNode.applyToChildren();
      if ( that.belongsTo() ) {
-       that.belongsTo().allTheChildren();
+       that.allTheChildren();
      };
 
   },
@@ -298,6 +300,15 @@ Group.prototype.createAt = function( parent){
     this.domElement.style.top = parentPosition.y;
     this.domElement.style.left = parentPosition.x;
   }
+  // set the level of the new group
+  if ( parent.root == true ) {
+    this.level = 1;
+  } else {
+    var parentLevel = parent.group.level;
+    this.level = parentLevel + 1;
+
+  };
+
   this.updatePosition();
   this.alignGroup()
 };
@@ -310,6 +321,7 @@ Group.prototype.allTheChildren = function() {
   var quartW = width / 4 ;
   var parent = this;
   var numElements = 2; //to count the number of nodes in all the groups
+  var parentHeight = 0;
 // counting the number of nodes in all the groups
   var control = 2;
   nodeInGroup.map( function( node ){
@@ -320,6 +332,10 @@ Group.prototype.allTheChildren = function() {
         if ( group.nodeGroup ) {
           group.nodeGroup.map( function( node ) {
             numElements -= 1
+            var height = node.calcHeight();
+            if ( height > parentHeight ) {
+              parentHeight = height;
+            }
           })
         }
       })
@@ -332,8 +348,8 @@ Group.prototype.allTheChildren = function() {
         childrens[ group ].map( function( group ) {
           if ( group.nodeGroup ) {
             var individualPosition = getNodePosition( parent );
-
-            individualPosition.y = individualPosition.y + 70 + window.scrollY;;
+            var tempPos = getNodePosition( parent.nodeGroup[0] );
+            individualPosition.y = tempPos.y + 70 + parentHeight + window.scrollY;;
             individualPosition.x = individualPosition.x + ( quartW * numElements ) ;
             group.moveTo( individualPosition );
             group.updatePosition();
@@ -350,7 +366,7 @@ Group.prototype.belongsTo = function () {
   var nodeParent = this.attachedPaths[0].input.parentNode;
   if ( nodeParent.group ) {
     if ( nodeParent.group.nodeGroup.length > 1 ){
-      return nodeParent.group;
+      return true;
     }
   } else {
     return false;
