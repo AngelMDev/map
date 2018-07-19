@@ -1,7 +1,14 @@
+firstNode=true;
+
 function buildNode(json){
     var coords={};
     if (json.attr && json.attr.position) coords={x:json.attr.position[0],y:json.attr.position[1]}
-    var node=createNode(json.id,json.title,coords);
+    var id=json.id
+    if(firstNode){
+        id="root"
+        firstNode=false;
+    }
+    var node=createNode(id,json.title,coords);
     if(json.ideas && _.isEmpty(json.ideas)) return node;
     getIdeas(json.ideas,node);
     return node;

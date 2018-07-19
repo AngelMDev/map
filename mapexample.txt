@@ -3,101 +3,135 @@
   "id": "root",
   "ideas": {
     "1": {
-      "title": "A",
+      "title": "\n\nUS textile and apparel import barriers were bad for the United States\n",
       "id": 1,
       "attr": {
         "position": [
-          500,
+          200,
           200,
           1
         ]
       },
       "ideas": {
-        "1": {
+        "31": {
           "title": "group",
-          "id": 2,
-          "attr": {
-            "contentLocked": true,
-            "group": "supporting"
-          },
-          "ideas": {
-            "1": {
-              "title": "B",
-              "id": 3
-            },
-            "2": {
-              "title": "C",
-              "id": 7
-            }
-          }
-        },
-        "11": {
-          "title": "group",
-          "id": 4,
+          "id": "42.2c45fc699dc63c5a",
           "attr": {
             "contentLocked": true,
             "group": "opposing"
           },
           "ideas": {
             "1": {
-              "title": "D",
-              "id": 5,
+              "title": "Textile import barriers protected US textile manufacturing jobs",
+              "id": "43.2c45fc699dc63c5a",
               "ideas": {
                 "1": {
                   "title": "group",
-                  "id": 8,
-                  "attr": {
-                    "contentLocked": true,
-                    "group": "supporting"
-                  },
-                  "ideas": {
-                    "1": {
-                      "title": "E",
-                      "id": 9
-                    }
-                  }
-                },
-                "2": {
-                  "title": "group",
-                  "id": 10,
+                  "id": "44.2c45fc699dc63c5a",
                   "attr": {
                     "contentLocked": true,
                     "group": "opposing"
                   },
                   "ideas": {
                     "1": {
-                      "title": "F",
-                      "id": 11
-                    },
-                    "2": {
-                      "title": "asdasd",
-                      "id": 12
+                      "title": "Automation has been the main cause of lost textile manufacturing jobs",
+                      "id": "45.2c45fc699dc63c5a"
                     }
                   }
                 }
               }
+            },
+            "2": {
+              "title": "Loss of jobs harms communities",
+              "id": "81.5be46adf6fe0461f"
             }
+          }
+        },
+        "81": {
+          "title": "group",
+          "id": "89.766d2a1d6ea51109",
+          "attr": {
+            "contentLocked": true,
+            "group": "supporting"
+          },
+          "ideas": {
+            "1": {
+              "title": "Textile import barriers raised production costs for the US apparel manufacturing industry",
+              "id": "90.766d2a1d6ea51109",
+              "ideas": {
+                "1": {
+                  "title": "group",
+                  "id": "77.5be46adf6fe0461f",
+                  "attr": {
+                    "contentLocked": true,
+                    "group": "supporting"
+                  },
+                  "ideas": {
+                    "1": {
+                      "title": "MFA rules were very complex",
+                      "id": "78.5be46adf6fe0461f"
+                    },
+                    "2": {
+                      "title": "Complex rules raise production costs",
+                      "id": "80.5be46adf6fe0461f",
+                      "ideas": {}
+                    }
+                  }
+                },
+                "2": {
+                  "title": "group",
+                  "id": "72.5be46adf6fe0461f",
+                  "attr": {
+                    "contentLocked": true,
+                    "group": "supporting"
+                  },
+                  "ideas": {
+                    "1": {
+                      "title": "Textiles import barriers raised costs of inputs for apparel manufacturing",
+                      "id": "73.5be46adf6fe0461f"
+                    },
+                    "2": {
+                      "title": "More costly inputs raise production costs",
+                      "id": "94.766d2a1d6ea51109"
+                    }
+                  }
+                }
+              }
+            },
+            "2": {
+              "title": "Raising production costs to the US apparel manufacturing industry made it less competitive",
+              "id": "76.5be46adf6fe0461f",
+              "attr": {}
+            }
+          }
+        },
+        "-1": {
+          "title": "group",
+          "id": "82.766d2a1d6ea51109",
+          "ideas": {
+            "1": {
+              "title": "The USITC estimates that textile and apparel barriers cost US consumers between $80,000 and $180,000 annually per job saved",
+              "id": "9.2c45fc699dc63c5a",
+              "attr": {},
+              "ideas": {}
+            }
+          },
+          "attr": {
+            "group": "supporting",
+            "contentLocked": true
           }
         }
       }
     }
   },
-  "title": "A",
+  "title": "\n\nUS textile and apparel import barriers were bad for the United States\n",
   "attr": {
     "theme": "argMappingSimple"
   },
+  "links": [],
   "theme": {
     "name": "MindMup Top Down Argument Mapping",
-    "connectorEditingContext": {
-      "name": "argument-mapping",
-      "allowed": [
-        "width",
-        "label"
-      ],
-      "defaults": {
-        "width": 3
-      }
-    },
+    "blockParentConnectorOverride": true,
     "layout": {
       "orientation": "top-down",
       "spacing": {
@@ -130,7 +164,7 @@
         ],
         "text": {
           "margin": 5,
-          "alignment": "start",
+          "alignment": "left",
           "maxWidth": 146,
           "color": "#4F4F4F",
           "lightColor": "#EEEEEE",
@@ -455,21 +489,6 @@
         "line": {
           "color": "#707070",
           "width": 1
-        },
-        "label": {
-          "position": {
-            "aboveEnd": 15
-          },
-          "backgroundColor": "white",
-          "borderColor": "white",
-          "text": {
-            "color": "#4F4F4F",
-            "font": {
-              "size": 9,
-              "sizePx": 12,
-              "weight": "normal"
-            }
-          }
         }
       },
       "no-connector": {
@@ -482,23 +501,8 @@
       "supporting-group": {
         "type": "vertical-quadratic-s-curve",
         "line": {
-          "color": "#339966",
+          "color": "#00FF00",
           "width": 3
-        },
-        "label": {
-          "position": {
-            "aboveEnd": 15
-          },
-          "backgroundColor": "white",
-          "borderColor": "white",
-          "text": {
-            "color": "#339966",
-            "font": {
-              "size": 9,
-              "sizePx": 12,
-              "weight": "normal"
-            }
-          }
         }
       },
       "opposing-group": {
@@ -506,43 +510,13 @@
         "line": {
           "color": "#FF0000",
           "width": 3
-        },
-        "label": {
-          "position": {
-            "aboveEnd": 15
-          },
-          "backgroundColor": "white",
-          "borderColor": "white",
-          "text": {
-            "color": "#FF0000",
-            "font": {
-              "size": 9,
-              "sizePx": 12,
-              "weight": "normal"
-            }
-          }
         }
       },
       "no-connector.supporting-group": {
         "type": "no-connector",
         "line": {
-          "color": "#339966",
+          "color": "#00FF00",
           "width": 4
-        },
-        "label": {
-          "position": {
-            "ratio": 0.5
-          },
-          "backgroundColor": "transparent",
-          "borderColor": "transparent",
-          "text": {
-            "color": "#339966",
-            "font": {
-              "size": 6,
-              "sizePx": 9,
-              "weight": "normal"
-            }
-          }
         }
       },
       "no-connector.opposing-group": {
@@ -550,21 +524,6 @@
         "line": {
           "color": "#FF0000",
           "width": 4
-        },
-        "label": {
-          "position": {
-            "ratio": 0.5
-          },
-          "backgroundColor": "transparent",
-          "borderColor": "transparent",
-          "text": {
-            "color": "#4F4F4F",
-            "font": {
-              "size": 6,
-              "sizePx": 9,
-              "weight": "normal"
-            }
-          }
         }
       }
     }

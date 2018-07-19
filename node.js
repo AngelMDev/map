@@ -32,7 +32,8 @@ function Node(name,id,root=false){
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
-       console.log("Id:",that.id);
+     if(that.root) console.log("root node");
+    // console.log("Id:",that.id);
     // console.log(that.domElement.clientHeight);
     // console.log("Node:",that.inputs[0].domElement.style.top = that.domElement.clientHeight-8);
     // console.log("Group:",that.group);
