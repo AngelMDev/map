@@ -27,9 +27,10 @@ class ARGmap {
    var id = uniqueId();
    var coords = {
      x: ($(window).width()/2) - 85,
-     y: ($(window).height()/10)
+     y: 75
    }
    var node = this.createNode( id, coords );
+   node.root = true;
    this.selectNode( node );
   }
 
@@ -49,13 +50,13 @@ class ARGmap {
      childNode.connectTo(parentInput, true);
      childNode.group.createAt( this.selectedNode );
 
-     this.selectedNode.initialArrangement(childNode.group);
-     this.selectedNode.arrangeGroups();
-    //  this.selectedNode.applyToChildren( );
+     this.selectedNode.childrenPosition( );
+     this.selectedNode.applyToChildren( );
 
-     // if ( this.selectedNode.group ) {
-     //   this.selectedNode.group.allTheChildren();
-     // }
+     this.selectedNode.countNode();
+     if ( this.selectedNode.group ) {
+       this.selectedNode.group.numOfNodes();
+     }
      this.selectNode( childNode );
     }
   }
@@ -68,11 +69,13 @@ class ARGmap {
      childNode.connectTo(parentInput, false );
      childNode.group.createAt( this.selectedNode );
 
-     this.selectedNode.initialArrangement(childNode.group);
-     this.selectedNode.arrangeGroups();
-     // if ( this.selectedNode.group ) {
-     //   this.selectedNode.group.allTheChildren();
-     // }
+     this.selectedNode.childrenPosition( );
+     this.selectedNode.applyToChildren( );
+
+     this.selectedNode.countNode();
+     if ( this.selectedNode.group ) {
+       this.selectedNode.group.numOfNodes();
+     }
      this.selectNode( childNode );
     }
   }
@@ -82,9 +85,6 @@ class ARGmap {
    var sibling = this.createNode()
    if (this.selectedNode != null && this.selectedNode.group != null){
      this.addSiblingHelper(group,sibling);
-     // if ( group.belongsTo() ) {
-     //   group.belongsTo().allTheChildren();
-     // }
    }
    if ( this.selectedNode && this.selectedNode.group == null ) {
      var currentPosition = this.getNodePosition( this.selectedNode );
@@ -92,6 +92,7 @@ class ARGmap {
      sibling.moveTo( currentPosition );
    }
   this.selectNode( sibling );
+  alignNodesInlevel( group.level );
   }
 
   addSiblingHelper(group,sibling){
@@ -101,7 +102,12 @@ class ARGmap {
     var currentPosition = this.getNodePosition( group );
     currentPosition.x = currentPosition.x - 85;
     group.moveTo(currentPosition);
-    group.parentNode.arrangeGroups();
+    group.parentNode.childrenPosition();
+    group.parentNode.applyToChildren();
+
+    if ( group.belongsTo() ) {
+      group.allTheChildren();
+    }
   }
 
   collapse() {
@@ -120,6 +126,7 @@ class ARGmap {
       node.lookForRoot();
     });
     this.rootJson( this.root[0] );
+    console.log(JSON.stringify( this.dataJson ) );
     this.download(this.dataJson,"save.txt","text/plain");
     return dataJson;
   }
@@ -172,7 +179,7 @@ class ARGmap {
     var json = this.dataJson['ideas'][1];
     if ( root ) {
       json.title = this.getText( root );
-      json.id = '1';
+      json.id = root.id;
       json.ideas = {};
       json.position = this.getNodePosition(root);
     }
@@ -181,15 +188,20 @@ class ARGmap {
     var numGroups = 1;
     var supp = this.getSupport( root );
     var cons = this.getOppose( root );
-    this.evalGroups( supp, newJson, numGroups, 'suporting' );
-    this.evalGroups( supp, newJson, numGroups, 'opposing' );
+    this.evalGroups( supp, cons, newJson, numGroups );
   }
 
-  evalGroups( arr, json, count, type ){
+  evalGroups( supp, cons, json, count ){
     var that = this;
-    if ( arr.length > 0 ) {
-      arr.map( function( groups ) {
-        that.createJSONGroup( arr, json, count, type )
+    if ( supp.length > 0 ) {
+      supp.map( function( groups ) {
+        that.createJSONGroup( groups, json, count, 'supporting' );
+        count += 1;
+      })
+    }
+    if ( cons.length > 0 ) {
+      cons.map( function( groups ) {
+        that.createJSONGroup( groups, json, count, 'opposing' );
         count += 1;
       })
     }
@@ -210,10 +222,10 @@ class ARGmap {
 
   groupContent( arr, json ) {
     var that = this
-    arr[0].map(function( node, idx ) {
+    arr.map(function( node, idx ) {
       json[idx+1] = {};
       json[idx+1].title = that.getText( node );
-      json[idx+1].id = uniqueId();
+      json[idx+1].id = node.id;
       json[idx+1].position = that.getNodePosition( node );
 
       var subGroups = 1;
@@ -223,8 +235,7 @@ class ARGmap {
         json[idx+1].ideas = {};
         var newJson = json[idx+1].ideas
       }
-      that.evalGroups( subsupp, newJson, subGroups, 'supporting');
-      that.evalGroups( subcons, newJson, subGroups, 'opposing');
+      that.evalGroups( subsupp, subcons, newJson, subGroups );
     })
   }
 // PLAYER FUNCTIONS
@@ -262,7 +273,7 @@ class ARGmap {
   }
   //Random Node Generator
   playerMode(){
-    var qty = 1;
+    var qty = 5;
     for( var j = 0; j < qty; j++ ){
       var content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua";
       var endPoint = Math.floor((Math.random() * 220) + 1 );
@@ -278,6 +289,9 @@ class ARGmap {
     var that = this;
     arr.map( function( num ) {
       var node = that.createNode( that.nodeArray[ num ].id, { x : 0, y : 0 }, that.nodeArray[ num ].content, false );
+      if( num == 0 ) {
+        node.root = true;
+      }
       node.domElement.classList.add('noselect');
 
     })
@@ -286,7 +300,7 @@ class ARGmap {
   checkDueDate( dueDate = null ){
     var today = new Date();
     var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
+    var mm = today.getMonth()+1;
     var yyyy = today.getFullYear();
     dd = dd < 10 ? '0' + dd : dd
     mm = mm < 10 ? '0' + mm : mm
@@ -311,6 +325,6 @@ class ARGmap {
 }
 
 var argmap = new ARGmap();
-  // argmap.createRoot();
-  argmap.playerMode();
-  argmap.displayNodes();
+  argmap.createRoot();
+  // argmap.playerMode();
+  // argmap.displayNodes();

@@ -139,7 +139,97 @@ function getPositionAtOrigin(element){
   return nodePos;
 }
 
-//JQUERY-UI OVERRIDE
+// AVOID COLLISION
+function nodesInLevel( level ) {
+  var nodeAtLevel = [];
+  var tmpOrder = [];
+  argmap.nodeReference.forEach( function( node ) {
+    if ( node.root != true && node.group != null){
+      if ( node.group.level == level ) {
+        tmpOrder.push( node )
+      }
+    }
+  })
+  // sort by position on x axis
+  tmpOrder.sort( function( a, b ) {
+    var a = getNodePosition(a).x;
+    var b = getNodePosition(b).x;
+    return a - b;
+  })
+  // re-sort by group order
+  tmpOrder.forEach( function( node ) {
+    if ( node.group.nodeGroup.length == 1 ) {
+      nodeAtLevel.push( node );
+    } else if ( node.group.nodeGroup.length > 1  ) {
+      node.group.nodeGroup.forEach( function( node ) {
+        if ( !nodeAtLevel.includes( node ) ){
+          nodeAtLevel.push( node );
+        }
+      })
+    }
+  })
+  return nodeAtLevel;
+}
+
+function countNodesInLevel( arrNodes ) {
+  return arrNodes.length;
+}
+
+function getMaxLevel() {
+  var maxLvl = 0;
+  argmap.nodeReference.forEach( function( node ) {
+    if ( node.root != true && node.group != null ){
+      if ( node.group.level > maxLvl ) {
+        maxLvl = node.group.level
+      }
+    }
+  })
+  return maxLvl
+}
+
+function getMaxHeight( arr ) {
+  var maxHeight = 0;
+  arr.forEach( function( node ) {
+    if ( getNodePosition( node.group ).y > maxHeight ) {
+      maxHeight = getNodePosition( node.group ).y;
+    }
+  })
+  return maxHeight;
+}
+
+function alignNodesInlevel( level ) {
+  var arrNodes= nodesInLevel( level );
+  var lenghtArrNodes = countNodesInLevel( arrNodes );
+  var unit = 85;
+  var width = lenghtArrNodes *  unit;
+  var halfW = width / 2; //control the space between nodes;
+  var quartW = width / 4 ;
+  var parentHeight = 0;
+  var root = null;
+  var numElem = 1 - lenghtArrNodes;
+  var height = getMaxHeight( arrNodes );
+  argmap.nodeReference.forEach( function( node ) {
+    if( node.root == true) {
+      root = node;
+    }
+  })
+  for ( var i = 0; i < lenghtArrNodes; i++ ){
+    var node = arrNodes[i];
+    var group = node.group;
+    var individualPosition = getNodePosition( root );
+    individualPosition.y = height + window.scrollY;
+    individualPosition.x = individualPosition.x + ( unit * numElem ) ;
+    group.moveTo( individualPosition );
+
+    group.updatePosition();
+    group.updatePositionWithoutChildren();
+
+    var numNodes = group.nodeGroup.length;
+    i = numNodes > 1 ? i + numNodes -1 : i;
+    numElem += 2 * numNodes;
+  }
+}
+
 $.ui.ddmanager.prepareOffsets = function( t, event ) {
 
   var i, j,
