@@ -20,13 +20,12 @@ function Group(id, node, type){
   this.attachedPaths = [];
   this.spacing = 85;
   this.level = null
-// }
-    //DEBUGGING PURPOSES
   var that=this
   this.domElement.ondblclick = function (e){
     that.changeRelation();
   }
 }
+
 Group.prototype.whosYourDaddy = function(){
   if (this.attachedPaths != 0){
     return this.attachedPaths[0].input.parentNode;
@@ -191,10 +190,6 @@ Group.prototype.initUI = function(){
      if ( that.belongsTo() ) {
        that.allTheChildren();
      };
-
-  },
-   out: function( event, ui ) {
-
   }
 });
   // Fix positioning

@@ -186,6 +186,16 @@ function getMaxLevel() {
   return maxLvl
 }
 
+function getMaxHeight( arr ) {
+  var maxHeight = 0;
+  arr.forEach( function( node ) {
+    if ( getNodePosition( node.group ).y > maxHeight ) {
+      maxHeight = getNodePosition( node.group ).y;
+    }
+  })
+  return maxHeight;
+}
+
 function alignNodesInlevel( level ) {
   var arrNodes= nodesInLevel( level );
   var lenghtArrNodes = countNodesInLevel( arrNodes );
@@ -196,7 +206,7 @@ function alignNodesInlevel( level ) {
   var parentHeight = 0;
   var root = null;
   var numElem = 1 - lenghtArrNodes;
-  var height = getNodePosition( arrNodes[ 0 ].group ).y;
+  var height = getMaxHeight( arrNodes );
   argmap.nodeReference.forEach( function( node ) {
     if( node.root == true) {
       root = node;
@@ -217,5 +227,4 @@ function alignNodesInlevel( level ) {
     i = numNodes > 1 ? i + numNodes -1 : i;
     numElem += 2 * numNodes;
   }
-
 }
