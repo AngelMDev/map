@@ -6,7 +6,8 @@
   <button type="button" name="button" onclick="argmap.suppClaim()">Support</button>
   <button type="button" name="button" onclick="argmap.oppClaim()">Oppose</button>
   <button type="button" name="button" onclick="argmap.addSibling()">Add sibling</button>
-  <button type="button" name="button" onclick="argmap.collapse()">Collapse</button>
+  <button type="button" name="button" onclick="argmap.removeNode()">Remove</button>
+  <!-- <button type="button" name="button" onclick="argmap.collapse()">Collapse</button> -->
   <button type="button" name="button" onclick="argmap.expand()">Expand</button>
   <button type="button" name="button" onclick="zoomIn()">Zoom in</button>
   <button type="button" name="button" onclick="zoomOut()">Zoom out</button>
@@ -17,17 +18,7 @@
   </svg>
 </div>
 
-<div class="toolbar">
-  <!-- <button type="button" name="button" onclick="argmap.createRoot()">create root</button> -->
-  <button type="button" name="button" onclick="argmap.saveMap()">save</button>
-  <button type="button" name="button" onclick="argmap.suppClaim()">Support</button>
-  <button type="button" name="button" onclick="argmap.oppClaim()">Oppose</button>
-  <button type="button" name="button" onclick="argmap.addSibling()">Add sibling</button>
-  <button type="button" name="button" onclick="argmap.collapse()">Collapse</button>
-  <button type="button" name="button" onclick="argmap.expand()">Expand</button>
-</div>
 <link rel="stylesheet" href="map.css">
-
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" type="javascript/json"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>

@@ -281,6 +281,7 @@ $(this.suppArea).droppable({
   },
   drop: function( event, ui ) {
     var childNode = ui.draggable[0].node;
+    if(childNode.root) debugger;
     var parentInput = that.inputs[0];
 
     childNode.connectTo(parentInput, true);

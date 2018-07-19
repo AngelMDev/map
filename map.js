@@ -82,7 +82,7 @@ var nodeReference = [];
 
 function createNode( id = uniqueId(), text = null, coords = { x : 180, y : 70 } ){
   isRoot = id=='root';
-  console.log(id)
+  console.log(isRoot)
   var mynode = new Node( title = null, id, isRoot );
   mynode.moveTo(coords);
   mynode.addContent( text, false );

@@ -23,6 +23,12 @@ class ARGmap {
    return mynode;
    }
 
+   removeNode(){
+     if(this.selectedNode==null || this.selectedNode.root) return;
+     $(this.selectedNode.domElement).remove();
+     this.selectedNode.group.removeNode(this.selectedNode);
+   }
+
   createRoot(){
    var id = uniqueId();
    var coords = {
