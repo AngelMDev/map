@@ -32,6 +32,14 @@ function Node(name,id,root=false){
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
+       console.log("Id:",that.id);
+    // console.log(that.domElement.clientHeight);
+    // console.log("Node:",that.inputs[0].domElement.style.top = that.domElement.clientHeight-8);
+    // console.log("Group:",that.group);
+    // console.log("Parent:",that.group ? that.group.parentNode : null);
+    // console.log("Children:",that.childNodes);
+    // console.log("===");
+    // that.addCues();
     argmap.selectNode( that );
   }
 
@@ -216,13 +224,17 @@ Node.prototype.initUI = function(){
   var that = this;
   // Make draggable
   $(this.domElement).draggable({
-    containment: 'window',
+    containment: 'parent',
     cancel: '.connection,.output',
     opacity: 0.7,
     zIndex: 100,
     cursor: 'move',
     refreshPositions: true,
     drag: function(event, ui){
+      //Fix draggable positioning when zoomed in/out
+      var factor = (1 / zoomValue) - 1;
+      ui.position.top += Math.round((ui.position.top - ui.originalPosition.top) * factor);
+      ui.position.left += Math.round((ui.position.left - ui.originalPosition.left) * factor);
       that.updatePosition();
       if (that.group) {
         const groupPos = getNodePosition(that.group);
@@ -252,8 +264,8 @@ Node.prototype.initUI = function(){
     stop: function(e, ui){
       if(that.collapsedNode){
         that.propagateMoveTo({
-          x: ui.position.left-ui.originalPosition.left,
-          y: ui.position.top-ui.originalPosition.top
+          x: getNodePosition(that).x-ui.originalPosition.left,
+          y: getNodePosition(that).y-ui.originalPosition.top
         });
       }
     }
@@ -264,6 +276,7 @@ $(this.suppArea).droppable({
   tolerance: "pointer",
   hoverClass: 'parent-child-supp',
   activate: function (event, ui) {
+
   },
   drop: function( event, ui ) {
     var childNode = ui.draggable[0].node;
@@ -309,7 +322,7 @@ $(this.oppArea).droppable({
 
   // Fix positioning
   this.domElement.style.position = 'absolute';
-  document.body.append(this.domElement);
+  $('#amp').append(this.domElement);
   // Update Visual
   this.updatePosition();
 };

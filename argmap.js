@@ -27,7 +27,7 @@ class ARGmap {
    var id = uniqueId();
    var coords = {
      x: ($(window).width()/2) - 85,
-     y: ($(window).height()/10)
+     y: 75
    }
    var node = this.createNode( id, coords );
    node.root = true;
@@ -84,21 +84,7 @@ class ARGmap {
    var group = this.selectedNode.group;
    var sibling = this.createNode()
    if (this.selectedNode != null && this.selectedNode.group != null){
-     group.addNode(sibling);
-     group.updateShape();
-     group.alignNode( sibling );
-     var currentPosition = this.getNodePosition( group );
-     currentPosition.y = currentPosition.y;
-     currentPosition.x = currentPosition.x - 85;
-     group.moveTo(currentPosition);
-
-     group.parentNode.childrenPosition();
-     group.parentNode.applyToChildren();
-
-     if ( group.belongsTo() ) {
-       group.allTheChildren();
-     }
-
+     this.addSiblingHelper(group,sibling);
    }
    if ( this.selectedNode && this.selectedNode.group == null ) {
      var currentPosition = this.getNodePosition( this.selectedNode );
@@ -107,6 +93,21 @@ class ARGmap {
    }
   this.selectNode( sibling );
   alignNodesInlevel( group.level );
+  }
+
+  addSiblingHelper(group,sibling){
+    group.addNode(sibling);
+    group.updateShape();
+    group.alignNode( sibling );
+    var currentPosition = this.getNodePosition( group );
+    currentPosition.x = currentPosition.x - 85;
+    group.moveTo(currentPosition);
+    group.parentNode.childrenPosition();
+    group.parentNode.applyToChildren();
+
+    if ( group.belongsTo() ) {
+      group.allTheChildren();
+    }
   }
 
   collapse() {
@@ -126,12 +127,28 @@ class ARGmap {
     });
     this.rootJson( this.root[0] );
     console.log(JSON.stringify( this.dataJson ) );
+    this.download(this.dataJson,"save.txt","text/plain");
+    return dataJson;
+  }
+
+  download(content, fileName, contentType) {
+    var a = document.createElement("a");
+    var file = new Blob([content], {type: contentType});
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
   }
 
   getText( node ){
     var textContent = "";
     textContent = node.domElement.children[4].innerHTML;
     return textContent;
+  }
+
+  defineRoot(node) {
+    if (!root.includes(node) && node.connected == true) {
+      this.root.push(node);
+    }
   }
 
   getSupport( node ){
@@ -296,6 +313,15 @@ class ARGmap {
       })
     }
   }
+
+  loadMap(){
+    //Loads from local temporarily, for testing purposes
+    $.getJSON("mapexample.txt", function(json) {
+      buildMap(json);
+  });
+  }
+
+
 }
 
 var argmap = new ARGmap();

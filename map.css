@@ -170,6 +170,7 @@ body {
   background-color: white;
   color: #d4d4d4;
   font-family: sans-serif;
+
 }
 
 .node, .node-support, .node-oppose{
@@ -248,6 +249,11 @@ svg{
   top:0px;
   left:0px;
   z-index:-100;
+  width:1000%;
+  height:1000%;
+}
+
+#amp{
   width:1000%;
   height:1000%;
 }

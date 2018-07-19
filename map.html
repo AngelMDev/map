@@ -1,4 +1,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<div class="toolbar">
+  <!-- <button type="button" name="button" onclick="argmap.createRoot()">create root</button> -->
+  <button type="button" name="button" onclick="argmap.saveMap()">save</button>
+  <button type="button" name="button" onclick="argmap.loadMap()">Load</button>
+  <button type="button" name="button" onclick="argmap.suppClaim()">Support</button>
+  <button type="button" name="button" onclick="argmap.oppClaim()">Oppose</button>
+  <button type="button" name="button" onclick="argmap.addSibling()">Add sibling</button>
+  <button type="button" name="button" onclick="argmap.collapse()">Collapse</button>
+  <button type="button" name="button" onclick="argmap.expand()">Expand</button>
+  <button type="button" name="button" onclick="zoomIn()">Zoom in</button>
+  <button type="button" name="button" onclick="zoomOut()">Zoom out</button>
+  <button type="button" name="button" onclick="zoomReset()">Reset</button>
+</div>
 <div id="amp">
   <svg id="svg">
   </svg>
@@ -27,3 +40,4 @@
 <script src="group.js"></script>
 <script src="argmap.js"></script>
 <script src="collapsedNode.js"></script>
+<script src="load.js"></script>
