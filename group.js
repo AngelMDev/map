@@ -313,10 +313,11 @@ Group.prototype.createAt = function( parent){
   // set the level of the new group
   if ( parent.root == true ) {
     this.level = 1;
-  } else {
+  } else if ( parent.group ) {
     var parentLevel = parent.group.level;
     this.level = parentLevel + 1;
-
+  } else {
+    this.level = null;
   };
 
   this.updatePosition();

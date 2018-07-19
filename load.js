@@ -17,8 +17,8 @@ function buildNode(json){
 function buildGroup(json,parentNode,supports){
     var firstChild=null;
     var ideaIndex=0;
-    for(var idea in json){ 
-        var node=buildNode(json[idea]);           
+    for(var idea in json){
+        var node=buildNode(json[idea]);
         if(ideaIndex===0) {
             firstChild=node;
             node.connectTo(parentNode.inputs[0],supports);
@@ -26,7 +26,7 @@ function buildGroup(json,parentNode,supports){
             parentNode.initialArrangement(node.group);
             parentNode.arrangeGroups();
         }
-        else{            
+        else{
             argmap.addSiblingHelper(firstChild.group,node);
         }
         ideaIndex++;
@@ -39,11 +39,10 @@ function getIdeas(json,parentNode=null){
             buildGroup(json[idea].ideas,parentNode,json[idea].attr.group=="supporting");
         }else{
             buildNode(json[idea]);
-        }       
+        }
     }
 }
 
 function buildMap(json){
     getIdeas(json.ideas);
 }
-
