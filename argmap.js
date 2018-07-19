@@ -49,7 +49,7 @@ class ARGmap {
      childNode.connectTo(parentInput, true);
      childNode.group.createAt( this.selectedNode );
 
-     childNode.initialArrangement(childNode.group);
+     this.selectedNode.initialArrangement(childNode.group);
      this.selectedNode.arrangeGroups();
     //  this.selectedNode.applyToChildren( );
 
@@ -68,7 +68,7 @@ class ARGmap {
      childNode.connectTo(parentInput, false );
      childNode.group.createAt( this.selectedNode );
 
-     childNode.initialArrangement(childNode.group);
+     this.selectedNode.initialArrangement(childNode.group);
      this.selectedNode.arrangeGroups();
      // if ( this.selectedNode.group ) {
      //   this.selectedNode.group.allTheChildren();
@@ -81,25 +81,27 @@ class ARGmap {
    var group = this.selectedNode.group;
    var sibling = this.createNode()
    if (this.selectedNode != null && this.selectedNode.group != null){
-     group.addNode(sibling);
-     group.updateShape();
-     group.alignNode( sibling );
-     var currentPosition = this.getNodePosition( group );
-     currentPosition.x = currentPosition.x - 85;
-     group.moveTo(currentPosition);
-     group.parentNode.arrangeGroups();
-     group.parentNode.applyToChildren();
+     this.addSiblingHelper(group,sibling);
      // if ( group.belongsTo() ) {
      //   group.belongsTo().allTheChildren();
      // }
    }
    if ( this.selectedNode && this.selectedNode.group == null ) {
-     console.log('this');
      var currentPosition = this.getNodePosition( this.selectedNode );
      currentPosition.x = currentPosition.x + 170;
      sibling.moveTo( currentPosition );
    }
   this.selectNode( sibling );
+  }
+
+  addSiblingHelper(group,sibling){
+    group.addNode(sibling);
+    group.updateShape();
+    group.alignNode( sibling );
+    var currentPosition = this.getNodePosition( group );
+    currentPosition.x = currentPosition.x - 85;
+    group.moveTo(currentPosition);
+    group.parentNode.arrangeGroups();
   }
 
   collapse() {
@@ -260,7 +262,7 @@ class ARGmap {
   }
   //Random Node Generator
   playerMode(){
-    var qty = 8;
+    var qty = 1;
     for( var j = 0; j < qty; j++ ){
       var content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua";
       var endPoint = Math.floor((Math.random() * 220) + 1 );
@@ -301,7 +303,7 @@ class ARGmap {
   loadMap(){
     //Loads from local temporarily, for testing purposes
     $.getJSON("mapexample.txt", function(json) {
-      debugger
+      buildMap(json);
   });
   }
 

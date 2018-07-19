@@ -150,10 +150,13 @@ Group.prototype.initUI = function(){
   var that = this;
   // Make draggable
   $(this.domElement).draggable({
-    containment: 'window',
+    containment: 'parent',
     cancel: '.connection,.output',
     cursor: 'move',
     drag: function(event, ui){
+      var factor = (1 / zoomValue) - 1;
+      ui.position.top += Math.round((ui.position.top - ui.originalPosition.top) * factor);
+      ui.position.left += Math.round((ui.position.left - ui.originalPosition.left) * factor);
       that.updatePosition();
       that.alignGroup();
     },
@@ -193,7 +196,7 @@ Group.prototype.initUI = function(){
   // Fix positioning
   this.domElement.style.position = 'absolute';
 
-  document.body.append(this.domElement);
+  $('#amp').append(this.domElement);
   // Update Visual
   this.updatePosition();
 };
@@ -244,11 +247,11 @@ Group.prototype.alignNode = function (node) {
   nodeStyles.left = groupPosition.x + (unit * (count - 1));
   nodeStyles.top = groupPosition.y + 7;
   var groupUpdatedPosition = getNodePosition(this);
-  if(node.collapsedNode) node.propagateMoveTo(
-    {
-      x:groupUpdatedPosition.x - groupPosition.x,
-      y:groupUpdatedPosition.y -groupPosition.y
-    })
+  // if(node.collapsedNode) node.propagateMoveTo(
+  //   {
+  //     x:groupUpdatedPosition.x - groupPosition.x,
+  //     y:groupUpdatedPosition.y -groupPosition.y
+  //   })
 }
 
 Group.prototype.alignGroup = function () {
@@ -261,12 +264,12 @@ Group.prototype.alignGroup = function () {
     nodeStyles.left = groupPosition.x + (unit * idx);
     nodeStyles.top = groupPosition.y + 7;
     var groupUpdatedPosition = getNodePosition(that);
-    if(node.collapsedNode) node.propagateMoveTo(
-      {
-        x:groupUpdatedPosition.x - groupPosition.x,
-        y:groupUpdatedPosition.y -groupPosition.y
-      })
-  })
+    // if(node.collapsedNode) node.propagateMoveTo(
+    //   {
+    //     x:groupUpdatedPosition.x - groupPosition.x,
+    //     y:groupUpdatedPosition.y - groupPosition.y
+    //   })
+  });
 }
 
 Group.prototype.detachInput = function(input){
