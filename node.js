@@ -27,44 +27,25 @@ function Node(name,id,root=false){
   this.connected = false;
   // Create inputs
   this.supportInput = this.addInput(true);
-  // this.opposeInput = this.addInput(false);
   // SVG Connectors
-  //this.attachedPaths = [];
 
     //DEBUGGING PURPOSES
   var that=this
   this.domElement.onclick = function (e){
-    // console.log("Id:",that.id);
-    // console.log(that.domElement.clientHeight);
-    // console.log("Node:",that.inputs[0].domElement.style.top = that.domElement.clientHeight-8);
-    // console.log("Group:",that.group);
-    // console.log("Parent:",that.group ? that.group.parentNode : null);
-    // console.log("Children:",that.childNodes);
-    // console.log("===");
-    // that.addCues();
     argmap.selectNode( that );
   }
 
-  // this.domElement.ondblclick = function (e){
-    // var input = document.createElement( 'textarea' );
-    // input.classList.add( 'customInput' );
-    // that.domElement.appendChild( input );
-    // input.focus();
-    // that.domElement.children[ 4 ].inputMode;
-  // }
-
   $('body').on('dblclick','.node .wrap', function(){
-        $(this).focus();
-        document.execCommand( 'selectAll', true);
-        $(this).on("keydown", function( event ) {
-          if (event.keyCode === 13) {
-            event.preventDefault();
-            $(this).blur();
-          }
-        })
-      });
+    $(this).focus();
+    document.execCommand( 'selectAll', true);
+    $(this).on("keydown", function( event ) {
+      if (event.keyCode === 13) {
+        event.preventDefault();
+        $(this).blur();
+      }
+    })
+  });
 }
-
 
 Node.prototype.whosYourDaddy = function(){
   if ( this.group != null){
@@ -315,8 +296,6 @@ $(this.oppArea).droppable({
     childNode.connectTo(parentInput, false);
     childNode.group.createAt( that );
 
-    // that.initialArrangement(childNode.group);
-
     that.childrenPosition( );
     that.applyToChildren( );
 
@@ -473,10 +452,8 @@ Node.prototype.applyToChildren = function() {
     children[ group ].map( function( group ) {
       if ( group ) {
         group.nodeGroup.map( function( node ) {
-          // node.arrangeGroups();
             node.childrenPosition();
         })
-        // group.numOfNodes();
       }
       group.updatePosition();
     })
@@ -575,8 +552,6 @@ Node.prototype.addCues = function( type ) {
   this.domElement.append(cue)
 }
 
-// TEST TO IMPROVE POSITIOTING
-
 Node.prototype.countNode = function() {
   // counting the number of nodes in all the groups
   var numOfNodes = 0;
@@ -609,7 +584,3 @@ Node.prototype.hasSiblings = function( parent ) {
   } else {
   return false; }
 }
-
-// Node.prototype.
-
-// END OF TEST
