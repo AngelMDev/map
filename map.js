@@ -78,18 +78,19 @@ function GetFullOffset(element){
 }
 //===================MY CODE===================
 
-var nodeReference = [];
+//var nodeReference = [];
 
-function createNode( id = uniqueId(), text = null, coords = { x : 180, y : 70 } ){
-  isRoot = id=='root';
-  console.log(isRoot)
-  var mynode = new Node( title = null, id, isRoot );
-  mynode.moveTo(coords);
-  mynode.addContent( text, false );
-  mynode.initUI();
-  nodeReference.push(mynode)
-  return mynode;
-}
+// function createNode( id = uniqueId(), text = null, coords = { x : 180, y : 70 } ){
+//   isRoot = id=='root';
+//   console.log(isRoot)
+//   var mynode = new Node( title = null, id, isRoot );
+//   mynode.moveTo(coords);
+//   mynode.addContent( text, false );
+//   mynode.initUI();
+//   nodeReference.push(mynode);
+  
+//   return mynode;
+// }
 
 function createGroup(text=null,coords={x: 480, y: 70}, node, type ){
   id = uniqueId();
@@ -268,3 +269,5 @@ $.ui.ddmanager.prepareOffsets = function( t, event ) {
   }
 
 };
+
+

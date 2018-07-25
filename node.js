@@ -33,14 +33,14 @@ function Node(name,id,root=false){
   var that=this
   this.domElement.onclick = function (e){
      // if(that.root) console.log("root node");
-     console.log(that);
-    // console.log("Id:",that.id);
-    // console.log(that.domElement.clientHeight);
-    // console.log("Node:",that.inputs[0].domElement.style.top = that.domElement.clientHeight-8);
-    // console.log("Group:",that.group);
-    // console.log("Parent:",that.group ? that.group.parentNode : null);
-    // console.log("Children:",that.childNodes);
-    // console.log("===");
+    console.log(that);
+    console.log("Id:",that.id);
+    console.log(that.domElement.clientHeight);
+    //console.log("Node:",that.inputs[0].domElement.style.top = that.domElement.clientHeight-8);
+    console.log("Group:",that.group);
+    console.log("Parent:",that.group ? that.group.parentNode : null);
+    console.log("Children:",that.childNodes);
+    console.log("===");
     // that.addCues();
     argmap.selectNode( that );
   }
@@ -239,28 +239,12 @@ Node.prototype.initUI = function(){
       ui.position.left += Math.round((ui.position.left - ui.originalPosition.left) * factor);
       that.updatePosition();
       if (that.group) {
-        const groupPos = getNodePosition(that.group);
-        const group = that.group
+        var group=that.group;
+        const groupPos = getNodePosition(group);
         var nodePos = that.currentPosition();
         if ( Math.abs(groupPos.y - nodePos.y) > 11 || Math.abs(groupPos.x - nodePos.x) > 15 ) {
-          group.removeNode(that);
-          if(group.nodeGroup.length<1){
-            group.attachedPaths[0].input.path.removeAttribute('d')
-            group.detachInput(group.attachedPaths[0].input);
-            group.attachedPaths=[];
-          }
-          group.updateShape();
-          group.parentNode.childrenPosition();
-          group.parentNode.applyToChildren();
-
-          group.parentNode.countNode();
-          if ( group.parentNode.group ) {
-            group.numOfNodes();
-          }
-
-          group.parentNode.updatePosition();
-          group.updatePosition();
-        };
+          that.removeNodeFromGroup();
+        }
       }
     },
     stop: function(e, ui){
@@ -329,6 +313,29 @@ $(this.oppArea).droppable({
   // Update Visual
   this.updatePosition();
 };
+
+Node.prototype.removeNodeFromGroup = function(){
+  var group=this.group;
+  if (!group) return;
+    group.removeNode(this);
+    if(group.nodeGroup.length<1){
+      group.attachedPaths[0].input.path.removeAttribute('d')
+      group.detachInput(group.attachedPaths[0].input);
+      group.attachedPaths=[];
+    }
+    group.updateShape();
+    group.parentNode.childrenPosition();
+    group.parentNode.applyToChildren();
+
+    group.parentNode.countNode();
+    if ( group.parentNode.group ) {
+      group.numOfNodes();
+    }
+
+    group.parentNode.updatePosition();
+    group.updatePosition();
+  
+}
 
 Node.prototype.currentPosition = function() {
   var pos = {
@@ -599,4 +606,15 @@ Node.prototype.hasSiblings = function( parent ) {
     return true;
   } else {
   return false; }
+}
+
+Node.prototype.hasChildren = function(){
+  returnValue=false;
+  for(var stance in this.childNodes){
+    this.childNodes[stance].forEach((group)=>{      
+      returnValue=true; //because js is retarded
+      return;
+    });
+  }
+  return returnValue;
 }

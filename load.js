@@ -8,7 +8,7 @@ function buildNode(json){
         id="root"
         firstNode=false;
     }
-    var node=createNode(id,json.title,coords);
+    var node=argmap.createNode(id,coords,json.title,true);
     if(json.ideas && _.isEmpty(json.ideas)) return node;
     getIdeas(json.ideas,node);
     return node;
@@ -44,5 +44,6 @@ function getIdeas(json,parentNode=null){
 }
 
 function buildMap(json){
+    argmap.clearMap();
     getIdeas(json.ideas);
 }

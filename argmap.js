@@ -14,20 +14,40 @@ class ARGmap {
   }
 
   // BUILDER FUNCTIONS
-  createNode( id = uniqueId(), coords = { x : 0, y : 0 }, content, type ){
+  createNode( id = uniqueId(), coords = { x : 0, y : 0 }, content, editable ){
    var mynode = new Node( null, id );
    mynode.initUI();
    mynode.moveTo( coords );
-   mynode.addContent( content, type );
+   mynode.addContent( content, editable );
    this.nodeReference.push( mynode );
    return mynode;
    }
 
-   removeNode(){
-     if(this.selectedNode==null || this.selectedNode.root) return;
-     $(this.selectedNode.domElement).remove();
-     this.selectedNode.group.removeNode(this.selectedNode);
+  removeNode(){
+    var node=this.selectedNode;
+    if(node==null || node.root) return;
+    if(node.hasChildren()) {
+      window.alert("Can not delete nodes that have one or more children.");
+      return;
+    } 
+    this.removeNodeHelper(node);
+    this.selectedNode=null;
    }
+
+   removeNodeHelper(node){
+    node.removeNodeFromGroup();
+    _.pull(this.nodeReference,node);
+    $(node.domElement).remove();
+   }
+
+   clearMap(){
+     //super hacky and inefficient but w/e
+     while(this.nodeReference.length>0){
+        this.nodeReference.forEach(node=>{
+          if(!node.hasChildren()) this.removeNodeHelper(node);
+        });
+      }
+    }
 
   createRoot(){
    var id = uniqueId();
